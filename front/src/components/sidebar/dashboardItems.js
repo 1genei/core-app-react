@@ -2,10 +2,45 @@ import {
   
   List,
   Square,
+  Users,
 } from "react-feather";
 
+import {
+  Contacts
+  }from '@mui/icons-material';
+
 const pagesSection = [
-    
+  {
+    href: "/",
+    icon: Users,
+    title: "Utilisateurs",
+    children: [
+      {
+        href: "/utilisateurs",
+        title: "Actifs",
+      },
+      {
+        href: "/archives",
+        title: "Archives",
+      },
+    ],
+  },
+
+  {
+    href: "/",
+    icon: Contacts,
+    title: "Contacts",
+    children: [
+      {
+        href: "/contacts",
+        title: "Actifs",
+      },
+      {
+        href: "/archives",
+        title: "Archivés",
+      },
+    ],
+  },
 ];
 
 const elementsSection = [
@@ -28,6 +63,10 @@ const elementsSection = [
 
 const navItems = [
   
+  {
+    title: "",
+    pages: pagesSection,
+  },
   {
     title: "Elements",
     pages: elementsSection,

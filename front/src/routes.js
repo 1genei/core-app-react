@@ -18,8 +18,12 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import Page404 from "./pages/auth/Page404";
 import Page500 from "./pages/auth/Page500";
 
-// Components
 
+import Utilisateurs from "./pages/utilisateurs/Index";
+
+
+// Components
+import CreateContact from "./pages/contacts/CreateContact"
 
 // Page components
 import Blank from "./pages/pages/Blank";
@@ -28,6 +32,10 @@ import Blank from "./pages/pages/Blank";
 
 // Protected routes
 import ProtectedPage from "./pages/protected/ProtectedPage";
+import Contacts from "./pages/contacts/Index";
+import EditContact from "./pages/contacts/EditContact";
+import CreateUtilisateur from "./pages/utilisateurs/CreateUtilisateur";
+import EditUtilisateur from "./pages/utilisateurs/EditUtilisateur";
 
 // Dashboard components
 const Analytics = async(() => import("./pages/dashboards/Analytics"));
@@ -55,6 +63,30 @@ const routes = [
       {
         path: "liste",
         element: <DataGrid />,
+      },
+      {
+        path: "utilisateurs",
+        element: <Utilisateurs />,
+      },
+      {
+        path: "utilisateur/ajouter",
+        element: <CreateUtilisateur />,
+      },
+      {
+        path: "utilisateur/modifier/:id",
+        element: <EditUtilisateur />,
+      },
+      {
+        path: "contacts",
+        element: <Contacts />,
+      },
+      {
+        path: "contact/ajouter",
+        element: <CreateContact />,
+      },
+      {
+        path: "contact/modifier/:id",
+        element: <EditContact />,
       },
     ],
   },

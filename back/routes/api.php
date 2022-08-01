@@ -24,9 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(ContactController::class)->group(function () {
     Route::get('/contacts', 'index');
     Route::get('/contact/{id}', 'show');
-    Route::post('/add-contact', 'store');
-    Route::put('/edit-contact/{id}', 'update');
-    Route::delete('/delete-contact/{id}', 'delete');
+    Route::post('/contact/store', 'store');
+    Route::put('/contact/update/{id}', 'update');
+    Route::delete('/contact/delete/{id}', 'delete');
 });
 
 //Routes organismes
