@@ -12,31 +12,33 @@ use Illuminate\Support\Facades\Cookie;
 use Auth;
 use DB;
 
-class UserController extends Controller {
-    // REGISTER
+class UserController extends Controller
+{
+    /**
+    *    Fonction de register (ne login pas l'utilisateur automatiquement avec le compté créé)
+    */
     public function register(Request $request) {
 
         // Verify if fields are ok
         $validator = Validator::make($request->all(),[
-            'name' => 'required|string|min:4',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8',
-            'role_id' => 'required|integer'
+            'role' => 'required|string',
+            'contact_id' => 'required|unique:users',
+            
         ]);
         
         // If not return an error
         if($validator->fails()){
             return Response()->json([
-                'message' => 'Registration failed' 
-            ], 400);
+                'erreurs' => $validator->errors(),
+                'status' => 400,
+            ], 200);
         }
-
-        // Create a new user
+        
+        
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $request->role_id
+            'role' => $request->input('email'),
+            'contact_id' => $request->input('name'),
+            'password' => Hash::make($request->input('password'))
         ]);
 
         // Get role permissions and assign them to user
@@ -52,12 +54,14 @@ class UserController extends Controller {
         ], 200);
     }
     
-    // LOGIN
-    public function login(Request $request) {
-        
-        // Verify credentials
-        if(!Auth::attempt($request->only(['email', 'password']))) {
-            // If no match return error
+    
+    
+    /**
+    *    Fonction de login
+    */
+    public function login (Request $request) {
+    
+        if(!Auth::attempt($request->only(['email', 'password']))){
             return Response()->json([
                 'message' => 'Login failed'  
             ], 401);

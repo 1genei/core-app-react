@@ -31,6 +31,8 @@ Route::group(['prefix' => 'contact'], function () {
     Route::delete('delete/{id}', [ContactController::class, 'delete']);
 });
 
+
+
 //Routes organismes
 Route::group(['prefix' => 'organisme'], function () {
     Route::get('index', [OrganismeController::class, 'index']);
