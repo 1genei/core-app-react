@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrganismeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,4 +38,13 @@ Route::controller(OrganismeController::class)->group(function () {
     Route::post('/add-organisme', 'store');
     Route::put('/edit-organisme/{id}', 'update');
     Route::delete('/delete-organisme/{id}', 'delete');
+});
+
+//Authentication related routes
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('register', [UserController::class, 'register']);
+    Route::post('login', [UserController::class, 'login']);
+    Route::post('logout', [UserController::class, 'logout']);
+    Route::post('verifyToken', [UserController::class, 'verifyToken']);
+    Route::get('getRoles', [RoleController::class, 'getRoles']);
 });
