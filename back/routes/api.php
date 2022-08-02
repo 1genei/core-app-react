@@ -23,24 +23,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //Routes contacts
-Route::controller(ContactController::class)->group(function () {
-    Route::get('/contacts', 'getContacts');
-    Route::get('/contact/{id}', 'getContact');
-    Route::get('/contacts-no-users', 'getContactNoUsers');
-    Route::post('/contact/store', 'store');
-    Route::put('/contact/update/{id}', 'update');
-    Route::delete('/contact/delete/{id}', 'delete');
+Route::group(['prefix' => 'contact'], function () {
+    Route::get('index', [ContactController::class, 'index']);
+    Route::get('{id}', [ContactController::class, 'show']);
+    Route::post('store', [ContactController::class, 'store']);
+    Route::put('update/{id}', [ContactController::class, 'update']);
+    Route::delete('delete/{id}', [ContactController::class, 'delete']);
 });
 
 
 
 //Routes organismes
-Route::controller(OrganismeController::class)->group(function () {
-    Route::get('/organismes', 'index');
-    Route::get('/organisme/{id}', 'show');
-    Route::post('/add-organisme', 'store');
-    Route::put('/edit-organisme/{id}', 'update');
-    Route::delete('/delete-organisme/{id}', 'delete');
+Route::group(['prefix' => 'organisme'], function () {
+    Route::get('index', [OrganismeController::class, 'index']);
+    Route::get('{id}', [OrganismeController::class, 'show']);
+    Route::post('add', [OrganismeController::class, 'store']);
+    Route::put('edit/{id}', [OrganismeController::class, 'update']);
+    Route::delete('delete/{id}', [OrganismeController::class, 'delete']);
 });
 
 //Authentication related routes
@@ -48,7 +47,6 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('register', [UserController::class, 'register']);
     Route::post('login', [UserController::class, 'login']);
     Route::post('logout', [UserController::class, 'logout']);
-    Route::post('verifyToken', [UserController::class, 'verifyToken']);
+    Route::post('verify-token', [UserController::class, 'verifyToken']);
     Route::get('get-roles', [RoleController::class, 'getRoles']);
-    
 });
