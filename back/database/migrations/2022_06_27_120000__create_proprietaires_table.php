@@ -15,14 +15,13 @@ class CreateProprietairesTable extends Migration
     {
         Schema::create('proprietaires', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-
             $table->string('nom');
             $table->string('adresse');
             $table->string('telephone');
             $table->string('email');
             $table->string('siret');
             $table->string('logo');
+            $table->timestamps();
         });
     }
 

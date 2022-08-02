@@ -15,13 +15,13 @@ class CreateOrganismesTable extends Migration
     {
         Schema::create('organismes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-
             $table->string('nom')->nullable();
             $table->string('adresse')->nullable();
             $table->string('email')->nullable();
             $table->string('telephone')->nullable();
             $table->string('site')->nullable();
+            $table->boolean('archive')->default(false);
+            $table->timestamps();
         });
     }
 

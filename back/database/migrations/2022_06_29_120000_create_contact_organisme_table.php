@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Contact;
+use App\Models\Organisme;
 
 class CreateContactOrganismeTable extends Migration
 {
@@ -14,11 +16,9 @@ class CreateContactOrganismeTable extends Migration
     public function up()
     {
         Schema::create('contact_organisme', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-
-            $table->foreignId('contact_id')->nullable();
-            $table->foreignId('organisme_id')->nullable();
+            $table->primary(['contact_id', 'organisme_id']);
+            $table->foreignIdFor(Contact::class);
+            $table->foreignIdFor(Organisme::class);
             $table->string('poste')->nullable();
             $table->boolean('archive')->default(false);
         });
