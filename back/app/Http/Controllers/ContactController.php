@@ -4,27 +4,58 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
 {
-    //Renvoie tous les contacts de la table
-    public function index() {
+  
+    /**
+    *   Renvoie tous les contacts 
+    */
+    public function getContacts() {
+    
         $contacts = Contact::all();
         return Response()->json([
             'contacts' => $contacts
         ]);
     }
+    
+    /**
+    *   Renvoie tous les contacts qui ne sont pas des utlisateurs
+    */
+    public function getContactNoUsers() {
+        
+        $ids = User::select('contact_id')->get();
+        $contact_ids = [];
+        
+        foreach ($ids as $id) {
+            $contact_ids[] = $id['contact_id']; 
+        }        
+    
+        $contacts = Contact::whereNotIn('id', $contact_ids)->get();
+        return Response()->json([
+            'contacts' => $contacts
+        ]);
+    }
 
-    //Renvoie le contact d'id $contact_id
-    public function show($contact_id) {
+
+
+    //**
+    /*  Renvoie le contact d'id $contact_id
+    */
+    public function getContact($contact_id) {
+    
         $contact = Contact::where('id','=',$contact_id)->first();
         return Response()->json([
             'contact' => $contact
         ], 200);
     }
 
-    //Crée un contact selon les paramètres passés dans $request
+    
+    /**
+    *   Création de contact
+    */
     public function store(Request $request) {
     
         $validator = Validator::make($request->all(),[
@@ -65,20 +96,27 @@ class ContactController extends Controller
     
     
 
-    //Supprime le contact d'id $contact_id
+ 
+    /**
+    * Supprime le contact d'id $contact_id
+    */
     public function delete($contact_id) {
+    
         Contact::where('id','=',$contact_id)->delete();
         return Response()->json([
             'message' => 'Contact supprimé'
         ], 200);
     }
+    
 
-    //Modifie le contact d'id $contact_id avec les paramètres passés dans $request
+    /**
+    *   Modifie le contact d'id $contact_id avec les paramètres passés dans $request
+    */
     public function update(Request $request, $contact_id) {
     
         $contact = Contact::where('id', '=', $contact_id)->first();
     
-    // return $contact->email."xxx".$request;
+   
         if($contact->email == $request->email){
         
             $validator = Validator::make($request->all(),[

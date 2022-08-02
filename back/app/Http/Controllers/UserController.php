@@ -10,24 +10,29 @@ use Auth;
 
 class UserController extends Controller
 {
-    //Fonction de register (ne login pas l'utilisateur automatiquement avec le compté créé)
+    /**
+    *    Fonction de register (ne login pas l'utilisateur automatiquement avec le compté créé)
+    */
     public function register(Request $request) {
         
         
         $validator = Validator::make($request->all(),[
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:6'
+            'role' => 'required|string',
+            'contact_id' => 'required|unique:users',
+            
         ]);
         
         if($validator->fails()){
             return Response()->json([
-                'errors' => $validator->errors()
-            ], 400);
+                'erreurs' => $validator->errors(),
+                'status' => 400,
+            ], 200);
         }
+        
+        
         $user = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
+            'role' => $request->input('email'),
+            'contact_id' => $request->input('name'),
             'password' => Hash::make($request->input('password'))
         ]);
         return Response()->json([
@@ -37,7 +42,9 @@ class UserController extends Controller
     
     
     
-    //Fonction de login
+    /**
+    *    Fonction de login
+    */
     public function login (Request $request) {
     
         if(!Auth::attempt($request->only(['email', 'password']))){

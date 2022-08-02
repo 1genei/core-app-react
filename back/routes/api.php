@@ -22,12 +22,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Routes contacts
 Route::controller(ContactController::class)->group(function () {
-    Route::get('/contacts', 'index');
-    Route::get('/contact/{id}', 'show');
+    Route::get('/contacts', 'getContacts');
+    Route::get('/contact/{id}', 'getContact');
+    Route::get('/contacts-no-users', 'getContactNoUsers');
     Route::post('/contact/store', 'store');
     Route::put('/contact/update/{id}', 'update');
     Route::delete('/contact/delete/{id}', 'delete');
 });
+
+
 
 //Routes organismes
 Route::controller(OrganismeController::class)->group(function () {
