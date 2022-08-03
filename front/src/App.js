@@ -44,7 +44,8 @@ function App({ emotionCache = clientSideEmotionCache }) {
       setLoading(false);
     })
     .catch(function (error) {
-        setLoading(false);
+      console.log(error)
+      setLoading(false);
     });
   }, []);
 
@@ -52,8 +53,8 @@ function App({ emotionCache = clientSideEmotionCache }) {
     <CacheProvider value={emotionCache}>
       <HelmetProvider>
         <Helmet
-          titleTemplate="%s | Mira"
-          defaultTitle="Mira - React Material Admin Dashboard"
+          titleTemplate="%s | Core App"
+          defaultTitle="Core App"
         />
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <MuiThemeProvider theme={createTheme(theme)}>

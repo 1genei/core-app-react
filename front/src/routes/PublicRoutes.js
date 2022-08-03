@@ -9,8 +9,6 @@ import EditUtilisateur from "../pages/utilisateurs/EditUtilisateur";
 import Contacts from "../pages/contacts/Index";
 import CreateContact from "../pages/contacts/CreateContact"
 import EditContact from "../pages/contacts/EditContact";
-import Page404 from "../pages/auth/Page404";
-import Page401 from "../pages/auth/Page401";
 
 const Analytics = async(() => import("../pages/dashboards/Analytics"));
 const DataGrid = async(() => import("../pages/tables/DataGrid"));
@@ -67,14 +65,6 @@ const PublicRoutes = {
                     element: <EditContact />,
                 },
             ]
-        },
-        {
-            path: 'unauthorized',
-            element: <Page401 />
-        },
-        {
-            path: "*",
-            element: <Page404 />
         }
     ]
 };

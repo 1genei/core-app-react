@@ -116,11 +116,10 @@ class UserController extends Controller
             // Find token in table
             [$id, $token] = explode('|', $request->cookie('jwt'), 2);
             $accessToken = DB::table('personal_access_tokens')->where('id', $id)->first();
-
             // Check if token is valid
             if (hash_equals($accessToken->token, hash('sha256', $token))) {
                 // Retreive user infos
-                $user = DB::table('users')->select('name','email','created_at')->where('id', $accessToken->tokenable_id)->first();
+                $user = DB::table('users')->select('email','created_at')->where('id', $accessToken->tokenable_id)->first();
                 $role_id = DB::table('users')->select('role_id')->where('id', $accessToken->tokenable_id)->first()->role_id;
                 $ternary = DB::table('permission_user')->where('user_id', $accessToken->tokenable_id)->get();
                 $permissions = array();
