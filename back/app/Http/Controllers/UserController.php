@@ -15,7 +15,7 @@ use DB;
 class UserController extends Controller
 {
     /**
-    *    Fonction de register (ne login pas l'utilisateur automatiquement avec le compté créé)
+    *    Fonction de register (ne login pas l'utilisateur automatiquement avec le compte créé)
     */
     public function register(Request $request) {
 
@@ -23,7 +23,6 @@ class UserController extends Controller
         $validator = Validator::make($request->all(),[
             'role_id' => 'required|integer',
             'contact_id' => 'required|unique:users|integer',
-            
         ]);
         
         // If not return an error
@@ -35,7 +34,7 @@ class UserController extends Controller
         }
         
         $email = DB::table('contacts')->select('email')->where('id',$request->contact_id)->first()->email;
-        $password = 'admin123';
+        $password = 'admin123'; // A modifier : générer le password par défaut selon nom et prénom
         
         $user = User::create([
             'email' => $email,

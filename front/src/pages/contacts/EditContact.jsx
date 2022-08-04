@@ -5,7 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { getContact, updateContact } from "../../services/contacts/Index";
+import { getContact, updateContact } from "../../services/ContactsServices";
 import {
   Alert as MuiAlert,
   Box,
@@ -69,7 +69,7 @@ function ContactForm() {
       
       id = decrypt(id);
       
-      var cont = await getContact(id);
+      const cont = await getContact(id);
       setContact(cont);
     
     }, [])

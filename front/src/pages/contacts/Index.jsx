@@ -23,7 +23,7 @@ Edit as EditIcon,
 PersonAddAlt
 }from '@mui/icons-material';
 import { Link } from "react-router-dom";
-import { getContacts } from "../../services/contacts/Index";
+import { getContacts } from "../../services/ContactsServices";
 import { decrypt, encrypt } from "../../utils/crypt";
 
 
@@ -48,7 +48,7 @@ const columns = [
     field: "email",
     headerName: "Email",
     width: 200,
-    editable: true,
+    editable: false,
   },
   {
     field: "adresse",

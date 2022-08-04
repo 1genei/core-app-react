@@ -18,26 +18,25 @@ class ContactController extends Controller
         $contacts = Contact::all();
         return Response()->json([
             'contacts' => $contacts
-        ]);
+        ], 200);
     }
     
     /**
     *   Renvoie tous les contacts qui ne sont pas des utlisateurs
     */
-    public function getContactNoUsers() {
+    public function getNoUsers() {
         
         $ids = User::select('contact_id')->get();
         $contact_ids = [];
-        
- 
+
         foreach ($ids as $id) {
             $contact_ids[] = $id['contact_id']; 
         }        
-    
+
         $contacts = Contact::whereNotIn('id', $contact_ids)->get();
         return Response()->json([
             'contacts' => $contacts
-        ]);
+        ], 200);
     }
 
 
@@ -45,7 +44,7 @@ class ContactController extends Controller
     //**
     /*  Renvoie le contact d'id $contact_id
     */
-    public function show($contact_id) {
+    public function getContact($contact_id) {
     
         $contact = Contact::where('id','=',$contact_id)->first();
         return Response()->json([
@@ -73,7 +72,7 @@ class ContactController extends Controller
             return Response()->json([
                 'errors' => $validator->errors(),
                 'status' => 400,
-            ]);
+            ], 200);
         }
         
         
@@ -125,17 +124,16 @@ class ContactController extends Controller
                 'prenom' => 'required|string',
                 'adresse' => 'string',
                 'email' => 'required',
-            
             ]);
         
        
-        }else{
+        }
+        else{
             $validator = Validator::make($request->all(),[
                 'nom' => 'required|string',
                 'prenom' => 'required|string',
                 'adresse' => 'string',
                 'email' => 'required|unique:contacts|email',
-    
             ]);        
         }
         
@@ -143,9 +141,9 @@ class ContactController extends Controller
             return Response()->json([
                 'errors' => $validator->errors(),
                 'status' => 400,
-                
             ], 200);
         }
+        
         $contact->nom = $request->nom; 
         $contact->prenom = $request->prenom; 
         $contact->date_naissance = $request->date_naissance; 
@@ -155,10 +153,10 @@ class ContactController extends Controller
         $contact->telephone2 = $request->telephone2; 
         $contact->notes = $request->notes; 
         $contact->update();
+
         return Response()->json([
             'message' => 'Contact modifié',
             'status' => 200,
-            
         ], 200);
     }
 }

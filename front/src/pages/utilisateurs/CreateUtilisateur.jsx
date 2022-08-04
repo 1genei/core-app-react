@@ -5,9 +5,9 @@ import { NavLink } from "react-router-dom";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { addUtilisateur, getRoles } from "../../services/utilisateurs/Index";
+import { addUtilisateur, getRoles } from "../../services/UtilisateursServices";
 import { validatorErrors } from "../../utils/errors";
-import { getContactsNoUser } from "../../services/contacts/Index";
+import { getContactsNoUser } from "../../services/ContactsServices";
 
 import {
   Alert as MuiAlert,

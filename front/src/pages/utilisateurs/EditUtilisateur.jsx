@@ -5,7 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { getUtilisateur } from "../../services/utilisateurs/Index";
+import { getUtilisateur } from "../../services/UtilisateursServices";
 import {
   Alert as MuiAlert,
   Box,

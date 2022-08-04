@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { addContact } from "../../services/contacts/Index";
+import { addContact } from "../../services/ContactsServices";
 import {
   Alert as MuiAlert,
   Box,

@@ -26,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'contact'], function () {
     Route::get('all', [ContactController::class, 'getContacts']);
     Route::get('{id}', [ContactController::class, 'getContact']);
-    Route::get('all/no-user', [ContactController::class, 'getContactNoUsers']);
+    Route::get('no-user', [ContactController::class, 'getNoUsers']);
     Route::post('store', [ContactController::class, 'store']);
     Route::put('update/{id}', [ContactController::class, 'update']);
     Route::delete('delete/{id}', [ContactController::class, 'delete']);
@@ -36,8 +36,8 @@ Route::group(['prefix' => 'contact'], function () {
 
 //Routes organismes
 Route::group(['prefix' => 'organisme'], function () {
-    Route::get('index', [OrganismeController::class, 'index']);
-    Route::get('{id}', [OrganismeController::class, 'show']);
+    Route::get('all', [OrganismeController::class, 'getOrganismes']);
+    Route::get('{id}', [OrganismeController::class, 'getOrganisme']);
     Route::post('add', [OrganismeController::class, 'store']);
     Route::put('edit/{id}', [OrganismeController::class, 'update']);
     Route::delete('delete/{id}', [OrganismeController::class, 'delete']);

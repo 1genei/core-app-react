@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 class OrganismeController extends Controller
 {
 //Renvoie tous les organismes de la table
-public function index() {
+public function getOrganismes() {
     $organismes = organisme::all();
     return Response()->json([
         'organismes' => $organismes
@@ -17,7 +17,7 @@ public function index() {
 }
 
 //Renvoie le organisme d'id $organisme_id
-public function show($organisme_id) {
+public function getOrganisme($organisme_id) {
     $organisme = Organisme::where('id','=',$organisme_id)->first();
     return Response()->json([
         'organisme' => $organisme
