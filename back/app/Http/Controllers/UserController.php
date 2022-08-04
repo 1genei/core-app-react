@@ -21,8 +21,8 @@ class UserController extends Controller
 
         // Verify if fields are ok
         $validator = Validator::make($request->all(),[
-            'role' => 'required|string',
-            'contact_id' => 'required|unique:users',
+            'role_id' => 'required|integer',
+            'contact_id' => 'required|unique:users|integer',
             
         ]);
         
@@ -34,11 +34,12 @@ class UserController extends Controller
             ], 200);
         }
         
+        $email = DB::table('contacts')->select('email')->where('id',$request->contact_id)->first()->email;
+        $password = 'admin123';
         
         $user = User::create([
-            'role' => $request->input('email'),
-            'contact_id' => $request->input('name'),
-            'password' => Hash::make($request->input('password'))
+            'email' => $email,
+            'password' => Hash::make($password)
         ]);
 
         // Get role permissions and assign them to user

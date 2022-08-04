@@ -54,12 +54,14 @@ function UtilisateurForm() {
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
+
+    const [contactID, setContactID] = useState('');
+    const [roleID, setRoleID] = useState('');
     
     const roles = [
-       'Administrateur' ,
-       'Super Administrateur' ,
-       'Editeur' ,
-     
+      { id: 1, nom: 'Superadmin'},
+      { id: 2, nom: 'Admin'},
+      { id: 3, nom: 'User'},
     ]
     
     const contacts = [
@@ -68,6 +70,9 @@ function UtilisateurForm() {
       { id: 3, nom: 'Spreph', prenom: "venant" },
       
     ]
+
+    const optionsContacts = contacts.map(option => ({ id: option.id, label: option.nom + ' ' + option.prenom}));
+    const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom}));
 
     const handleSubmit = async (values,{ resetForm, setErrors, setStatus, setSubmitting }) => {
         
@@ -111,7 +116,7 @@ function UtilisateurForm() {
       {({
         errors,
         handleBlur,
-        handleChange,
+        //handleChange,
         handleSubmit,
         isSubmitting,
         touched,
@@ -144,7 +149,7 @@ function UtilisateurForm() {
                 
                   <Grid item md={6}>
                     <Autocomplete
-                      options={contacts.map((option) => option.nom+" "+ option.prenom)}
+                      options={optionsContacts}
                       renderInput={(params) => <TextField {...params} label="Contact" />}
                       name="contact"
                       
@@ -152,7 +157,7 @@ function UtilisateurForm() {
                       fullWidth
                       helperText={touched.contact && errors.contact}
                       onBlur={handleBlur}
-                      onChange={handleChange}
+                      onChange={(e, value) => setContactID(value.id)}
                       variant="outlined"
                       my={2}
                     />
@@ -162,7 +167,7 @@ function UtilisateurForm() {
                   <Grid item md={6}>
                       <Autocomplete
                   
-                        options={roles.map((option) => option)}
+                        options={optionsRoles}
                         renderInput={(params) => <TextField {...params} label="Rôle" />}
                         name="role"
                     
@@ -170,7 +175,7 @@ function UtilisateurForm() {
                         fullWidth
                         helperText={touched.role && errors.role}
                         onBlur={handleBlur}
-                        onChange={handleChange}
+                        onChange={(e, value) => setContactID(value.id)}
                         variant="outlined"
                         my={2}
                       />
