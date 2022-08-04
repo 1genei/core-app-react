@@ -5,7 +5,7 @@ import { NavLink, useParams } from "react-router-dom";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { getUtilisateur, updateUtilisateur } from "../../services/utilisateurs/Index";
+import { getUtilisateur } from "../../services/utilisateurs/Index";
 import {
   Alert as MuiAlert,
   Box,
@@ -82,7 +82,7 @@ function UtilisateurForm() {
             setAlertSuccess(false);
             
         
-            const result =  await updateUtilisateur(utilisateur, utilisateur.id);
+            const result = {};
             
             
             if(result?.status === 200 ){

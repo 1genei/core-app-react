@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Yup from "yup";
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { addUtilisateur } from "../../services/utilisateurs/Index";
+import { addUtilisateur, getRoles } from "../../services/utilisateurs/Index";
+import { validatorErrors } from "../../utils/errors";
+import { getContactsNoUser } from "../../services/contacts/Index";
+
 import {
   Alert as MuiAlert,
   Autocomplete,
@@ -23,7 +26,7 @@ import {
   Typography,
 } from "@mui/material";
 import { spacing } from "@mui/system";
-import { validatorErrors } from "../../utils/errors";
+
 
 const Divider = styled(MuiDivider)(spacing);
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -54,20 +57,23 @@ function UtilisateurForm() {
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
+    const [roles, setRoles] = useState([]);
+    const [roleId, setRoleId] = useState();
+    const [contacts, setContacts] = useState([]);
+    const [contactId, setContactId] = useState([]);
     
-    const roles = [
-       'Administrateur' ,
-       'Super Administrateur' ,
-       'Editeur' ,
-     
-    ]
     
-    const contacts = [
-      { id: 1, nom: 'Gre', prenom: "alain" },
-      { id: 2, nom: 'Stev', prenom: "marque" },
-      { id: 3, nom: 'Spreph', prenom: "venant" },
+    // On réccupère les roles et les contacts qui n'ont pas de compte utilisateur
+    
+    useEffect( async ()=> {
       
-    ]
+      const allRoles = await getRoles();
+      setRoles(allRoles.roles);
+      
+      const allContacts = await getContactsNoUser();
+      setContacts(allContacts);
+    }, []);
+    
 
     const handleSubmit = async (values,{ resetForm, setErrors, setStatus, setSubmitting }) => {
         
@@ -75,6 +81,7 @@ function UtilisateurForm() {
             setAlertError(false); 
             setAlertSuccess(false);
             
+            console.log(values+"dddd");
         
             const result =  await addUtilisateur(values);
             
@@ -112,7 +119,7 @@ function UtilisateurForm() {
         errors,
         handleBlur,
         handleChange,
-        handleSubmit,
+        // handleSubmit,
         isSubmitting,
         touched,
         values,
@@ -144,27 +151,35 @@ function UtilisateurForm() {
                 
                   <Grid item md={6}>
                     <Autocomplete
-                      options={contacts.map((option) => option.nom+" "+ option.prenom)}
+                      options={contacts}
+                      getOptionLabel={(option) => option.id + " "+ option.nom}
+                      onChange={(event, newValue) => {
+                        setContactId(newValue);
+                      }}
                       renderInput={(params) => <TextField {...params} label="Contact" />}
                       name="contact"
-                      
+
                       error={Boolean(touched.role && errors.role)}
                       fullWidth
                       helperText={touched.contact && errors.contact}
                       onBlur={handleBlur}
-                      onChange={handleChange}
+                      // onChange={handleChange}
                       variant="outlined"
                       my={2}
                     />
                   </Grid>
-                  
+                  {/* contacts.map((option) => option.nom+" "+ option.prenom) */}
                   
                   <Grid item md={6}>
                       <Autocomplete
                   
-                        options={roles.map((option) => option)}
+                        // options={roles.map((option) => option.nom)}
+                        options={roles}
+                        getOptionLabel={(option) => option.nom}
+                        
                         renderInput={(params) => <TextField {...params} label="Rôle" />}
                         name="role"
+                        
                     
                         error={Boolean(touched.role && errors.role)}
                         fullWidth
