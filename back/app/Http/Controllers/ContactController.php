@@ -13,7 +13,7 @@ class ContactController extends Controller
     /**
     *   Renvoie tous les contacts 
     */
-    public function getContacts() {
+    public function index() {
     
         $contacts = Contact::all();
         return Response()->json([
@@ -44,7 +44,7 @@ class ContactController extends Controller
     //**
     /*  Renvoie le contact d'id $contact_id
     */
-    public function getContact($contact_id) {
+    public function show($contact_id) {
     
         $contact = Contact::where('id','=',$contact_id)->first();
         return Response()->json([

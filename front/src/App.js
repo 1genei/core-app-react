@@ -1,6 +1,5 @@
 import React from "react";
 import { useRoutes } from "react-router-dom";
-import { Provider } from "react-redux";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { CacheProvider } from "@emotion/react";
 
@@ -10,38 +9,58 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 import "./i18n";
 import createTheme from "./theme";
-import routes from "./routes";
 
 import useTheme from "./hooks/useTheme";
-import { store } from "./redux/store";
 import createEmotionCache from "./utils/createEmotionCache";
 
-import { AuthProvider } from "./contexts/JWTContext";
-// import { AuthProvider } from "./contexts/FirebaseAuthContext";
-// import { AuthProvider } from "./contexts/Auth0Context";
-// import { AuthProvider } from "./contexts/CognitoContext";
+import Loading from './pages/utils/Loading';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import axios from './api/Axios';
+import { login } from './store/reducers/Auth';
+import MyRoutes from "./routes/index";
+
 
 const clientSideEmotionCache = createEmotionCache();
 
 function App({ emotionCache = clientSideEmotionCache }) {
-  const content = useRoutes(routes);
 
   const { theme } = useTheme();
+  const content = useRoutes(MyRoutes);
+
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  useEffect( () => {
+    axios.post('auth/verify-token', {}, {withCredentials:true})
+    .then( (res) => {
+      if (res?.data?.status === 200) {
+        const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
+        const email = res?.data?.user?.email;
+        const created_at = res?.data?.user?.created_at;
+        const permissions = res?.data?.permissions;
+        const resAPI = { name, email, created_at, permissions };
+        dispatch(login({ resAPI }));
+      }
+      setLoading(false);
+    })
+    .catch(function (error) {
+      console.log(error)
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <CacheProvider value={emotionCache}>
       <HelmetProvider>
         <Helmet
-          titleTemplate="%s | Mira"
-          defaultTitle="Mira - React Material Admin Dashboard"
+          titleTemplate="%s | Core App"
+          defaultTitle="Core App"
         />
-        <Provider store={store}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <MuiThemeProvider theme={createTheme(theme)}>
-              <AuthProvider>{content}</AuthProvider>
+              {loading ? <Loading /> : content}
             </MuiThemeProvider>
           </LocalizationProvider>
-        </Provider>
       </HelmetProvider>
     </CacheProvider>
   );

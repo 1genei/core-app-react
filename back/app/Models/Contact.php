@@ -22,7 +22,6 @@ class Contact extends Model
      * @var array<int, string>
      */
     protected $hidden = [
-        'id',
         'updated_at',
         'email_verified_at'
     ];

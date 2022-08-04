@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { spacing } from "@mui/system";
 
-import useAuth from "../../hooks/useAuth";
+
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -19,7 +19,7 @@ const TextField = styled(MuiTextField)(spacing);
 
 function SignUp() {
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+
 
   return (
     <Formik
@@ -50,12 +50,6 @@ function SignUp() {
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
-          signUp(
-            values.email,
-            values.password,
-            values.firstName,
-            values.lastName
-          );
           navigate("/login");
         } catch (error) {
           const message = error.message || "Erreur";

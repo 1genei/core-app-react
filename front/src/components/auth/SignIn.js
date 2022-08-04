@@ -1,9 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { Formik } from "formik";
+
+import { useDispatch } from 'react-redux';
+import { LoginAPI } from '../../services/AuthServices';
+import { login } from '../../store/reducers/Auth';
 
 import {
   Alert as MuiAlert,
@@ -14,7 +19,7 @@ import {
 } from "@mui/material";
 import { spacing } from "@mui/system";
 
-import useAuth from "../../hooks/useAuth";
+
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -22,13 +27,17 @@ const TextField = styled(MuiTextField)(spacing);
 
 function SignIn() {
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  const [rememberMe, setRememberMe] = useState(false);
+
 
   return (
     <Formik
       initialValues={{
-        email: "demo@bootlab.io",
-        password: "unsafepassword",
+        email: "",
+        password: "",
         submit: false,
       }}
       validationSchema={Yup.object().shape({
@@ -39,10 +48,15 @@ function SignIn() {
         password: Yup.string().max(255).required("Password is required"),
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+        const loginUser = {
+          email : values.email,
+          password : values.password,
+          remember : rememberMe    
+        };
         try {
-          await signIn(values.email, values.password);
-
-          navigate("/");
+          const resAPI = await LoginAPI(loginUser);
+          dispatch(login({ resAPI }));
+          navigate(from, { replace: true });
         } catch (error) {
           const message = error.message || "Something went wrong";
 
@@ -62,10 +76,6 @@ function SignIn() {
         values,
       }) => (
         <form noValidate onSubmit={handleSubmit}>
-          <Alert mt={3} mb={3} severity="info">
-            Use <strong>demo@bootlab.io</strong> and{" "}
-            <strong>unsafepassword</strong> to sign in
-          </Alert>
           {errors.submit && (
             <Alert mt={2} mb={3} severity="warning">
               {errors.submit}
@@ -96,7 +106,7 @@ function SignIn() {
             my={2}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox value={rememberMe} onChange={() => setRememberMe(!rememberMe)} color="primary" />}
             label="Se souvenir de moi"
           />
           <Button

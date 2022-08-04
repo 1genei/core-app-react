@@ -9,7 +9,7 @@ const API_URL = process.env.REACT_APP_API_URL;
  */
 export const getContacts = () => {
 
-    return axios.get(`${API_URL}/api/contacts`).then( (res) => {
+    return axios.get(`${API_URL}/api/contact/index`).then( (res) => {
         
         // var contacts = res.data.contacts.map(contact => {
         

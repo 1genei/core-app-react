@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import { spacing } from "@mui/system";
 
-import useAuth from "../../hooks/useAuth";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -19,7 +18,6 @@ const TextField = styled(MuiTextField)(spacing);
 
 function ResetPassword() {
   const navigate = useNavigate();
-  const { resetPassword } = useAuth();
 
   return (
     <Formik
@@ -35,7 +33,6 @@ function ResetPassword() {
       })}
       onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
         try {
-          resetPassword(values.email);
           navigate("/auth/sign-in");
         } catch (error) {
           const message = error.message || "Something went wrong";
