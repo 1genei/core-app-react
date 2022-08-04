@@ -89,10 +89,14 @@ class UserController extends Controller
             $cookie = cookie('jwt', $token, 60); // One hour
         }
 
+        // Get username
+        $names = DB::table('contacts')->select('nom', 'prenom')->where('id',$user->contact_id)->first();
+
         // Return user infos
         return Response()->json([   
             'message' => 'Login successful',
             'user' => $user,
+            'name' => $names,
             'permissions' => $permissions
         ], 200)->withCookie($cookie);
     }
@@ -120,7 +124,8 @@ class UserController extends Controller
             if (hash_equals($accessToken->token, hash('sha256', $token))) {
                 // Retreive user infos
                 $user = DB::table('users')->select('email','created_at')->where('id', $accessToken->tokenable_id)->first();
-                $role_id = DB::table('users')->select('role_id')->where('id', $accessToken->tokenable_id)->first()->role_id;
+                $contact_id = DB::table('users')->select('contact_id')->where('id', $accessToken->tokenable_id)->first()->contact_id;
+                $names = DB::table('contacts')->select('nom', 'prenom')->where('id',$contact_id)->first();
                 $ternary = DB::table('permission_user')->where('user_id', $accessToken->tokenable_id)->get();
                 $permissions = array();
                 foreach ($ternary as $i) {
@@ -132,6 +137,7 @@ class UserController extends Controller
                     'status' => 200,
                     'message' => 'Valid token',
                     'user' => $user,
+                    'name' => $names,
                     'permissions' => $permissions
                 ], 200);
             }

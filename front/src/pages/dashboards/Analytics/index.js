@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
-import { useTranslation } from "react-i18next";
+import { useSelector } from 'react-redux';
 
 import {
   Grid,
@@ -24,7 +24,7 @@ const Divider = styled(MuiDivider)(spacing);
 const Typography = styled(MuiTypography)(spacing);
 
 function Analytics() {
-  const { t } = useTranslation();
+  const user = useSelector( (state) => state.auth);
 
   return (
     <React.Fragment>
@@ -35,10 +35,9 @@ function Analytics() {
             Analytics Dashboard
           </Typography>
           <Typography variant="subtitle1">
-            {t("Welcome back")}, Lucy! {t("We've missed you")}.{" "}
-            <span role="img" aria-label="Waving Hand Sign">
-              👋
-            </span>
+            {user.status
+            ? 'Ravi de vous revoir ' + user?.name + ' !'
+            : 'Bienvenue dans Core App'}
           </Typography>
         </Grid>
 

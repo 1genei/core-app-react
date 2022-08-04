@@ -8,7 +8,7 @@ export const RegisterAPI = async (newUser) => {
 export const LoginAPI = async (loginUser) => {
     return axios.post('auth/login', loginUser, {withCredentials:true})
     .then( (res) => {
-        const name = res?.data?.user?.name;
+        const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
         const email = res?.data?.user?.email;
         const created_at = res?.data?.user?.created_at;
         const permissions = res?.data?.permissions;
