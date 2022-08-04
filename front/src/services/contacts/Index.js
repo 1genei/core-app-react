@@ -9,20 +9,7 @@ const API_URL = process.env.REACT_APP_API_URL;
  */
 export const getContacts = () => {
 
-    return axios.get(`${API_URL}/api/contacts`).then( (res) => {
-        
-        // var contacts = res.data.contacts.map(contact => {
-        
-        //         return {
-        //             "id": contact.id,
-        //             "nom": contact.nom,
-        //             "email": contact.email,
-        //             "age": contact.age,
-        //         }
-      
-        
-        // })
-        // return contacts;
+    return axios.get(`${API_URL}/api/contact/all`).then( (res) => {
         
         return res.data.contacts;
         
@@ -34,8 +21,23 @@ export const getContacts = () => {
 
 } 
 
-      // var contact_id = await encrypt(`${cellValues.id}`);
-      // console.log(contact_id);
+/**
+ * 
+ * @returns la liste des contacts qui n'ont pas de compte utilisateur
+ */
+ export const getContactsNoUser = () => {
+
+    return axios.get(`${API_URL}/api/contact/all/no-user`).then( (res) => {
+        
+        return res.data.contacts;
+        
+    }).catch((error) => {
+        
+        console.log(`erreur: ${error}`);
+        return error;
+    } )
+
+} 
 
 
 /**
@@ -78,7 +80,7 @@ export const addContact = (contact) => {
 
 /**
  * modifier le contact
- */
+*/
  export const updateContact = (contact, contact_id) => {
 
 

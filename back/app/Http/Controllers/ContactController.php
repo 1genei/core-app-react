@@ -29,6 +29,7 @@ class ContactController extends Controller
         $ids = User::select('contact_id')->get();
         $contact_ids = [];
         
+ 
         foreach ($ids as $id) {
             $contact_ids[] = $id['contact_id']; 
         }        
