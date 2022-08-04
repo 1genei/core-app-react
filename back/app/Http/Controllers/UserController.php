@@ -39,7 +39,9 @@ class UserController extends Controller
         
         $user = User::create([
             'email' => $email,
-            'password' => Hash::make($password)
+            'password' => Hash::make($password),
+            'contact_id' => $request->contact_id,
+            'role_id' => $request->role_id
         ]);
 
         // Get role permissions and assign them to user
