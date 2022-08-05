@@ -32,7 +32,12 @@ Route::group(['prefix' => 'contact'], function () {
     Route::delete('delete/{id}', [ContactController::class, 'delete']);
 });
 
-
+//Routes utilisateurs
+Route::group(['prefix' => 'utilisateur'], function () {
+    Route::get('all', [UserController::class, 'getUsers']);
+    Route::get('{id}', [UserController::class, 'getUser']);
+    Route::delete('delete/{id}', [UserController::class, 'delete']);
+});
 
 //Routes organismes
 Route::group(['prefix' => 'organisme'], function () {

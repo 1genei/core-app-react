@@ -159,4 +159,33 @@ class UserController extends Controller
             ], 200);
         }
     }
+
+    public function getUsers() {
+    
+        $users = User::all();
+        return Response()->json([
+            'utilisateurs' => $users
+        ], 200);
+    }
+    //**
+    /*  Renvoie l'utilisateur d'id $user_id
+    */
+    public function getUser($user_id) {
+    
+        $user = User::where('id','=',$user_id)->first();
+        return Response()->json([
+            'utilisateur' => $user
+        ], 200);
+    }
+ 
+    /**
+    * Supprime l'user d'id $user_id
+    */
+    public function delete($user_id) {
+    
+        Contact::where('id','=',$user_id)->delete();
+        return Response()->json([
+            'message' => 'Contact supprimé'
+        ], 200);
+    }
 }

@@ -75,7 +75,7 @@ function UtilisateurForm() {
     }, []);
     
 
-    const optionsContacts = contacts.map(option => ({ id: option.id, label: option.nom + ' ' + option.prenom}));
+    const optionsContacts = contacts?.map(option => ({ id: option.id, label: option.nom + ' ' + option.prenom})) ?? [];
     const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom}));
 
     const handleSubmit = async (values,{ resetForm, setErrors, setStatus, setSubmitting }) => {
