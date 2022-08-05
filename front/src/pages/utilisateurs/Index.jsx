@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 
@@ -24,6 +24,7 @@ Add as AddIcon,
 PersonAddAlt
 }from '@mui/icons-material';
 import { Link } from "react-router-dom";
+import { getUtilisateurs } from "../../services/UtilisateursServices";
 
 
 const Card = styled(MuiCard)(spacing);
@@ -34,30 +35,35 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
+function getFullName(params) {
+  return `${params.row.contact.prenom || ''} ${params.row.contact.nom || ''}`;
+}
+
+function getRoleName(params) {
+  return `${params.row.role.nom}`;
+}
+
 const columns = [
 //   { field: "id", headerName: "ID", width: 150 },
   {
-    field: "nom",
-    headerName: "Nom",
-    // width: 200,
+    field: "contact",
+    headerName: "Contact",
+    width: 200,
     editable: false,
+    valueGetter : getFullName
   },
   {
     field: "email",
     headerName: "Email",
-    // width: 200,
-    editable: true,
+    width: 200,
+    editable: false,
   },
   {
-    field: "adresse",
-    headerName: "Adresse",
-    width: 150,
-    // editable: true,
-  },
-  {
-    field: "contact",
-    headerName: "Contact",
-    width: 250,
+    field: "role",
+    headerName: "Rôle",
+    width: 200,
+    editable: false,
+    valueGetter : getRoleName
   },
   {
     field: "Actions",
@@ -87,18 +93,6 @@ const columns = [
   }
 ];
 
-const rows = [
-  { id: 1, nom: "Snow", email: "Jon", age: 35 },
-  { id: 2, nom: "Lannister", email: "Cersei", age: 42 },
-  { id: 3, nom: "Lannister", email: "Jaime", age: 45 },
-  { id: 4, nom: "Stark", email: "Arya", age: 16 },
-  { id: 5, nom: "Targaryen", email: "Daenerys", age: null },
-  { id: 6, nom: "Melisandre", email: null, age: 150 },
-  { id: 7, nom: "Clifford", email: "Ferrara", age: 44 },
-  { id: 8, nom: "Frances", email: "Rossini", age: 36 },
-  { id: 9, nom: "Roxie", email: "Harvey", age: 65 },
-];
-
 function handleClick(event, cellValues){
     console.log(cellValues);
 }
@@ -106,7 +100,7 @@ function handleClick(event, cellValues){
 
 
 
-function DataGridDemo() {
+function DataGridUtilisateur(utilisateurs) {
   return (
     <Card mb={6}>
       <CardContent pb={1}>
@@ -119,10 +113,10 @@ function DataGridDemo() {
         <div style={{ height: 800, width: "100%" }}>
           <DataGrid
             rowsPerPageOptions={[5, 10, 25]}
-            rows={rows}
+            rows={utilisateurs?.utilisateurs}
             columns={columns}
             pageSize={30}
-            // checkboxSelection
+            checkboxSelection
           />
         </div>
       </Paper>
@@ -131,6 +125,13 @@ function DataGridDemo() {
 }
 
 function Utilisateurs() {
+
+  const [utilisateurs, setUtilisateurs] = useState([]);
+
+  useEffect( async () => {
+    const listUtilisateurs = await getUtilisateurs();
+    setUtilisateurs(listUtilisateurs);
+  }, []);
   return (
     <React.Fragment>
         <Helmet title="Utilisateurs" />
@@ -155,8 +156,7 @@ function Utilisateurs() {
         
 
         <Divider my={6} />
-
-        <DataGridDemo />
+        <DataGridUtilisateur utilisateurs={utilisateurs} />
     </React.Fragment>
   );
 }

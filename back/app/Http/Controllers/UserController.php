@@ -163,6 +163,10 @@ class UserController extends Controller
     public function getUsers() {
     
         $users = User::all();
+        foreach ($users as $user) {
+            $user->role;
+            $user->contact;
+        }
         return Response()->json([
             'utilisateurs' => $users
         ], 200);

@@ -7,9 +7,9 @@ import axios from '../api/Axios';
  */
 export const getUtilisateurs = async () => {
 
-    return axios.get('user/all')
+    return axios.get('utilisateur/all')
     .then( (res) => {
-        return res.data.users;
+        return res.data.utilisateurs;
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);
@@ -23,9 +23,9 @@ export const getUtilisateurs = async () => {
  */
  export const getUtilisateur = async (user_id) => {
 
-    return axios.get(`user/${user_id}`)
+    return axios.get(`utilisateur/${user_id}`)
     .then( (res) => {
-        return res.data.user;
+        return res.data.utilisateur;
     })
     .catch((error) => {   
         console.log(`erreur: ${error}`);

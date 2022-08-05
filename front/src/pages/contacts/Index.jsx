@@ -39,6 +39,12 @@ const Paper = styled(MuiPaper)(spacing);
 const columns = [
 //   { field: "id", headerName: "ID", width: 150 },
   {
+    field: "prenom",
+    headerName: "Prénom",
+    width: 200,
+    editable: false,
+  },
+  {
     field: "nom",
     headerName: "Nom",
     width: 200,
@@ -54,12 +60,7 @@ const columns = [
     field: "adresse",
     headerName: "Adresse",
     width: 200,
-    // editable: true,
-  },
-  {
-    field: "contact",
-    headerName: "Contact",
-    width: 250,
+    editable: false,
   },
   {
     field: "Actions",
