@@ -24,6 +24,7 @@ export const getContacts = async () => {
 
     return axios.get('contact/no-user')
     .then( (res) => {
+        console.log(res.data);
         return res.data.contacts;
     })
     .catch((error) => {
@@ -55,9 +56,9 @@ export const getContacts = async () => {
  */
 export const addContact = async (contact) => {
 
-    return axios.get('contact/store', contact)
+    return axios.post('contact/store', contact)
     .then( (res) => {
-        return res.data.contacts;
+        return res.data;
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);
@@ -71,9 +72,9 @@ export const addContact = async (contact) => {
 */
  export const updateContact = async (contact, contact_id) => {
 
-    return axios.get(`contact/update/${contact_id}`, contact)
+    return axios.put(`contact/update/${contact_id}`, contact)
     .then( (res) => {
-        return res.data.contacts;
+        return res.data;
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);

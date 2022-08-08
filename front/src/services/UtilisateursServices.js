@@ -41,6 +41,7 @@ export const addUtilisateur = async (user) => {
 
     return axios.post('auth/register', user)
     .then( (res) => {
+    console.log(res.data);
         return res.data; 
     })
     .catch((error) => {

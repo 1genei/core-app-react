@@ -26,6 +26,7 @@ class ContactController extends Controller
     */
     public function getNoUsers() {
         
+        
         $ids = User::select('contact_id')->get();
         $contact_ids = [];
 
