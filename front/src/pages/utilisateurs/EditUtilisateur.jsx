@@ -35,7 +35,7 @@ const Button = styled(MuiButton)(spacing);
 
 
 
-var initialValues = {
+let initialValues = {
   prenom: "",
   nom: "",
   email: "",
@@ -65,11 +65,11 @@ function UtilisateurForm() {
   
     useEffect( async () => {
       
-      var id = params.id;
+      let id = params.id;
       
       id = decrypt(id);
       
-      var cont = await getUtilisateur(id);
+      let cont = await getUtilisateur(id);
       setUtilisateur(cont);
     
     }, [])
@@ -97,7 +97,7 @@ function UtilisateurForm() {
                 
             }else{
             
-              var errors = validatorErrors(result.errors);
+              let errors = validatorErrors(result.errors);
                 
               setAlertError(true);                
               setMessageErrors(errors);

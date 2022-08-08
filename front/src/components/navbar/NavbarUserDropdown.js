@@ -1,7 +1,10 @@
 import * as React from "react";
 import styled from "@emotion/styled";
 import { Power } from "react-feather";
-import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { LogoutAPI } from '../../services/AuthServices';
+import { logout } from '../../store/reducers/Auth';
 
 import {
   Tooltip,
@@ -20,6 +23,9 @@ const IconButton = styled(MuiIconButton)`
 function NavbarUserDropdown() {
   const [anchorMenu, setAnchorMenu] = React.useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const user = useSelector( (state) => state.auth);
+  const dispatch = useDispatch();
 
   const toggleMenu = (event) => {
     setAnchorMenu(event.currentTarget);
@@ -29,9 +35,21 @@ function NavbarUserDropdown() {
     setAnchorMenu(null);
   };
 
-  const handleSignOut = async () => {
-    navigate("/login");
+  const handleProfile = () => {
+    navigate('/profile', { from: location, replace: false });
   };
+
+  const handleLogin = () => {
+    navigate('/login', { from: location, replace: false });
+  };
+
+  const handleLogout = async () => {
+    try {
+      await LogoutAPI();
+      dispatch(logout());
+    } 
+    catch (err) {}
+}
 
   return (
     <React.Fragment>
@@ -52,8 +70,15 @@ function NavbarUserDropdown() {
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={closeMenu}>Profil</MenuItem>
-        <MenuItem onClick={handleSignOut}>Déconnexion</MenuItem>
+        {user.status 
+        ?
+          <>
+            <MenuItem onClick={handleProfile}>Profil</MenuItem>
+            <MenuItem onClick={handleLogout}>Déconnexion</MenuItem>
+          </>
+        : 
+          <MenuItem onClick={handleLogin}>Connexion</MenuItem>
+        }
       </Menu>
     </React.Fragment>
   );

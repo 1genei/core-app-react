@@ -35,7 +35,7 @@ const Button = styled(MuiButton)(spacing);
 
 
 
-var initialValues = {
+let initialValues = {
   prenom: "",
   nom: "",
   email: "",
@@ -66,7 +66,7 @@ function ContactForm() {
   
     useEffect( async () => {
       
-      var id = params.id;
+      let id = params.id;
       
       id = decrypt(id);
       
@@ -97,7 +97,7 @@ function ContactForm() {
         }else{
         
           setIsSubmitting(false);          
-          var errors = validatorErrors(result.errors);
+          let errors = validatorErrors(result.errors);
           setAlertError(true);                
           setMessageErrors(errors);
  

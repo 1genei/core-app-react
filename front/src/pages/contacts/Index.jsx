@@ -36,6 +36,10 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
+function getIfUser(params) {
+  return params?.row?.user === null ? 'Non' : 'Oui';
+}
+
 const columns = [
 //   { field: "id", headerName: "ID", width: 150 },
   {
@@ -63,13 +67,20 @@ const columns = [
     editable: false,
   },
   {
+    field: "user",
+    headerName: "Utilisateur",
+    width: 200,
+    editable: false,
+    valueGetter : getIfUser
+  },
+  {
     field: "Actions",
     renderCell:  (cellValues) => {
     
       return (
           <>
             <Link to={`/contact/modifier/${encrypt(cellValues.id)}`}>  
-                <IconButton  color="success" title="modifier"
+                <IconButton  color="success" title="Modifier"
                   onClick={(event) => {
                     handleClick(event, cellValues);
                   }} >
@@ -77,7 +88,7 @@ const columns = [
                 </IconButton>
             </Link>
             
-            <IconButton  color="warning" title="archiver"
+            <IconButton  color="warning" title="Archiver"
               onClick={(event) => {
                 handleClick(event, cellValues);
               }} >

@@ -37,4 +37,4 @@ export default function Loading() {
             </Grid>
         </Grid>
     )
-}
+};

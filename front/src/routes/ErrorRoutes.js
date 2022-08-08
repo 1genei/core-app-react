@@ -14,7 +14,7 @@ const ErrorRoutes = {
             element: <Page401 />
         },
         {
-            path: "*",
+            path: '*',
             element: <Page404 />
         }
     ]

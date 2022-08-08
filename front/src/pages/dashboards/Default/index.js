@@ -1,12 +1,17 @@
 import React from "react";
+import { useState } from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
+import { useSelector } from 'react-redux';
+import { parseDateTime } from "../../../utils/datetime";
 
 import {
   Grid,
   Divider as MuiDivider,
   Typography as MuiTypography,
+  Stack,
+  Button
 } from "@mui/material";
 import { spacing } from "@mui/system";
 import { green, red } from "@mui/material/colors";
@@ -22,22 +27,23 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Typography = styled(MuiTypography)(spacing);
 
+
+
 function Default() {
   const { t } = useTranslation();
+  const user = useSelector( (state) => state.auth);
+
 
   return (
     <React.Fragment>
       <Helmet title="Default Dashboard" />
       <Grid justifyContent="space-between" container spacing={6}>
-        <Grid item>
+      <Grid item>
           <Typography variant="h3" gutterBottom>
-            Default Dashboard
+            Profil
           </Typography>
           <Typography variant="subtitle1">
-            {t("Welcome back")}, Lucy! {t("We've missed you")}.{" "}
-            <span role="img" aria-label="Waving Hand Sign">
-              👋
-            </span>
+            {'Ceci est votre profil ' + user?.name}
           </Typography>
         </Grid>
 
@@ -50,6 +56,28 @@ function Default() {
 
       <Grid container spacing={6}>
         <Grid item xs={12} sm={12} md={6} lg={3} xl>
+          <Typography variant='h4'>
+            Email lié à l'utilisateur : {user.email}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={3} xl>
+          <Typography variant='h4'>
+            Inscirt depuis : {parseDateTime(user.created_at)}
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={12} md={6} lg={3} xl>
+            <Stack direction='column'>
+              <Typography variant='h4'>
+                Permissions : 
+              </Typography>
+              {user.permissions.map((index) => (
+                <Typography variant='subtitle'>
+                  - {index}
+                </Typography>
+              ))}
+            </Stack>
+        </Grid>
+        {/*<Grid item xs={12} sm={12} md={6} lg={3} xl>
           <Stats
             title="Sales Today"
             amount="2.532"
@@ -102,7 +130,7 @@ function Default() {
         </Grid>
         <Grid item xs={12} lg={8}>
           <Table />
-        </Grid>
+        </Grid>*/}
       </Grid>
     </React.Fragment>
   );

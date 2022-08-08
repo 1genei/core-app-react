@@ -7,7 +7,7 @@ import React from 'react'
 */
 export const validatorErrors = (errors) => {
     
-    var validateErr = [];
+    let validateErr = [];
 
     for(const champ in errors){                
         errors[champ].map( error => {
