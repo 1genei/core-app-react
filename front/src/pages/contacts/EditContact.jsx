@@ -245,7 +245,7 @@ function handleChange (e){
               mt={3}
               size="large"
             >
-              Ajouter
+              Modifier
             </Button>
           </form>
         )}

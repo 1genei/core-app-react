@@ -31,7 +31,9 @@ class ContactController extends Controller
     public function getActiveContacts() {
     
         $contacts = Contact::where('archive', 0)->get();
-             
+        foreach ($contacts as $contact) {
+            $contact->user;
+        }
         return Response()->json([
             'contacts' => $contacts,
             'status' => 200,
@@ -45,6 +47,9 @@ class ContactController extends Controller
     public function getArchivedContacts() {
     
         $contacts = Contact::where('archive', 1)->get();
+        foreach ($contacts as $contact) {
+            $contact->user;
+        }
         return Response()->json([
             'utilisateurs' => $contacts,
             'status' => 200,

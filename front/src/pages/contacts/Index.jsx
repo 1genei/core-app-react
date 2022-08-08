@@ -38,72 +38,9 @@ const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
 
 function getIfUser(params) {
+  console.log(params)
   return params?.row?.user === null ? 'Non' : 'Oui';
 }
-
-const columns = [
-//   { field: "id", headerName: "ID", width: 150 },
-  {
-    field: "prenom",
-    headerName: "Prénom",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "nom",
-    headerName: "Nom",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "adresse",
-    headerName: "Adresse",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "user",
-    headerName: "Utilisateur",
-    width: 200,
-    editable: false,
-    valueGetter : getIfUser
-  },
-  {
-    field: "Actions",
-    renderCell:  (cellValues) => {
-    
-      return (
-          <>
-            <Link to={`/contact/modifier/${encrypt(cellValues.id)}`}>  
-                <IconButton  color="success" title="Modifier"
-                  onClick={(event) => {
-                    handleClick(event, cellValues);
-                  }} >
-                  <EditIcon />
-                </IconButton>
-            </Link>
-            
-            <IconButton  color="warning" title="Archiver"
-              onClick={(event) => {
-                handleClick(event, cellValues);
-              }} >
-              <ArchiveIcon />
-            </IconButton>
-            
-           
-          </>
-      
-        
-      );
-    }
-  }
-];
 
 
 function handleClick(event, cellValues){
@@ -164,6 +101,13 @@ function Contacts() {
           headerName: "Adresse",
           width: 200,
           editable: false,
+        },
+        {
+          field: "user",
+          headerName: "Utilisateur",
+          width: 200,
+          editable: false,
+          valueGetter : getIfUser
         },
         {
           field: "Actions",

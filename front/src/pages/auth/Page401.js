@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 function Page404() {
   return (
     <Wrapper>
-      <Helmet title="404 Error" />
+      <Helmet title="Unauthorized" />
       <Typography component="h1" variant="h1" align="center" gutterBottom>
         401
       </Typography>
