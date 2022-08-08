@@ -26,8 +26,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'contact'], function () {
     Route::get('all', [ContactController::class, 'getContacts']);
     Route::get('{id}', [ContactController::class, 'getContact'])->where('id', '[0-9]+');
+    Route::get('active', [ContactController::class, 'getActiveContacts']);
+    Route::get('archived', [ContactController::class, 'getArchivedContacts']);
     Route::get('no-user', [ContactController::class, 'getNoUsers']);
     Route::post('store', [ContactController::class, 'store']);
+    Route::put('archive/{id}', [ContactController::class, 'archive']);
+    Route::put('restore/{id}', [ContactController::class, 'restore']);
     Route::put('update/{id}', [ContactController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('delete/{id}', [ContactController::class, 'delete'])->where('id', '[0-9]+');
 });
