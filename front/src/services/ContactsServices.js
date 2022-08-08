@@ -1,5 +1,24 @@
 import axios from '../api/Axios';
 
+
+
+
+/**
+ * 
+ * @returns la liste des contacts actifs
+ */
+ export const getActiveContacts = async () => {
+
+    return axios.get('contact/active')
+    .then( (res) => {
+        return res.data.contacts;
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
+
 /**
  * 
  * @returns la liste des contacts
@@ -75,6 +94,22 @@ export const addContact = async (contact) => {
     return axios.put(`contact/update/${contact_id}`, contact)
     .then( (res) => {
         return res.data;
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
+
+
+/**
+ * Archiver le contact
+*/
+export const archiveContact = async (id) => {
+    return axios.put(`contact/archive/${id}`)
+    .then( (res) => {
+    console.log(res.data);
+        return res.data
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);
