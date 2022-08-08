@@ -24,7 +24,7 @@ Add as AddIcon,
 PersonAddAlt
 }from '@mui/icons-material';
 import { Link } from "react-router-dom";
-import { getUtilisateurs } from "../../services/UtilisateursServices";
+import { archiveUser, getActiveUsers } from "../../services/UtilisateursServices";
 
 
 const Card = styled(MuiCard)(spacing);
@@ -70,16 +70,16 @@ const columns = [
     renderCell: (cellValues) => {
       return (
           <>
-            <IconButton  color="success" title="modifier"
+            <IconButton  color="success" title="Modifier"
               onClick={(event) => {
-                handleClick(event, cellValues);
+                handleEdit(event, cellValues);
               }} >
               <EditIcon />
             </IconButton>
             
-            <IconButton  color="warning" title="archiver"
+            <IconButton  color="warning" title="Archiver"
               onClick={(event) => {
-                handleClick(event, cellValues);
+                handleArchive(event, cellValues);
               }} >
               <ArchiveIcon />
             </IconButton>
@@ -93,10 +93,13 @@ const columns = [
   }
 ];
 
-function handleClick(event, cellValues){
+function handleEdit(event, cellValues){
     console.log(cellValues);
 }
 
+function handleArchive(event, cellValues){
+  archiveUser(cellValues.id);
+}
 
 
 
@@ -109,7 +112,7 @@ function DataGridUtilisateur(utilisateurs) {
         </Typography>
        
       </CardContent>
-      <Paper>
+      <Paper> 
         <div style={{ height: 800, width: "100%" }}>
           <DataGrid
             rowsPerPageOptions={[5, 10, 25]}
@@ -129,7 +132,7 @@ function Utilisateurs() {
   const [utilisateurs, setUtilisateurs] = useState([]);
 
   useEffect( async () => {
-    const listUtilisateurs = await getUtilisateurs();
+    const listUtilisateurs = await getActiveUsers();
     setUtilisateurs(listUtilisateurs);
   }, []);
   return (

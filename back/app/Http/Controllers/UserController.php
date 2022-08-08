@@ -160,9 +160,12 @@ class UserController extends Controller
         }
     }
 
-    public function getUsers() {
+    /*
+    *  Renvoie tous les utilisateurs actifs
+    */
+    public function getActiveUsers() {
     
-        $users = User::all();
+        $users = User::where('archive', 0)->get();
         foreach ($users as $user) {
             $user->role;
             $user->contact;
@@ -171,8 +174,25 @@ class UserController extends Controller
             'utilisateurs' => $users
         ], 200);
     }
-    //**
-    /*  Renvoie l'utilisateur d'id $user_id
+
+    /*
+    *  Renvoie tous les utilisateurs actifs
+    */
+    public function getArchivedUsers() {
+    
+        $users = User::where('archive', 1)->get();
+        foreach ($users as $user) {
+            $user->role;
+            $user->contact;
+        }
+        return Response()->json([
+            'utilisateurs' => $users
+        ], 200);
+    }
+
+
+    /*
+    *  Renvoie l'utilisateur d'id $user_id
     */
     public function getUser($user_id) {
     
@@ -190,6 +210,32 @@ class UserController extends Controller
         Contact::where('id','=',$user_id)->delete();
         return Response()->json([
             'message' => 'Contact supprimé'
+        ], 200);
+    }
+
+    /**
+    * Archive l'user d'id $user_id
+    */
+    public function archive($user_id) {
+    
+        $user = User::where('id','=',$user_id)->first();
+        $user->archive = 1;
+        $user->update();
+        return Response()->json([
+            'message' => 'Utilisateur archivé'
+        ], 200);
+    }
+
+        /**
+    * Restaure l'user d'id $user_id
+    */
+    public function restore($user_id) {
+    
+        $user = User::where('id','=',$user_id)->first();
+        $user->archive = 0;
+        $user->update();
+        return Response()->json([
+            'message' => 'Utilisateur restauré'
         ], 200);
     }
 }

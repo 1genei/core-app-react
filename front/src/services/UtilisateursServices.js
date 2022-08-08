@@ -5,9 +5,9 @@ import axios from '../api/Axios';
  * 
  * @returns la liste des users
  */
-export const getUtilisateurs = async () => {
+export const getActiveUsers = async () => {
 
-    return axios.get('utilisateur/all')
+    return axios.get('utilisateur/active')
     .then( (res) => {
         return res.data.utilisateurs;
     })
@@ -16,6 +16,19 @@ export const getUtilisateurs = async () => {
         return error;
     });
 }
+
+export const getArchivedUsers = async () => {
+
+    return axios.get('utilisateur/archived')
+    .then( (res) => {
+        return res.data.utilisateurs;
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
+
 
 /**
  * 
@@ -54,8 +67,20 @@ export const addUtilisateur = async (user) => {
  */
  export const getRoles = async () => {
 
-    return axios.get('auth/get-roles').then( (res) => {
+    return axios.get('auth/get-roles')
+    .then( (res) => {
         return res.data;
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
+
+export const archiveUser = async (id) => {
+    return axios.put(`utilisateur/archive/${id}`)
+    .then( (res) => {
+        return res.data
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);

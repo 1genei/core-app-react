@@ -46,7 +46,7 @@ function Analytics() {
         </Grid>
       </Grid>
 
-      <Divider my={6} />
+      {/*<Divider my={6} />
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={5}>
@@ -110,7 +110,7 @@ function Analytics() {
         <Grid item xs={12} lg={8}>
           <Table />
         </Grid>
-      </Grid>
+      </Grid>*/}
     </React.Fragment>
   );
 }

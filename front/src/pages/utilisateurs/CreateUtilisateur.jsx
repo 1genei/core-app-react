@@ -58,12 +58,12 @@ function UtilisateurForm() {
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
     const [roles, setRoles] = useState([]);
-    const [roleId, setRoleId] = useState();
+    const [roleId, setRoleId] = useState('');
     const [contacts, setContacts] = useState([]);
-    const [contactId, setContactId] = useState([]);
+    const [contactId, setContactId] = useState('');
     
     
-    // On réccupère les roles et les contacts qui n'ont pas de compte utilisateur
+    // On récupère les roles et les contacts qui n'ont pas de compte utilisateur
     
     useEffect( async ()=> {
       
@@ -83,11 +83,14 @@ function UtilisateurForm() {
         // try {
             setAlertError(false); 
             setAlertSuccess(false);
-            
-            console.log(values+"dddd");
-        
-            const result =  await addUtilisateur(values);
-            
+
+            const user = {
+              role_id: roleId,
+              contact_id: contactId
+            }
+
+            const result =  await addUtilisateur(user);
+
             if(result?.status === 200 ){
             
                 setMessageSuccess(result.message);
@@ -157,13 +160,14 @@ function UtilisateurForm() {
                       options={optionsContacts}
                       onChange={(event, newValue) => {
                         setContactId(newValue?.id);
+                        console.log(contactId)
                       }}
                       renderInput={(params) => <TextField {...params} label="Contact" />}
                       name="contact"
 
-                      error={Boolean(touched.role && errors.role)}
+                      error={Boolean(touched.role && errors.role).toString()}
                       fullWidth
-                      helperText={touched.contact && errors.contact}
+                      helpertext={touched.contact && errors.contact}
                       onBlur={handleBlur}
                       // onChange={handleChange}
                       variant="outlined"
@@ -183,9 +187,9 @@ function UtilisateurForm() {
                         name="role"
                         
                     
-                        error={Boolean(touched.role && errors.role)}
+                        error={Boolean(touched.role && errors.role).toString()}
                         fullWidth
-                        helperText={touched.role && errors.role}
+                        helpertext={touched.role && errors.role}
                         onBlur={handleBlur}
                         onChange={(e, value) => setRoleId(value?.id)}
                         variant="outlined"
