@@ -57,6 +57,7 @@ function ContactForm() {
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
     const [contact, setContact] = useState([]);
   
@@ -75,36 +76,32 @@ function ContactForm() {
     }, [])
   
     
-    const handleSubmit = async (values,{ resetForm, setErrors, setStatus, setSubmitting }) => {
+    const handleSubmit = async (e) => {
         
-        // try {
-            setAlertError(false); 
-            setAlertSuccess(false);
-            
+        e.preventDefault();
+        setIsSubmitting(true);
         
-            const result =  await updateContact(contact, contact.id);
+        setAlertError(false); 
+        setAlertSuccess(false);
+        
+    
+        const result =  await updateContact(contact, contact.id);
+        
+        
+        if(result?.status === 200 ){
             
+            setIsSubmitting(false);            
+            setMessageSuccess(result.message);
+            setAlertSuccess(true);
             
-            if(result?.status === 200 ){
-            
-            
-
-                setMessageSuccess(result.message);
-                setAlertSuccess(true);
-                // resetForm();
-                // setStatus({ sent: true });
-                setSubmitting(true);
-                
-            }else{
-            
-              var errors = validatorErrors(result.errors);
-                
-              setAlertError(true);                
-              setMessageErrors(errors);
-              setStatus({ sent: false });
-              setErrors({ submit: result.message });
-              setSubmitting(false);
-            }
+        }else{
+        
+          setIsSubmitting(false);          
+          var errors = validatorErrors(result.errors);
+          setAlertError(true);                
+          setMessageErrors(errors);
+ 
+        }
    
 
         
@@ -122,167 +119,138 @@ function handleChange (e){
 
   return (
   
-    <>
+    <Card mb={6}>
+      <CardContent>
     
-    <Formik
-     
-     initialValues={contact}
-    //  validationSchema={validationSchema}
-     onSubmit={handleSubmit}
-   >
-     {({
-       errors,
-       handleBlur,
-      //  handleChange,
-       handleSubmit,
-       isSubmitting,
-       touched,
-       values,
-       status,
-      }) => (
-        <Card mb={6}>
-          <CardContent>
+        {alertSuccess && (
+          <Alert severity="success" onClose={() => setAlertSuccess(false) } my={3}>
+                <Typography variant="h6" component="h6" > {messageSuccess}  </Typography> 
+          </Alert>
+        )}
+       
+       {alertError && (
+            <Alert severity="warning" onClose={() => setAlertError(false) } my={3}>
+                {messageErrors}
+            </Alert>
+        )}
         
-            {alertSuccess && (
-              <Alert severity="success" onClose={() => setAlertSuccess(false) } my={3}>
-                    <Typography variant="h6" component="h6" > {messageSuccess}  </Typography> 
-              </Alert>
-            )}
-           
-           {alertError && (
-                <Alert severity="warning" onClose={() => setAlertError(false) } my={3}>
-                    {messageErrors}
-                </Alert>
-            )}
-            
-
-            {isSubmitting ? (
-              <Box display="flex" justifyContent="center" my={6}>
-                <CircularProgress />
-              </Box>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="prenom"
-                      label="Prénom"
-                      value={contact.prenom ?? ''}
-                      error={Boolean(touched.prenom && errors.prenom)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextField
-                      name="nom"
-                      label="Nom"
-                      value={contact.nom ?? ''}
-                      error={Boolean(touched.nom && errors.nom)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                </Grid>
-
+  
+        {isSubmitting ? (
+          <Box display="flex" justifyContent="center" my={6}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={6}>
+              <Grid item md={6}>
                 <TextField
-                  name="email"
-                  label="Email"
-                  value={contact.email ?? ''}
-                  error={Boolean(touched.email && errors.email)}
+                  name="prenom"
+                  label="Prénom"
+                  value={contact?.prenom ?? ''}
                   fullWidth
-                  onBlur={handleBlur}
                   onChange={handleChange}
-                  type="email"
+                  required
                   variant="outlined"
                   my={2}
                 />
-
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="telephone1"
-                      label="Téléphone mobile"
-                      value={contact.telephone1 ?? ''}
-                      error={Boolean(touched.telephone1 && errors.telephone1)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextField
-                      name="telephone2"
-                      label="Téléphone fixe"
-                      value={contact.telephone2 ?? ''}
-                      error={Boolean(touched.telephone2 && errors.telephone2)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                </Grid>
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  name="nom"
+                  label="Nom"
+                  value={contact?.nom ?? ''}
+                  fullWidth
+                  required
+                  onChange={handleChange}
+                  variant="outlined"
+                  my={2}
+                />
+              </Grid>
+            </Grid>
+  
+            <TextField
+              name="email"
+              label="Email"
+              value={contact?.email ?? ''}
+              fullWidth
+              required
+              onChange={handleChange}
+              type="email"
+              variant="outlined"
+              my={2}
+            />
+  
+            <Grid container spacing={6}>
+              <Grid item md={6}>
+                <TextField
+                  name="telephone1"
+                  label="Téléphone mobile"
+                  value={contact?.telephone1 ?? ''}
+                  fullWidth
+                 
+                  onChange={handleChange}
+                  variant="outlined"
+                  my={2}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextField
+                  name="telephone2"
+                  label="Téléphone fixe"
+                  value={contact?.telephone2 ?? ''}
+                  fullWidth
+                  
+                  onChange={handleChange}
+                  variant="outlined"
+                  my={2}
+                />
+              </Grid>
+            </Grid>
+            
+            <Grid container spacing={6}>
+              <Grid item md={6}>
+                <TextField
+                  name="adresse"
+                  label="Adresse"
+                  value={contact?.adresse ?? ''}
+                  fullWidth
                 
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="adresse"
-                      label="Adresse"
-                      value={contact.adresse ?? ''}
-                      error={Boolean(touched.adresse && errors.adresse)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextareaAutosize
-                      name="notes"
-                      label="Notes"
-                      value={contact.notes ?? ''}
-                      error={Boolean(touched.notes && errors.notes)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                      minRows={8}
-                      placeholder="Notes"
-
-                      style={{ width: '100%' }}
-                    />
-                  </Grid>
-                </Grid>
-
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                  mt={3}
-                  size="large"
-                >
-                  Modifier
-                </Button>
-              </form>
-            )}
-          </CardContent>
-        </Card>
-      )}
-    </Formik>
-    
-    </>
+                  onChange={handleChange}
+                  variant="outlined"
+                  my={2}
+                />
+              </Grid>
+              <Grid item md={6}>
+                <TextareaAutosize
+                  name="note"
+                  label="Note"
+                  value={contact?.note ?? ''}
+                  fullWidth
+                 
+                  onChange={handleChange}
+                  variant="outlined"
+                  my={2}
+                  minRows={8}
+                  placeholder="Notes"
+  
+                  style={{ width: '100%' }}
+                />
+              </Grid>
+            </Grid>
+  
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              mt={3}
+              size="large"
+            >
+              Ajouter
+            </Button>
+          </form>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 

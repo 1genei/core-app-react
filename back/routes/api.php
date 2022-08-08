@@ -28,28 +28,31 @@ Route::group(['prefix' => 'contact'], function () {
     Route::get('{id}', [ContactController::class, 'getContact'])->where('id', '[0-9]+');
     Route::get('no-user', [ContactController::class, 'getNoUsers']);
     Route::post('store', [ContactController::class, 'store']);
-    Route::put('update/{id}', [ContactController::class, 'update']);
-    Route::delete('delete/{id}', [ContactController::class, 'delete']);
+    Route::put('update/{id}', [ContactController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('delete/{id}', [ContactController::class, 'delete'])->where('id', '[0-9]+');
 });
 
 //Routes utilisateurs
 Route::group(['prefix' => 'utilisateur'], function () {
     Route::get('active', [UserController::class, 'getActiveUsers']);
     Route::get('archived', [UserController::class, 'getArchivedUsers']);
-    Route::get('{id}', [UserController::class, 'getUser']);
     Route::delete('delete/{id}', [UserController::class, 'delete']);
     Route::put('archive/{id}', [UserController::class, 'archive']);
     Route::put('restore/{id}', [UserController::class, 'restore']);
+    Route::get('all', [UserController::class, 'getUsers']);
+    Route::get('{id}', [UserController::class, 'getUser'])->where('id', '[0-9]+');
+    Route::delete('delete/{id}', [UserController::class, 'delete'])->where('id', '[0-9]+');
 });
 
 //Routes organismes
 Route::group(['prefix' => 'organisme'], function () {
     Route::get('all', [OrganismeController::class, 'getOrganismes']);
-    Route::get('{id}', [OrganismeController::class, 'getOrganisme']);
+    Route::get('{id}', [OrganismeController::class, 'getOrganisme'])->where('id', '[0-9]+');
     Route::post('add', [OrganismeController::class, 'store']);
-    Route::put('edit/{id}', [OrganismeController::class, 'update']);
-    Route::delete('delete/{id}', [OrganismeController::class, 'delete']);
+    Route::put('edit/{id}', [OrganismeController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('delete/{id}', [OrganismeController::class, 'delete'])->where('id', '[0-9]+');
 });
+
 
 //Authentication related routes
 Route::group(['prefix' => 'auth'], function () {

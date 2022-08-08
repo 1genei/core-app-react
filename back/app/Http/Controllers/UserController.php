@@ -19,41 +19,47 @@ class UserController extends Controller
     */
     public function register(Request $request) {
 
-        // Verify if fields are ok
-        $validator = Validator::make($request->all(),[
-            'role_id' => 'required|integer',
-            'contact_id' => 'required|unique:users|integer',
-        ]);
-        
-        // If not return an error
-        if($validator->fails()){
+        try {
+            // Verify if fields are ok
+            $validator = Validator::make($request->all(),[
+                'role_id' => 'required|integer',
+                'contact_id' => 'required|unique:users|integer',
+            ]);
+            // If not return an error
+            if($validator->fails()){
+                return Response()->json([
+                    'erreurs' => $validator->errors(),
+                    'status' => 400,
+                ], 200);
+            }
+            
+            $email = DB::table('contacts')->select('email')->where('id',$request->contact_id)->first()->email;
+            $password = 'admin123'; // A modifier : générer le password par défaut selon nom et prénom
+            
+            
+            $user = User::create([
+                'email' => $email,
+                'password' => Hash::make($password),
+                'contact_id' => $request->contact_id,
+                'role_id' => $request->role_id
+            ]);
+    
+            // Get role permissions and assign them to user
+            $permissions = DB::table('permission_role')->where('role_id', $request->role_id)->get();
+            foreach ($permissions as $i) {
+                $row = array('permission_id'=>$i->permission_id,'user_id'=>$user->id);
+                DB::table('permission_user')->insert($row);
+            }
+    
+            // Return confirmation
             return Response()->json([
-                'erreurs' => $validator->errors(),
-                'status' => 400,
+                'message' => 'Utilisateur créé'
             ], 200);
-        }
         
-        $email = DB::table('contacts')->select('email')->where('id',$request->contact_id)->first()->email;
-        $password = 'admin123'; // A modifier : générer le password par défaut selon nom et prénom
         
-        $user = User::create([
-            'email' => $email,
-            'password' => Hash::make($password),
-            'contact_id' => $request->contact_id,
-            'role_id' => $request->role_id
-        ]);
-
-        // Get role permissions and assign them to user
-        $permissions = DB::table('permission_role')->where('role_id', $request->role_id)->get();
-        foreach ($permissions as $i) {
-            $row = array('permission_id'=>$i->permission_id,'user_id'=>$user->id);
-            DB::table('permission_user')->insert($row);
+        } catch (\Throwable $th) {
+            return json_encode($th->errorInfo[3]);
         }
-
-        // Return confirmation
-        return Response()->json([
-            'message' => 'Registration successful'
-        ], 200);
     }
     
     

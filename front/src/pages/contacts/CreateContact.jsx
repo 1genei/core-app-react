@@ -53,33 +53,49 @@ function ContactForm() {
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
-
-    const handleSubmit = async (values,{ resetForm, setErrors, setStatus, setSubmitting }) => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [contact, setContact] = useState({});
+    
+    
+    const handleChange = (e) => {
+      
+      const {name,value} = e.target;
+      setContact({...contact, [name]:value});
+    }
+    
+    
+    
+    const handleSubmit = async (e ) => {
         
+        e.preventDefault();
+        
+        setIsSubmitting(true);
+  
         // try {
             setAlertError(false); 
             setAlertSuccess(false);
             
         
-            const result =  await addContact(values);
+            const result =  await addContact(contact);
             
             if(result?.status === 200 ){
-            
-                setMessageSuccess(result.message);
+                
+                setIsSubmitting(false);
+                
+                setMessageSuccess(result?.message);
                 setAlertSuccess(true);
-                // resetForm();
-                // setStatus({ sent: true });
-                setSubmitting(true);
+                setContact({});
+  
                 
             }else{
             
-                var errors = validatorErrors(result.errors);
+                setIsSubmitting(false);
+                
+                var errors = validatorErrors(result?.errors);
                 
                 setAlertError(true);                
                 setMessageErrors(errors);
-                setStatus({ sent: false });
-                setErrors({ submit: result.message });
-                setSubmitting(false);
+      
             }
    
        
@@ -88,21 +104,7 @@ function ContactForm() {
 
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({
-        errors,
-        handleBlur,
-        handleChange,
-        handleSubmit,
-        isSubmitting,
-        touched,
-        values,
-        status,
-      }) => (
+
         <Card mb={6}>
           <CardContent>
         
@@ -130,12 +132,10 @@ function ContactForm() {
                     <TextField
                       name="prenom"
                       label="Prénom"
-                      value={values.prenom}
-                      error={Boolean(touched.prenom && errors.prenom)}
+                      value={contact?.prenom ?? ''}
                       fullWidth
-                      helperText={touched.prenom && errors.prenom}
-                      onBlur={handleBlur}
                       onChange={handleChange}
+                      required
                       variant="outlined"
                       my={2}
                     />
@@ -144,11 +144,9 @@ function ContactForm() {
                     <TextField
                       name="nom"
                       label="Nom"
-                      value={values.nom}
-                      error={Boolean(touched.nom && errors.nom)}
+                      value={contact?.nom ?? ''}
                       fullWidth
-                      helperText={touched.nom && errors.nom}
-                      onBlur={handleBlur}
+                      required
                       onChange={handleChange}
                       variant="outlined"
                       my={2}
@@ -159,11 +157,9 @@ function ContactForm() {
                 <TextField
                   name="email"
                   label="Email"
-                  value={values.email}
-                  error={Boolean(touched.email && errors.email)}
+                  value={contact?.email ?? ''}
                   fullWidth
-                  helperText={touched.email && errors.email}
-                  onBlur={handleBlur}
+                  required
                   onChange={handleChange}
                   type="email"
                   variant="outlined"
@@ -175,11 +171,9 @@ function ContactForm() {
                     <TextField
                       name="telephone1"
                       label="Téléphone mobile"
-                      value={values.telephone1}
-                      error={Boolean(touched.telephone1 && errors.telephone1)}
+                      value={contact?.telephone1 ?? ''}
                       fullWidth
-                      helperText={touched.telephone1 && errors.telephone1}
-                      onBlur={handleBlur}
+                     
                       onChange={handleChange}
                       variant="outlined"
                       my={2}
@@ -189,11 +183,9 @@ function ContactForm() {
                     <TextField
                       name="telephone2"
                       label="Téléphone fixe"
-                      value={values.telephone2}
-                      error={Boolean(touched.telephone2 && errors.telephone2)}
+                      value={contact?.telephone2 ?? ''}
                       fullWidth
-                      helperText={touched.telephone2 && errors.telephone2}
-                      onBlur={handleBlur}
+                      
                       onChange={handleChange}
                       variant="outlined"
                       my={2}
@@ -206,11 +198,9 @@ function ContactForm() {
                     <TextField
                       name="adresse"
                       label="Adresse"
-                      value={values.adresse}
-                      error={Boolean(touched.adresse && errors.adresse)}
+                      value={contact?.adresse ?? ''}
                       fullWidth
-                      helperText={touched.adresse && errors.adresse}
-                      onBlur={handleBlur}
+                    
                       onChange={handleChange}
                       variant="outlined"
                       my={2}
@@ -220,11 +210,9 @@ function ContactForm() {
                     <TextareaAutosize
                       name="note"
                       label="Note"
-                      value={values.note}
-                      error={Boolean(touched.note && errors.note)}
+                      value={contact?.note ?? ''}
                       fullWidth
-                      helperText={touched.note && errors.note}
-                      onBlur={handleBlur}
+                     
                       onChange={handleChange}
                       variant="outlined"
                       my={2}
@@ -249,8 +237,7 @@ function ContactForm() {
             )}
           </CardContent>
         </Card>
-      )}
-    </Formik>
+   
   );
 }
 

@@ -60,7 +60,9 @@ function UtilisateurForm() {
     const [roles, setRoles] = useState([]);
     const [roleId, setRoleId] = useState('');
     const [contacts, setContacts] = useState([]);
-    const [contactId, setContactId] = useState('');
+    const [contactId, setContactId] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [user, setUser] = useState([]);
     
     
     // On récupère les roles et les contacts qui n'ont pas de compte utilisateur
@@ -74,41 +76,37 @@ function UtilisateurForm() {
       setContacts(allContacts);
     }, []);
     
+    // console.log(contacts);
 
     const optionsContacts = contacts?.map(option => ({ id: option.id, label: option.nom + ' ' + option.prenom})) ?? [];
     const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom}));
 
-    const handleSubmit = async (values,{ resetForm, setErrors, setStatus, setSubmitting }) => {
+    const handleSubmit = async (e) => {
         
-        // try {
-            setAlertError(false); 
-            setAlertSuccess(false);
+        e.preventDefault();
+        setAlertError(false); 
+        setAlertSuccess(false);
+        
+        setUser({contact_id:contactId, role_id:roleId});
+      
+        const result =  await addUtilisateur(user);
+        
+        if(result?.status === 200 ){
+        
+            setMessageSuccess(result.message);
+            setAlertSuccess(true);
 
-            const user = {
-              role_id: roleId,
-              contact_id: contactId
-            }
-
-            const result =  await addUtilisateur(user);
-
-            if(result?.status === 200 ){
+          
             
-                setMessageSuccess(result.message);
-                setAlertSuccess(true);
-                // resetForm();
-                // setStatus({ sent: true });
-                setSubmitting(true);
-                
-            }else{
+        }else{
+        
+            var errors = validatorErrors(result.erreurs);
             
-                var errors = validatorErrors(result.errors);
-                
-                setAlertError(true);                
-                setMessageErrors(errors);
-                setStatus({ sent: false });
-                setErrors({ submit: result.message });
-                setSubmitting(false);
-            }
+            console.log(result);
+            setAlertError(true);                
+            setMessageErrors(errors);
+      
+        }
    
        
   };
@@ -116,107 +114,86 @@ function UtilisateurForm() {
 
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
-      {({
-        errors,
-        handleBlur,
-        //handleChange,
-        //handleSubmit,
-        isSubmitting,
-        touched,
-        values,
-        status,
-      }) => (
-        <Card mb={6}>
-          <CardContent>
-        
-            {alertSuccess && (
-              <Alert severity="success" onClose={() => setAlertSuccess(false) } my={3}>
-                    <Typography variant="h6" component="h6" > {messageSuccess}  </Typography> 
+
+      <Card mb={6}>
+        <CardContent>
+      
+          {alertSuccess && (
+            <Alert severity="success" onClose={() => setAlertSuccess(false) } my={3}>
+                  <Typography variant="h6" component="h6" > {messageSuccess}  </Typography> 
+            </Alert>
+          )}
+         
+         {alertError && (
+              <Alert severity="warning" onClose={() => setAlertError(false) } my={3}>
+                  {messageErrors}
               </Alert>
-            )}
-           
-           {alertError && (
-                <Alert severity="warning" onClose={() => setAlertError(false) } my={3}>
-                    {messageErrors}
-                </Alert>
-            )}
-            
+          )}
+          
 
-            {isSubmitting ? (
-              <Box display="flex" justifyContent="center" my={6}>
-                <CircularProgress />
-              </Box>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={6}>
+          {isSubmitting ? (
+            <Box display="flex" justifyContent="center" my={6}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={6}>
+              
+                <Grid item md={6}>
+                  <Autocomplete
+                    options={optionsContacts}
+                    onChange={(event, newValue) => {
+                      setContactId(newValue?.id);
+                    }}
+                    renderInput={(params) => <TextField {...params} label="Contact" />}
+                    name="contact"
+                    fullWidth
+              
+                    // onChange={handleChange}
+                    variant="outlined"
+                    my={2}
+                  />
+                </Grid>
+                {/* contacts.map((option) => option.nom+" "+ option.prenom) */}
                 
-                  <Grid item md={6}>
+                <Grid item md={6}>
                     <Autocomplete
-                      options={optionsContacts}
-                      onChange={(event, newValue) => {
-                        setContactId(newValue?.id);
-                        console.log(contactId)
-                      }}
-                      renderInput={(params) => <TextField {...params} label="Contact" />}
-                      name="contact"
+                
+                      options={optionsRoles}
+                      // options={roles.map((option) => option.nom)}
+                      //getOptionLabel={(option) => option.nom}
+                      
+                      renderInput={(params) => <TextField {...params} label="Rôle" />}
+                      name="role"
+                      
 
-                      error={Boolean(touched.role && errors.role).toString()}
                       fullWidth
-                      helpertext={touched.contact && errors.contact}
-                      onBlur={handleBlur}
-                      // onChange={handleChange}
+
+                      onChange={(e, value) => setRoleId(value?.id)}
                       variant="outlined"
                       my={2}
                     />
-                  </Grid>
-                  {/* contacts.map((option) => option.nom+" "+ option.prenom) */}
-                  
-                  <Grid item md={6}>
-                      <Autocomplete
-                  
-                        options={optionsRoles}
-                        // options={roles.map((option) => option.nom)}
-                        //getOptionLabel={(option) => option.nom}
-                        
-                        renderInput={(params) => <TextField {...params} label="Rôle" />}
-                        name="role"
-                        
-                    
-                        error={Boolean(touched.role && errors.role).toString()}
-                        fullWidth
-                        helpertext={touched.role && errors.role}
-                        onBlur={handleBlur}
-                        onChange={(e, value) => setRoleId(value?.id)}
-                        variant="outlined"
-                        my={2}
-                      />
-                  </Grid>
-                  
-     
-                
                 </Grid>
+                
+   
+              
+              </Grid>
 
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  mt={3}
-                  size="large"
-                >
-                  Ajouter
-                </Button>
-              </form>
-            )}
-          </CardContent>
-        </Card>
-      )}
-    </Formik>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                mt={3}
+                size="large"
+              >
+                Ajouter
+              </Button>
+            </form>
+          )}
+        </CardContent>
+      </Card>
+   
   );
 }
 
