@@ -1,12 +1,14 @@
-import PublicRoutes from './PublicRoutes';
+import CommonRoutes from './CommonRoutes';
 import GuestRoutes from './GuestRoutes';
-import AuthRoutes from './AuthRoutes';
+import ContactRoutes from './ContactRoutes';
+import UserRoutes from './UserRoutes';
 import ErrorRoutes from './ErrorRoutes';
 
 const MyRoutes = [
-  PublicRoutes,
+  CommonRoutes,
   GuestRoutes,
-  AuthRoutes,
+  UserRoutes,
+  ContactRoutes,
   ErrorRoutes
 ]
 

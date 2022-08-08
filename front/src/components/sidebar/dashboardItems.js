@@ -16,11 +16,11 @@ const pagesSection = [
     title: "Utilisateurs",
     children: [
       {
-        href: "/utilisateurs",
+        href: "/utilisateurs/actifs",
         title: "Actifs",
       },
       {
-        href: "/archives",
+        href: "/utilisateurs/archives",
         title: "Archives",
       },
     ],
@@ -32,12 +32,12 @@ const pagesSection = [
     title: "Contacts",
     children: [
       {
-        href: "/contacts",
+        href: "/contacts/actifs",
         title: "Actifs",
       },
       {
-        href: "/archives",
-        title: "Archivés",
+        href: "/contacts/archives",
+        title: "Archives",
       },
     ],
   },

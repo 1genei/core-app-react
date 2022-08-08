@@ -60,7 +60,7 @@ function UtilisateurForm() {
     const [roles, setRoles] = useState([]);
     const [roleId, setRoleId] = useState('');
     const [contacts, setContacts] = useState([]);
-    const [contactId, setContactId] = useState([]);
+    const [contactId, setContactId] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [user, setUser] = useState([]);
     
@@ -100,7 +100,7 @@ function UtilisateurForm() {
             
         }else{
         
-            var errors = validatorErrors(result.erreurs);
+            let errors = validatorErrors(result.erreurs);
             
             console.log(result);
             setAlertError(true);                
@@ -143,7 +143,9 @@ function UtilisateurForm() {
                   <Autocomplete
                     options={optionsContacts}
                     onChange={(event, newValue) => {
+                      console.log('avant',contactId)
                       setContactId(newValue?.id);
+                      console.log('apres',contactId)
                     }}
                     renderInput={(params) => <TextField {...params} label="Contact" />}
                     name="contact"

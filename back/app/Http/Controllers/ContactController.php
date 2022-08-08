@@ -16,6 +16,9 @@ class ContactController extends Controller
     public function getContacts() {
     
         $contacts = Contact::all();
+        foreach ($contacts as $contact) {
+            $contact->user;
+        }
         return Response()->json([
             'contacts' => $contacts,
             'status' => 200,

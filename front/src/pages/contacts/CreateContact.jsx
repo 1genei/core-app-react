@@ -91,7 +91,7 @@ function ContactForm() {
             
                 setIsSubmitting(false);
                 
-                var errors = validatorErrors(result?.errors);
+                let errors = validatorErrors(result?.errors);
                 
                 setAlertError(true);                
                 setMessageErrors(errors);
