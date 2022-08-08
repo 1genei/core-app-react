@@ -17,9 +17,38 @@ class ContactController extends Controller
     
         $contacts = Contact::all();
         return Response()->json([
-            'contacts' => $contacts
+            'contacts' => $contacts,
+            'status' => 200,
         ], 200);
     }
+    
+    /*
+    *  Renvoie tous les utilisateurs actifs
+    */
+    public function getActiveContacts() {
+    
+        $contacts = Contact::where('archive', 0)->get();
+             
+        return Response()->json([
+            'contacts' => $contacts,
+            'status' => 200,
+        ], 200);
+    }
+    
+
+    /*
+    *  Renvoie tous les utilisateurs actifs
+    */
+    public function getArchivedContacts() {
+    
+        $contacts = Contact::where('archive', 1)->get();
+        return Response()->json([
+            'utilisateurs' => $contacts,
+            'status' => 200,
+        ], 200);
+    }
+    
+    
     
     /**
     *   Renvoie tous les contacts qui ne sont pas des utlisateurs
@@ -36,7 +65,8 @@ class ContactController extends Controller
 
         $contacts = Contact::whereNotIn('id', $contact_ids)->get();
         return Response()->json([
-            'contacts' => $contacts
+            'contacts' => $contacts,
+            'status' => 200,
         ], 200);
     }
 
@@ -158,6 +188,37 @@ class ContactController extends Controller
         return Response()->json([
             'message' => 'Contact modifié',
             'status' => 200,
+        ], 200);
+    }
+    
+     /**
+    * Archive le contact d'id $contact_id
+    */
+    public function archive($contact_id) {
+    
+
+        $contact = Contact::where('id','=',$contact_id)->first();
+        
+        $contact->archive = 1;
+        $contact->update();
+        return Response()->json([
+            'message' => 'Contact archivé',
+            'status' =>200
+        ], 200);
+    }
+
+    /**
+    * Restaure le contact d'id $contact_id
+    */
+    public function restore($user_id) {
+    
+        $user = Contact::where('id','=',$contact_id)->first();
+        $user->archive = 0;
+        $user->update();
+        return Response()->json([
+            'message' => 'Contact restauré',
+            'status' =>200
+            
         ], 200);
     }
 }
