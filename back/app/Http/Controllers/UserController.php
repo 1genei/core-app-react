@@ -53,12 +53,15 @@ class UserController extends Controller
     
             // Return confirmation
             return Response()->json([
-                'message' => 'Utilisateur créé'
+                'message' => 'Utilisateur créé',
+                'status' => 200,
+                
             ], 200);
         
         
         } catch (\Throwable $th) {
-            return json_encode($th->errorInfo[3]);
+        
+            return json_encode( end($th->errorInfo));
         }
     }
     
@@ -192,7 +195,8 @@ class UserController extends Controller
             $user->contact;
         }
         return Response()->json([
-            'utilisateurs' => $users
+            'utilisateurs' => $users,
+            'status' => 200,
         ], 200);
     }
 
@@ -204,7 +208,8 @@ class UserController extends Controller
     
         $user = User::where('id','=',$user_id)->first();
         return Response()->json([
-            'utilisateur' => $user
+            'utilisateur' => $user,
+            'status' => 200,
         ], 200);
     }
  
@@ -215,7 +220,8 @@ class UserController extends Controller
     
         Contact::where('id','=',$user_id)->delete();
         return Response()->json([
-            'message' => 'Contact supprimé'
+            'message' => 'Contact supprimé',
+            'status' => 200,
         ], 200);
     }
 
@@ -228,7 +234,8 @@ class UserController extends Controller
         $user->archive = 1;
         $user->update();
         return Response()->json([
-            'message' => 'Utilisateur archivé'
+            'message' => 'Utilisateur archivé',
+            'status' => 200,
         ], 200);
     }
 
@@ -241,7 +248,8 @@ class UserController extends Controller
         $user->archive = 0;
         $user->update();
         return Response()->json([
-            'message' => 'Utilisateur restauré'
+            'message' => 'Utilisateur restauré',
+            'status' => 200,
         ], 200);
     }
 }

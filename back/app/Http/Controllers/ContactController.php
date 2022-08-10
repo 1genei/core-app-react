@@ -40,13 +40,13 @@ class ContactController extends Controller
     
 
     /*
-    *  Renvoie tous les utilisateurs actifs
+    *  Renvoie tous les contacts archivés
     */
     public function getArchivedContacts() {
     
         $contacts = Contact::where('archive', 1)->get();
         return Response()->json([
-            'utilisateurs' => $contacts,
+            'contacts' => $contacts,
             'status' => 200,
         ], 200);
     }
@@ -213,7 +213,7 @@ class ContactController extends Controller
     /**
     * Restaure le contact d'id $contact_id
     */
-    public function restore($user_id) {
+    public function restore($contact_id) {
     
         $user = Contact::where('id','=',$contact_id)->first();
         $user->archive = 0;
