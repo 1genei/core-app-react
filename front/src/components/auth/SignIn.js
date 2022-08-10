@@ -16,9 +16,15 @@ import {
   FormControlLabel,
   Button,
   TextField as MuiTextField,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  IconButton,
+  InputAdornment,
+  FormHelperText
 } from "@mui/material";
 import { spacing } from "@mui/system";
-
+import { Eye, EyeOff } from 'react-feather';
 
 
 const Alert = styled(MuiAlert)(spacing);
@@ -31,6 +37,7 @@ function SignIn() {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
 
   return (
@@ -93,8 +100,11 @@ function SignIn() {
             onChange={handleChange}
             my={2}
           />
-          <TextField
-            type="password"
+          <FormControl fullWidth>
+            <InputLabel>Mot de passe</InputLabel>
+            <OutlinedInput
+            type={showPassword ? 'text' : 'password'}
+            autoComplete='on'
             name="password"
             label="Mot de passe"
             value={values.password}
@@ -103,8 +113,18 @@ function SignIn() {
             helperText={touched.password && errors.password}
             onBlur={handleBlur}
             onChange={handleChange}
+            endAdornment={
+                <InputAdornment position='end'>
+                    <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge='end' >
+                    {showPassword ? <EyeOff /> : <Eye />}
+                    </IconButton>
+                </InputAdornment> }
             my={2}
-          />
+            />
+            <FormHelperText></FormHelperText>
+          </FormControl>
           <FormControlLabel
             control={<Checkbox value={rememberMe} onChange={() => setRememberMe(!rememberMe)} color="primary" />}
             label="Se souvenir de moi"

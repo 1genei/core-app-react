@@ -11,7 +11,9 @@ import {
   Typography,
   Grid,
   IconButton,
-  Fab
+  Fab,
+  Skeleton,
+  Stack
 } from "@mui/material";
 
 
@@ -41,70 +43,6 @@ function getIfUser(params) {
   return params?.row?.user === null ? 'Non' : 'Oui';
 }
 
-const columns = [
-//   { field: "id", headerName: "ID", width: 150 },
-  {
-    field: "prenom",
-    headerName: "Prénom",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "nom",
-    headerName: "Nom",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "adresse",
-    headerName: "Adresse",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "user",
-    headerName: "Utilisateur",
-    width: 200,
-    editable: false,
-    valueGetter : getIfUser
-  },
-  {
-    field: "Actions",
-    renderCell:  (cellValues) => {
-    
-      return (
-          <>
-            <Link to={`/contact/modifier/${encrypt(cellValues.id)}`}>  
-                <IconButton  color="success" title="Modifier"
-                  onClick={(event) => {
-                    handleClick(event, cellValues);
-                  }} >
-                  <EditIcon />
-                </IconButton>
-            </Link>
-            
-            <IconButton  color="warning" title="Archiver"
-              onClick={(event) => {
-                handleClick(event, cellValues);
-              }} >
-              <ArchiveIcon />
-            </IconButton>
-            
-           
-          </>
-      
-        
-      );
-    }
-  }
-];
-
 
 function handleClick(event, cellValues){
     console.log(cellValues);
@@ -112,7 +50,7 @@ function handleClick(event, cellValues){
 
 
 function DataGridContact({contacts, columns}) {
-        
+    const [pageSize, setPageSize] = React.useState(10);
      
     return (
         <Card mb={6}>
@@ -125,10 +63,12 @@ function DataGridContact({contacts, columns}) {
           <Paper>
             <div style={{ height: 800, width: "100%" }}>
               <DataGrid
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                pageSize={pageSize}
+                pagination
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 rows={contacts}
                 columns={columns}
-                pageSize={30}
                 checkboxSelection
               />
             </div>
@@ -166,6 +106,13 @@ function Contacts() {
           editable: false,
         },
         {
+          field: "user",
+          headerName: "Utilisateur",
+          width: 200,
+          editable: false,
+          valueGetter : getIfUser
+        },
+        {
           field: "Actions",
           renderCell:  (cellValues) => {
           
@@ -192,13 +139,77 @@ function Contacts() {
           }
         }
       ];
+
+      const loadingC = [
+            {
+                field: "Prénom",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Nom",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Email",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Adresse",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "User",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={75} />
+                    );
+                }
+            },
+            {
+                field: "Actions",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Stack direction='row' spacing={2}>
+                            <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                            <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                        </Stack>
+                    );
+                }
+            }
+        ];
       
     const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect( async () => {
     
-        const listContacts = await getActiveContacts();
-        setContacts(listContacts);
+        try {
+            const listContacts = await getActiveContacts();
+            setContacts(listContacts);
+        } catch (e) {}
+        setLoading(false)
         
     }, []);
     
@@ -282,7 +293,7 @@ function Contacts() {
 
         <Divider my={6} />
 
-        <DataGridContact contacts={contacts} columns={columns}/>
+        {loading ? <DataGridContact columns={loadingC} contacts={[{id:1}, {id:2}, {id:3}]}/> : <DataGridContact contacts={contacts} columns={columns}/>}
     </React.Fragment>
   );
 }

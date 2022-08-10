@@ -19,6 +19,7 @@ class CreateContactsTable extends Migration
             $table->string('prenom');
             $table->date('date_naissance')->nullable();
             $table->string('adresse')->nullable();
+            $table->string('complement_adresse')->nullable();
             $table->string('email');
             $table->string('telephone1')->nullable();
             $table->string('telephone2')->nullable();
