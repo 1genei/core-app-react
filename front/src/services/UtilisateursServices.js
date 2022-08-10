@@ -54,7 +54,7 @@ export const addUtilisateur = async (user) => {
 
     return axios.post('auth/register', user)
     .then( (res) => {
-    console.log(res.data);
+    
         return res.data; 
     })
     .catch((error) => {
@@ -78,9 +78,32 @@ export const addUtilisateur = async (user) => {
     });
 }
 
+/**
+ * 
+ * @param {*} id 
+ * Archiver un utilisateur
+ */
 export const archiveUser = async (id) => {
     return axios.put(`utilisateur/archive/${id}`)
     .then( (res) => {
+        return res.data
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
+
+/**
+ * 
+ * @param {*} id 
+ * Désarchiver un utilisateur
+ */
+export const unArchiveUser = async (id) => {
+
+    return axios.put(`utilisateur/restore/${id}`)
+    .then( (res) => {
+    console.log(res.data);
         return res.data
     })
     .catch((error) => {

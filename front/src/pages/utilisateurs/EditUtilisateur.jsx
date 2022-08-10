@@ -1,13 +1,15 @@
-import React, { useState } from "react";
-import * as Yup from "yup";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { NavLink, useParams } from "react-router-dom";
-import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { getUtilisateur } from "../../services/UtilisateursServices";
+import { addUtilisateur, getRoles, getUtilisateur } from "../../services/UtilisateursServices";
+import { validatorErrors } from "../../utils/errors";
+import { getContactsNoUser } from "../../services/ContactsServices";
+
 import {
   Alert as MuiAlert,
+  Autocomplete,
   Box,
   Breadcrumbs as MuiBreadcrumbs,
   Button as MuiButton,
@@ -17,14 +19,12 @@ import {
   Divider as MuiDivider,
   Grid,
   Link,
-  TextareaAutosize,
   TextField as MuiTextField,
   Typography,
 } from "@mui/material";
 import { spacing } from "@mui/system";
-import { validatorErrors } from "../../utils/errors";
-import { useEffect } from "react";
 import { decrypt } from "../../utils/crypt";
+
 
 const Divider = styled(MuiDivider)(spacing);
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -35,20 +35,6 @@ const Button = styled(MuiButton)(spacing);
 
 
 
-let initialValues = {
-  prenom: "",
-  nom: "",
-  email: "",
-};
-
-
-const validationSchema = Yup.object().shape({
-  prenom: Yup.string().required("Obligatoire"),
-  nom: Yup.string().required("Obligatoire"),
-  email: Yup.string().email().required("Obligatoire"),
-});
-
-
 
 
 function UtilisateurForm() {
@@ -57,257 +43,172 @@ function UtilisateurForm() {
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
+    const [roles, setRoles] = useState([]);
+    const [roleId, setRoleId] = useState('');
+    const [contacts, setContacts] = useState([]);
+    const [contactId, setContactId] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
     
-    const [utilisateur, setUtilisateur] = useState([]);
-  
     const params = useParams();
-  
-  
-    useEffect( async () => {
+    
+    // On récupère les roles et les contacts qui n'ont pas de compte utilisateur
+    
+    useEffect( async ()=> {
       
-      let id = params.id;
-      
+      let id = params.id;      
       id = decrypt(id);
       
-      let cont = await getUtilisateur(id);
-      setUtilisateur(cont);
+      const allRoles = await getRoles();
+      setRoles(allRoles.roles);
+      
+      const utilisateur = await getUtilisateur(id);
+      
+      console.log(allRoles);
+      const allContacts = await getContactsNoUser();
+      setContacts(allContacts);
+    }, []);
     
-    }, [])
-  
-    
-    const handleSubmit = async (values,{ resetForm, setErrors, setStatus, setSubmitting }) => {
-        
-        // try {
-            setAlertError(false); 
-            setAlertSuccess(false);
-            
-        
-            const result = {};
-            
-            
-            if(result?.status === 200 ){
-            
-            
+    // console.log(contacts);
 
-                setMessageSuccess(result.message);
-                setAlertSuccess(true);
-                // resetForm();
-                // setStatus({ sent: true });
-                setSubmitting(true);
-                
-            }else{
-            
-              let errors = validatorErrors(result.errors);
-                
-              setAlertError(true);                
-              setMessageErrors(errors);
-              setStatus({ sent: false });
-              setErrors({ submit: result.message });
-              setSubmitting(false);
-            }
-   
+    const optionsContacts = contacts?.map((option, key ) => ({ id: option.id, label: (key+1)+" - "+option.nom })) ?? [];
+    const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom}));
 
+
+    const handleSubmit = async (e) => {
         
+        e.preventDefault();
+        setAlertError(false); 
+        setAlertSuccess(false);
+        
+        const result =  await addUtilisateur({contact_id:contactId, role_id:roleId});
+        
+        if(result?.status === 200 ){
+        
+            setMessageSuccess(result.message);
+            setAlertSuccess(true);
+            
+            // Réactualisation de la liste des contacts
+            var newContacts = contacts.filter(contact => contact.id != contactId);
+            
+            setContacts(newContacts);
+            
+            console.log(newContacts);
+            
+        }else{
+        
+            let errors = validatorErrors(result.erreurs);
+            
+            console.log(result);
+            setAlertError(true);                
+            setMessageErrors(errors);
+      
+        }
+       
     };
-    
-    // console.log(utilisateur.utilisateur.nom);
 
-function handleChange (e){
 
-    const {name, value} = e.target;
-    setUtilisateur({...utilisateur, [name]:value});
-    
 
-}
+
 
   return (
-  
-    <>
-    
-    <Formik
-     
-     initialValues={utilisateur}
-    //  validationSchema={validationSchema}
-     onSubmit={handleSubmit}
-   >
-     {({
-       errors,
-       handleBlur,
-      //  handleChange,
-       handleSubmit,
-       isSubmitting,
-       touched,
-       values,
-       status,
-      }) => (
-        <Card mb={6}>
-          <CardContent>
-        
-            {alertSuccess && (
-              <Alert severity="success" onClose={() => setAlertSuccess(false) } my={3}>
-                    <Typography variant="h6" component="h6" > {messageSuccess}  </Typography> 
+
+      <Card mb={6}>
+        <CardContent>
+      
+          {alertSuccess && (
+            <Alert severity="success" onClose={() => setAlertSuccess(false) } my={3}>
+                  <Typography variant="h6" component="h6" > {messageSuccess}  </Typography> 
+            </Alert>
+          )}
+         
+         {alertError && (
+              <Alert severity="warning" onClose={() => setAlertError(false) } my={3}>
+                  {messageErrors}
               </Alert>
-            )}
-           
-           {alertError && (
-                <Alert severity="warning" onClose={() => setAlertError(false) } my={3}>
-                    {messageErrors}
-                </Alert>
-            )}
-            
+          )}
+          
 
-            {isSubmitting ? (
-              <Box display="flex" justifyContent="center" my={6}>
-                <CircularProgress />
-              </Box>
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="prenom"
-                      label="Prénom"
-                      value={utilisateur.prenom ?? ''}
-                      error={Boolean(touched.prenom && errors.prenom)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextField
-                      name="nom"
-                      label="Nom"
-                      value={utilisateur.nom ?? ''}
-                      error={Boolean(touched.nom && errors.nom)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
+          {isSubmitting ? (
+            <Box display="flex" justifyContent="center" my={6}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              <Grid container spacing={6}>
+              
+                <Grid item md={6}>
+                  <Autocomplete
+                    options={optionsContacts}
+                    renderInput={(params) => <TextField required {...params} label="Contact" />}
+                    name="contact"
+                    fullWidth
+                                
+                    onChange={(e, value) => {
+                      setContactId(value.id)
+                      console.log(contactId);
+                    }}
+                    
+                    variant="outlined"
+                    my={2}
+                  />
                 </Grid>
-
-                <TextField
-                  name="email"
-                  label="Email"
-                  value={utilisateur.email ?? ''}
-                  error={Boolean(touched.email && errors.email)}
-                  fullWidth
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  type="email"
-                  variant="outlined"
-                  my={2}
-                />
-
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="telephone1"
-                      label="Téléphone mobile"
-                      value={utilisateur.telephone1 ?? ''}
-                      error={Boolean(touched.telephone1 && errors.telephone1)}
+                {/* contacts.map((option) => option.nom+" "+ option.prenom) */}
+                
+                <Grid item md={6}>
+                    <Autocomplete
+                
+                      options={optionsRoles}
+                      renderInput={(params) => <TextField required {...params} label="Rôle" />}
+                      name="role"
+                      
                       fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
+
+                      onChange={(e, value) => setRoleId(value?.id)}
                       variant="outlined"
                       my={2}
                     />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextField
-                      name="telephone2"
-                      label="Téléphone fixe"
-                      value={utilisateur.telephone2 ?? ''}
-                      error={Boolean(touched.telephone2 && errors.telephone2)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
                 </Grid>
                 
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="adresse"
-                      label="Adresse"
-                      value={utilisateur.adresse ?? ''}
-                      error={Boolean(touched.adresse && errors.adresse)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextareaAutosize
-                      name="notes"
-                      label="Notes"
-                      value={utilisateur.notes ?? ''}
-                      error={Boolean(touched.notes && errors.notes)}
-                      fullWidth
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                      minRows={8}
-                      placeholder="Notes"
+              </Grid>
 
-                      style={{ width: '100%' }}
-                    />
-                  </Grid>
-                </Grid>
 
-                <Button
-                  type="submit"
-                  variant="contained"
-                  color="success"
-                  mt={3}
-                  size="large"
-                >
-                  Modifier
-                </Button>
-              </form>
-            )}
-          </CardContent>
-        </Card>
-      )}
-    </Formik>
-    
-    </>
+              <Button
+                type="submit"
+                variant="contained"
+                color="success"
+                mt={3}
+                size="large"
+              >
+                Modifier
+              </Button>
+            </form>
+          )}
+        </CardContent>
+      </Card>
+   
   );
 }
 
-function EditUtilisateur() {
-
- 
+function CreateUtilisateur() {
   return (
     <React.Fragment>
       <Helmet title="Utilisateurs" />
       <Typography variant="h3" gutterBottom display="inline">
-        Modifier le utilisateur
+        Modifier
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} to="/utilisateurs">
+        <Link component={NavLink} to="/utilisateurs/actifs">
           Utilisateurs
         </Link>
-        <Typography>Modifier</Typography>
+        <Typography>Modification</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
 
-      <UtilisateurForm/>
+      <UtilisateurForm />
     </React.Fragment>
   );
 }
 
-export default EditUtilisateur;
+export default CreateUtilisateur;

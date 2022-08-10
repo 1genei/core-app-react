@@ -1,7 +1,7 @@
 import React, { useEffect, useState }  from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 
 import {
   Card as MuiCard,
@@ -207,7 +207,6 @@ function Contacts() {
     function handleClickArchive(event, cellValues){
  
   
-      const ligne = event.currentTarget;
       
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -242,7 +241,6 @@ function Contacts() {
                 'Contact archivé!',
                 'success'
               )
-              ligne.closest('tr').remove();
                 
             }
           

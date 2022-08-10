@@ -19,6 +19,22 @@ import axios from '../api/Axios';
     });
 }
 
+
+/**
+ * 
+ * @returns la liste des contacts archivés
+ */
+ export const getArchiveContacts = async () => {
+
+    return axios.get('contact/archived')
+    .then( (res) => {
+        return res.data.contacts;
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
 /**
  * 
  * @returns la liste des contacts
@@ -43,7 +59,6 @@ export const getContacts = async () => {
 
     return axios.get('contact/no-user')
     .then( (res) => {
-        console.log(res.data);
         return res.data.contacts;
     })
     .catch((error) => {
@@ -107,6 +122,22 @@ export const addContact = async (contact) => {
 */
 export const archiveContact = async (id) => {
     return axios.put(`contact/archive/${id}`)
+    .then( (res) => {
+    console.log(res.data);
+        return res.data
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
+
+
+/**
+ * Désarchiver le contact
+*/
+export const unArchiveContact = async (id) => {
+    return axios.put(`contact/restore/${id}`)
     .then( (res) => {
     console.log(res.data);
         return res.data

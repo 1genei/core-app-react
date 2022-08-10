@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
+import Swal from 'sweetalert2';
+
 
 import {
   Card as MuiCard,
@@ -20,11 +22,11 @@ import { spacing } from "@mui/system";
 import {
 Archive as ArchiveIcon,
 Edit as EditIcon,
-Add as AddIcon,
 PersonAddAlt
 }from '@mui/icons-material';
 import { Link } from "react-router-dom";
 import { archiveUser, getActiveUsers } from "../../services/UtilisateursServices";
+import { encrypt } from "../../utils/crypt";
 
 
 const Card = styled(MuiCard)(spacing);
@@ -43,67 +45,15 @@ function getRoleName(params) {
   return `${params.row.role.nom}`;
 }
 
-const columns = [
-//   { field: "id", headerName: "ID", width: 150 },
-  {
-    field: "contact",
-    headerName: "Contact",
-    width: 200,
-    editable: false,
-    valueGetter : getFullName
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    width: 200,
-    editable: false,
-  },
-  {
-    field: "role",
-    headerName: "Rôle",
-    width: 200,
-    editable: false,
-    valueGetter : getRoleName
-  },
-  {
-    field: "Actions",
-    renderCell: (cellValues) => {
-      return (
-          <>
-            <IconButton  color="success" title="Modifier"
-              onClick={(event) => {
-                handleEdit(event, cellValues);
-              }} >
-              <EditIcon />
-            </IconButton>
-            
-            <IconButton  color="warning" title="Archiver"
-              onClick={(event) => {
-                handleArchive(event, cellValues);
-              }} >
-              <ArchiveIcon />
-            </IconButton>
-            
-           
-          </>
-      
-        
-      );
-    }
-  }
-];
+
 
 function handleEdit(event, cellValues){
     console.log(cellValues);
 }
 
-function handleArchive(event, cellValues){
-  archiveUser(cellValues.id);
-}
 
 
-
-function DataGridUtilisateur(utilisateurs) {
+function DataGridUtilisateur({utilisateurs, columns}) {
   return (
     <Card mb={6}>
       <CardContent pb={1}>
@@ -116,7 +66,7 @@ function DataGridUtilisateur(utilisateurs) {
         <div style={{ height: 800, width: "100%" }}>
           <DataGrid
             rowsPerPageOptions={[5, 10, 25]}
-            rows={utilisateurs?.utilisateurs}
+            rows={utilisateurs}
             columns={columns}
             pageSize={30}
             checkboxSelection
@@ -135,6 +85,118 @@ function Utilisateurs() {
     const listUtilisateurs = await getActiveUsers();
     setUtilisateurs(listUtilisateurs);
   }, []);
+  
+  const columns = [
+    //   { field: "id", headerName: "ID", width: 150 },
+      {
+        field: "contact",
+        headerName: "Contact",
+        width: 200,
+        editable: false,
+        valueGetter : getFullName
+      },
+      {
+        field: "email",
+        headerName: "Email",
+        width: 200,
+        editable: false,
+      },
+      {
+        field: "role",
+        headerName: "Rôle",
+        width: 200,
+        editable: false,
+        valueGetter : getRoleName
+      },
+      {
+        field: "Actions",
+        renderCell: (cellValues) => {
+          return (
+              <>
+              
+                <Link to={`/utilisateur/modifier/${encrypt(cellValues.id)}`}>
+                    <IconButton  color="success" title="Modifier" >
+                      <EditIcon />
+                    </IconButton>
+                </Link>
+                
+                
+                <IconButton  color="warning" title="Archiver"
+                  onClick={(event) => {
+                    handleArchive(event, cellValues);
+                  }} >
+                  <ArchiveIcon />
+                </IconButton>
+                
+               
+              </>
+          
+            
+          );
+        }
+      }
+    ];
+  
+  
+  function handleArchive(event, cellValues){
+  
+      
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: 'Voulez-vous archiver ?',
+      text: "Vous retrouverez l'utilisateur dans les archives!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui',
+      cancelButtonText: 'Non',
+      reverseButtons: true
+    }).then((result) => {
+    
+      
+      if (result.isConfirmed) {
+        
+          archiveUser(cellValues.id).then( (res) => {            
+     
+            if(res.status === 200){
+              console.log(utilisateurs);
+             var newUtilisateurs = utilisateurs.filter( utilisateur => utilisateur.id != cellValues.id );
+             setUtilisateurs(newUtilisateurs);
+             
+            swalWithBootstrapButtons.fire(
+              'Archivé!',
+              'Utilisateur archivé!',
+              'success'
+            )
+            
+            
+          }
+        
+        })
+  
+      
+    
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Annulé',
+          'Archivage annulé',
+          'error'
+        )
+      }
+    })
+  }
+
+  
+  
+  
   return (
     <React.Fragment>
         <Helmet title="Utilisateurs" />
@@ -159,7 +221,7 @@ function Utilisateurs() {
         
 
         <Divider my={6} />
-        <DataGridUtilisateur utilisateurs={utilisateurs} />
+        <DataGridUtilisateur utilisateurs={utilisateurs} columns={columns} />
     </React.Fragment>
   );
 }

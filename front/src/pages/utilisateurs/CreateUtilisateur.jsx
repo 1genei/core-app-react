@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import * as Yup from "yup";
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
-import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
 import { addUtilisateur, getRoles } from "../../services/UtilisateursServices";
@@ -21,7 +19,6 @@ import {
   Divider as MuiDivider,
   Grid,
   Link,
-  TextareaAutosize,
   TextField as MuiTextField,
   Typography,
 } from "@mui/material";
@@ -35,18 +32,6 @@ const Alert = styled(MuiAlert)(spacing);
 const TextField = styled(MuiTextField)(spacing);
 const Button = styled(MuiButton)(spacing);
 
-
-const initialValues = {
-  prenom: "",
-  nom: "",
-  email: "",
-};
-
-const validationSchema = Yup.object().shape({
-  prenom: Yup.string().required("Obligatoire"),
-  nom: Yup.string().required("Obligatoire"),
-  email: Yup.string().email("Ce champs doit être une adresse mail").required("Obligatoire"),
-});
 
 
 
@@ -62,7 +47,6 @@ function UtilisateurForm() {
     const [contacts, setContacts] = useState([]);
     const [contactId, setContactId] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [user, setUser] = useState([]);
     
     
     // On récupère les roles et les contacts qui n'ont pas de compte utilisateur
@@ -78,8 +62,9 @@ function UtilisateurForm() {
     
     // console.log(contacts);
 
-    const optionsContacts = contacts?.map(option => ({ id: option.id, label: option.nom + ' ' + option.prenom})) ?? [];
+    const optionsContacts = contacts?.map((option, key ) => ({ id: option.id, label: (key+1)+" - "+option.nom })) ?? [];
     const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom}));
+
 
     const handleSubmit = async (e) => {
         
@@ -87,16 +72,19 @@ function UtilisateurForm() {
         setAlertError(false); 
         setAlertSuccess(false);
         
-        setUser({contact_id:contactId, role_id:roleId});
-      
-        const result =  await addUtilisateur(user);
+        const result =  await addUtilisateur({contact_id:contactId, role_id:roleId});
         
         if(result?.status === 200 ){
         
             setMessageSuccess(result.message);
             setAlertSuccess(true);
-
-          
+            
+            // Réactualisation de la liste des contacts
+            var newContacts = contacts.filter(contact => contact.id != contactId);
+            
+            setContacts(newContacts);
+            
+            console.log(newContacts);
             
         }else{
         
@@ -107,9 +95,10 @@ function UtilisateurForm() {
             setMessageErrors(errors);
       
         }
-   
        
-  };
+    };
+
+
 
 
 
@@ -142,16 +131,15 @@ function UtilisateurForm() {
                 <Grid item md={6}>
                   <Autocomplete
                     options={optionsContacts}
-                    onChange={(event, newValue) => {
-                      console.log('avant',contactId)
-                      setContactId(newValue?.id);
-                      console.log('apres',contactId)
-                    }}
-                    renderInput={(params) => <TextField {...params} label="Contact" />}
+                    renderInput={(params) => <TextField required {...params} label="Contact" />}
                     name="contact"
                     fullWidth
-              
-                    // onChange={handleChange}
+                                
+                    onChange={(e, value) => {
+                      setContactId(value.id)
+                      console.log(contactId);
+                    }}
+                    
                     variant="outlined"
                     my={2}
                   />
@@ -162,13 +150,9 @@ function UtilisateurForm() {
                     <Autocomplete
                 
                       options={optionsRoles}
-                      // options={roles.map((option) => option.nom)}
-                      //getOptionLabel={(option) => option.nom}
-                      
-                      renderInput={(params) => <TextField {...params} label="Rôle" />}
+                      renderInput={(params) => <TextField required {...params} label="Rôle" />}
                       name="role"
                       
-
                       fullWidth
 
                       onChange={(e, value) => setRoleId(value?.id)}
@@ -208,7 +192,7 @@ function CreateUtilisateur() {
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} to="/utilisateurs">
+        <Link component={NavLink} to="/utilisateurs/actifs">
           Utilisateurs
         </Link>
         <Typography>Ajout</Typography>

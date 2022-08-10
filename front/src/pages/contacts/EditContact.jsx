@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import * as Yup from "yup";
 import styled from "@emotion/styled";
 import { NavLink, useParams } from "react-router-dom";
-import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
 import { getContact, updateContact } from "../../services/ContactsServices";
@@ -35,22 +34,6 @@ const Button = styled(MuiButton)(spacing);
 
 
 
-let initialValues = {
-  prenom: "",
-  nom: "",
-  email: "",
-};
-
-
-const validationSchema = Yup.object().shape({
-  prenom: Yup.string().required("Obligatoire"),
-  nom: Yup.string().required("Obligatoire"),
-  email: Yup.string().email().required("Obligatoire"),
-});
-
-
-
-
 function ContactForm() {
 
     const [messageSuccess, setMessageSuccess] = useState('');
@@ -66,8 +49,7 @@ function ContactForm() {
   
     useEffect( async () => {
       
-      let id = params.id;
-      
+      let id = params.id;      
       id = decrypt(id);
       
       const cont = await getContact(id);
@@ -241,11 +223,11 @@ function handleChange (e){
             <Button
               type="submit"
               variant="contained"
-              color="primary"
+              color="success"
               mt={3}
               size="large"
             >
-              Ajouter
+              Modifier
             </Button>
           </form>
         )}
@@ -265,7 +247,7 @@ function EditContact() {
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} to="/contacts">
+        <Link component={NavLink} to="/contacts/actifs">
           Contacts
         </Link>
         <Typography>Modifier</Typography>
