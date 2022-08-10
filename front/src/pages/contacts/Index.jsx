@@ -50,7 +50,7 @@ function handleClick(event, cellValues){
 
 
 function DataGridContact({contacts, columns}) {
-        
+    const [pageSize, setPageSize] = React.useState(10);
      
     return (
         <Card mb={6}>
@@ -63,10 +63,12 @@ function DataGridContact({contacts, columns}) {
           <Paper>
             <div style={{ height: 800, width: "100%" }}>
               <DataGrid
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                pageSize={pageSize}
+                pagination
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 rows={contacts}
                 columns={columns}
-                pageSize={30}
                 checkboxSelection
               />
             </div>

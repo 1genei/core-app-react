@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { Helmet } from "react-helmet-async";
 
 import {
     Tabs,
@@ -23,17 +24,20 @@ export default function Parametres() {
     const user = useSelector( (state) => state.auth);
 
     return (
-        <Box sx={{ width:'100%', height:'100%' }}>
-            <Tabs value={tabsValue} onChange={(e, val) => setTabsValue(val)} variant="scrollable" scrollButtons="auto">
-                <Tab label='Application' icon={<AppsIcon />} iconPosition="start" />
-                <Tab label='Utilisateur' icon={<PersonIcon />} iconPosition="start" />
-                {user?.permissions.includes('Edit-Owner') && <Tab label='Société' icon={<BusinessCenterIcon />} iconPosition="start" />}
-                <Tab label='Roles & Permissions' icon={<ShieldIcon />} iconPosition="start" />
-            </Tabs>
-            {tabsValue === 0 && <AppSettings />}
-            {tabsValue === 1 && <Navigate to='/profile/edit' />}
-            {tabsValue === 2 && user?.permissions.includes('Edit-Owner') && <OwnerSettings />}
-            {tabsValue === 3 && user?.permissions.includes('Edit-RolesPermissions') && <RolesPermissionsSettings />}
-        </Box>
+        <>
+            <Helmet title="Paramètres" />
+            <Box sx={{ width:'100%', height:'100%' }}>
+                <Tabs value={tabsValue} onChange={(e, val) => setTabsValue(val)} variant="scrollable" scrollButtons="auto">
+                    <Tab label='Application' icon={<AppsIcon />} iconPosition="start" />
+                    <Tab label='Utilisateur' icon={<PersonIcon />} iconPosition="start" />
+                    {user?.permissions.includes('Edit-Owner') && <Tab label='Société' icon={<BusinessCenterIcon />} iconPosition="start" />}
+                    <Tab label='Roles & Permissions' icon={<ShieldIcon />} iconPosition="start" />
+                </Tabs>
+                {tabsValue === 0 && <AppSettings />}
+                {tabsValue === 1 && <Navigate to='/profile/edit' />}
+                {tabsValue === 2 && user?.permissions.includes('Edit-Owner') && <OwnerSettings />}
+                {tabsValue === 3 && user?.permissions.includes('Edit-RolesPermissions') && <RolesPermissionsSettings />}
+            </Box>
+        </>
     )
 };
