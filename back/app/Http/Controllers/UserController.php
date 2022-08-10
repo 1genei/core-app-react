@@ -207,6 +207,10 @@ class UserController extends Controller
     public function getUser($user_id) {
     
         $user = User::where('id','=',$user_id)->first();
+        
+        $user->contact;
+        $user->role;
+        
         return Response()->json([
             'utilisateur' => $user,
             'status' => 200,
