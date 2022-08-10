@@ -23,7 +23,10 @@ const Typography = styled(MuiTypography)(spacing);
 function EditProfile() {
 
     return (
-        <h1>Edit profile</h1>
+        <>
+            <Helmet title='Profil' />
+            <h1>Edit profile</h1>
+        </>
   );
 }
 

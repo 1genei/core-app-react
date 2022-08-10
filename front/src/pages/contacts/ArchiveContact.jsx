@@ -11,7 +11,7 @@ import {
   Typography,
   Grid,
   IconButton,
-  Fab,
+  Skeleton,
   Breadcrumbs
 } from "@mui/material";
 
@@ -21,10 +21,9 @@ import { spacing } from "@mui/system";
 
 import {
 Unarchive as UnArchiveIcon,
-PersonAddAlt
 }from '@mui/icons-material';
 import { Link, NavLink } from "react-router-dom";
-import { getArchiveContacts, unArchiveContact } from "../../services/ContactsServices";
+import { getArchivedContacts, unArchiveContact } from "../../services/ContactsServices";
 
 
 
@@ -41,13 +40,8 @@ function getIfUser(params) {
 }
 
 
-function handleClick(event, cellValues){
-    console.log(cellValues);
-}
-
-
 function DataGridContact({contacts, columns}) {
-        
+    const [pageSize, setPageSize] = React.useState(10);
      
     return (
         <Card mb={6}>
@@ -60,10 +54,12 @@ function DataGridContact({contacts, columns}) {
           <Paper>
             <div style={{ height: 800, width: "100%" }}>
               <DataGrid
-                rowsPerPageOptions={[5, 10, 25]}
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                pageSize={pageSize}
+                pagination
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 rows={contacts}
                 columns={columns}
-                pageSize={30}
                 checkboxSelection
               />
             </div>
@@ -101,6 +97,13 @@ function Contacts() {
           editable: false,
         },
         {
+            field: "user",
+            headerName: "Utilisateur",
+            width: 200,
+            editable: false,
+            valueGetter : getIfUser
+        },
+        {
           field: "Actions",
           renderCell:  (cellValues) => {
           
@@ -122,13 +125,74 @@ function Contacts() {
           }
         }
       ];
+
+      const loadingC = [
+        {
+            field: "Prénom",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={170} />
+                );
+            }
+        },
+        {
+            field: "Nom",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={170} />
+                );
+            }
+        },
+        {
+            field: "Email",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={170} />
+                );
+            }
+        },
+        {
+            field: "Adresse",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={170} />
+                );
+            }
+        },
+        {
+            field: "User",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={75} />
+                );
+            }
+        },
+        {
+            field: "Actions",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                );
+            }
+        }
+    ];
       
     const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect( async () => {
     
-        const listContacts = await getArchiveContacts();
-        setContacts(listContacts);
+        try {
+            const listContacts = await getArchivedContacts();
+            setContacts(listContacts);
+        } catch (e) {}
+        setLoading(false)
         
     }, []);
     
@@ -148,7 +212,7 @@ function Contacts() {
       })
       
       swalWithBootstrapButtons.fire({
-        title: 'Voulez-vous retirer des archives ?',
+        title: 'Voulez-vous restaurer le contact ?',
         text: "",
         icon: 'warning',
         showCancelButton: true,
@@ -168,7 +232,7 @@ function Contacts() {
                setContacts(newContacts);
                
               swalWithBootstrapButtons.fire(
-                'Retiré des archives!',
+                'Contact restauré!',
                 '',
                 'success'
               )
@@ -214,7 +278,7 @@ function Contacts() {
 
         <Divider my={6} />
 
-        <DataGridContact contacts={contacts} columns={columns}/>
+        {loading ? <DataGridContact columns={loadingC} contacts={[{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}]}/> : <DataGridContact contacts={contacts} columns={columns}/>}
     </React.Fragment>
   );
 }

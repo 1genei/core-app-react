@@ -25,7 +25,7 @@ function Profile() {
     const user = useSelector( (state) => state.auth);
   return (
     <React.Fragment>
-      <Helmet title="Default Dashboard" />
+      <Helmet title="Profil" />
       <Grid justifyContent="space-between" container spacing={6}>
         <Grid item>
             <Typography variant="h3" gutterBottom>
@@ -53,7 +53,7 @@ function Profile() {
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={3} xl>
             <Typography variant='h4'>
-                Inscirt depuis : {parseDateTime(user.created_at)}
+                Inscrit depuis : {parseDateTime(user.created_at)}
             </Typography>
             </Grid>
             <Grid item xs={12} sm={12} md={6} lg={3} xl>

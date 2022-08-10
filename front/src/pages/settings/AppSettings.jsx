@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import {
+    Typography
+} from '@mui/material';
+import { Demos } from '../../components/Settings';
 
 import {
     Box
@@ -7,8 +10,9 @@ import {
 export default function AppSettings() {
 
     return (
-        <Box sx={{ width:'100%', height:'100%' }}>
-            <h1>App (theme...)</h1>
+        <Box py={4} sx={{ width:'100%', height:'100%' }}>
+            <Typography variant='h1'>Paramètres de l'application</Typography>
+            <Demos />
         </Box>
     )
 };

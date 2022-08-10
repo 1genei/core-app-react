@@ -39,15 +39,11 @@ const Divider = styled(MuiDivider)(spacing);
 
 const Paper = styled(MuiPaper)(spacing);
 
-function getIfUser(params) {
-  return params?.row?.user === null ? 'Non' : 'Oui';
-}
-
 function getFullAdress(params) {
     return `${params.row?.adresse || ''} ${params.row?.complement_adresse || ''}`;
 }
 
-function DataGridContact({contacts, columns}) {
+function DataGridOrganisme({organismes, columns}) {
     const [pageSize, setPageSize] = React.useState(10);
      
     return (
@@ -65,7 +61,7 @@ function DataGridContact({contacts, columns}) {
                 pageSize={pageSize}
                 pagination
                 onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                rows={contacts}
+                rows={organismes}
                 columns={columns}
                 checkboxSelection
               />
@@ -75,21 +71,28 @@ function DataGridContact({contacts, columns}) {
       );
 }
 
-function Contacts() {
+function Organismes() {
     
     const columns = [
       //   { field: "id", headerName: "ID", width: 150 },
-        {
-          field: "prenom",
-          headerName: "Prénom",
-          width: 200,
-          editable: false,
-        },
         {
           field: "nom",
           headerName: "Nom",
           width: 200,
           editable: false,
+        },
+        {
+            field: "adresse",
+            headerName: "Adresse",
+            width: 200,
+            editable: false,
+            valueGetter : getFullAdress
+        },
+        {
+            field: "site",
+            headerName: "Site",
+            width: 200,
+            editable: false,
         },
         {
           field: "email",
@@ -98,18 +101,10 @@ function Contacts() {
           editable: false,
         },
         {
-          field: "adresse",
-          headerName: "Adresse",
-          width: 200,
-          editable: false,
-          valueGetter: getFullAdress
-        },
-        {
-          field: "user",
-          headerName: "Utilisateur",
-          width: 200,
-          editable: false,
-          valueGetter : getIfUser
+            field: "telephone",
+            headerName: "Téléphone",
+            width: 200,
+            editable: false,
         },
         {
           field: "Actions",
@@ -117,7 +112,7 @@ function Contacts() {
           
             return (
                 <>
-                  <Link to={`/contact/modifier/${encrypt(cellValues.id)}`}>  
+                  <Link to={`/organisme/modifier/${encrypt(cellValues.id)}`}>  
                       <IconButton  color="success" title="Modifier">
                         <EditIcon />
                       </IconButton>
@@ -141,25 +136,7 @@ function Contacts() {
 
       const loadingC = [
             {
-                field: "Prénom",
-                width: 200,
-                renderCell:  () => {
-                    return (
-                        <Skeleton animation='wave' variant='text' width={170} />
-                    );
-                }
-            },
-            {
                 field: "Nom",
-                width: 200,
-                renderCell:  () => {
-                    return (
-                        <Skeleton animation='wave' variant='text' width={170} />
-                    );
-                }
-            },
-            {
-                field: "Email",
                 width: 200,
                 renderCell:  () => {
                     return (
@@ -177,11 +154,29 @@ function Contacts() {
                 }
             },
             {
-                field: "User",
+                field: "Site",
                 width: 200,
                 renderCell:  () => {
                     return (
-                        <Skeleton animation='wave' variant='text' width={75} />
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Email",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Téléphone",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
                     );
                 }
             },
@@ -199,14 +194,14 @@ function Contacts() {
             }
         ];
       
-    const [contacts, setContacts] = useState([]);
+    const [organismes, setOrganismes] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect( async () => {
     
         try {
-            const listContacts = await getActiveContacts();
-            setContacts(listContacts);
+            const listOrganismes = await getActiveContacts();
+            setOrganismes(listOrganismes);
         } catch (e) {}
         setLoading(false)
         
@@ -243,8 +238,8 @@ function Contacts() {
        
               if(res.status === 200){
                 
-               var newContacts = contacts.filter( contact => contact.id != cellValues.id );
-               setContacts(newContacts);
+               var newOrganismes = organismes.filter( organisme => organisme.id != cellValues.id );
+               setOrganismes(newOrganismes);
                
               swalWithBootstrapButtons.fire(
                 'Archivé!',
@@ -273,16 +268,16 @@ function Contacts() {
     
   return (
     <React.Fragment>
-        <Helmet title="Contacts" />
+        <Helmet title="Organismes" />
         
         <Grid container spacing={5}>
             <Grid item >
                 <Typography variant="h3" gutterBottom display="inline">
-                    Contacts 
+                    Organismes 
                 </Typography>
             </Grid>
             <Grid item >
-                <Link to="/contact/ajouter">
+                <Link to="/organisme/ajouter">
                     <Fab  size="small" color="primary" aria-label="add">
                         <Add /> 
                     </Fab>
@@ -292,9 +287,9 @@ function Contacts() {
 
         <Divider my={6} />
 
-        {loading ? <DataGridContact columns={loadingC} contacts={[{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}]}/> : <DataGridContact contacts={contacts} columns={columns}/>}
+        {loading ? <DataGridOrganisme columns={loadingC} organismes={[{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}]}/> : <DataGridOrganisme organismes={organismes} columns={columns}/>}
     </React.Fragment>
   );
 }
 
-export default Contacts;
+export default Organismes;

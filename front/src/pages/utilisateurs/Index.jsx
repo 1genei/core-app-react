@@ -12,7 +12,9 @@ import {
   Typography,
   Grid,
   IconButton,
-  Fab
+  Fab,
+  Skeleton,
+  Stack
 } from "@mui/material";
 
 
@@ -22,7 +24,7 @@ import { spacing } from "@mui/system";
 import {
 Archive as ArchiveIcon,
 Edit as EditIcon,
-PersonAddAlt
+Add
 }from '@mui/icons-material';
 import { Link } from "react-router-dom";
 import { archiveUser, getActiveUsers } from "../../services/UtilisateursServices";
@@ -54,36 +56,44 @@ function handleEdit(event, cellValues){
 
 
 function DataGridUtilisateur({utilisateurs, columns}) {
-  return (
-    <Card mb={6}>
-      <CardContent pb={1}>
-        <Typography variant="h6" gutterBottom>
-          Liste
-        </Typography>
-       
-      </CardContent>
-      <Paper> 
-        <div style={{ height: 800, width: "100%" }}>
-          <DataGrid
-            rowsPerPageOptions={[5, 10, 25]}
-            rows={utilisateurs}
-            columns={columns}
-            pageSize={30}
-            checkboxSelection
-          />
-        </div>
-      </Paper>
-    </Card>
-  );
+    const [pageSize, setPageSize] = React.useState(10);
+     
+    return (
+        <Card mb={6}>
+          <CardContent pb={1}>
+            <Typography variant="h6" gutterBottom>
+              Liste
+            </Typography>
+           
+          </CardContent>
+          <Paper>
+            <div style={{ height: 800, width: "100%" }}>
+              <DataGrid
+                rowsPerPageOptions={[10, 25, 50, 100]}
+                pageSize={pageSize}
+                pagination
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rows={utilisateurs}
+                columns={columns}
+                checkboxSelection
+              />
+            </div>
+          </Paper>
+        </Card>
+      );
 }
 
 function Utilisateurs() {
 
   const [utilisateurs, setUtilisateurs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect( async () => {
-    const listUtilisateurs = await getActiveUsers();
-    setUtilisateurs(listUtilisateurs);
+    try {
+        const listUtilisateurs = await getActiveUsers();
+        setUtilisateurs(listUtilisateurs);
+    } catch (e) {}
+    setLoading(false)
   }, []);
   
   const columns = [
@@ -136,6 +146,51 @@ function Utilisateurs() {
         }
       }
     ];
+
+    const loadingC = [
+        {
+            field: "Contact",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Stack direction='row' spacing={2}>
+                        <Skeleton animation='wave' variant='text' width={65} />
+                        <Skeleton animation='wave' variant='text' width={100} />
+                    </Stack>
+                );
+            }
+        },
+        {
+            field: "Email",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={170} />
+                );
+            }
+        },
+        {
+            field: "Rôle",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={140} />
+                );
+            }
+        },
+        {
+            field: "Actions",
+            width: 200,
+            renderCell:  () => {
+                return (
+                    <Stack direction='row' spacing={2}>
+                        <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                        <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                    </Stack>
+                );
+            }
+        }
+    ];
   
   
   function handleArchive(event, cellValues){
@@ -150,7 +205,7 @@ function Utilisateurs() {
     })
     
     swalWithBootstrapButtons.fire({
-      title: 'Voulez-vous archiver ?',
+      title: 'Voulez-vous archiver l\'utilisateur ?',
       text: "Vous retrouverez l'utilisateur dans les archives!",
       icon: 'warning',
       showCancelButton: true,
@@ -210,7 +265,7 @@ function Utilisateurs() {
             <Grid item >
                 <Link to="/utilisateur/ajouter">
                     <Fab  size="small" color="primary" aria-label="add">
-                        <PersonAddAlt /> 
+                        <Add /> 
                     </Fab>
                 </Link>
             </Grid>
@@ -221,7 +276,7 @@ function Utilisateurs() {
         
 
         <Divider my={6} />
-        <DataGridUtilisateur utilisateurs={utilisateurs} columns={columns} />
+        {loading ? <DataGridUtilisateur columns={loadingC} utilisateurs={[{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}]}/> : <DataGridUtilisateur utilisateurs={utilisateurs} columns={columns}/>}
     </React.Fragment>
   );
 }

@@ -17,6 +17,7 @@ class CreateOrganismesTable extends Migration
             $table->id();
             $table->string('nom')->nullable();
             $table->string('adresse')->nullable();
+            $table->string('complement_adresse')->nullable();
             $table->string('email')->nullable();
             $table->string('telephone')->nullable();
             $table->string('site')->nullable();

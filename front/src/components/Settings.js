@@ -86,7 +86,6 @@ const Fab = styled(MuiFab)`
 `;
 
 const Wrapper = styled.div`
-  width: 258px;
   overflow-x: hidden;
 `;
 
@@ -96,7 +95,7 @@ function Demo({ title, themeVariant }) {
   const { theme, setTheme } = useTheme();
 
   return (
-    <Grid item xs={6}>
+    <Grid item xs={4} sm={2} md={2} lg={2} xl={2}>
       <DemoButton
         active={themeVariant === theme}
         onClick={() => setTheme(themeVariant)}
@@ -110,20 +109,18 @@ function Demo({ title, themeVariant }) {
   );
 }
 
-function Demos() {
+export function Demos() {
   return (
     <Wrapper>
     
-      <Box px={4} my={3}>
-        <Alert icon={false} severity="info">
-          <strong>Choisissez votre thème.</strong> 
-        </Alert>
+      <Box px={3} my={4}>
+        <Typography variant='h5'>Thème</Typography>
       </Box>
 
-      <Box px={4} my={3}>
+      <Box px={3} my={4}>
         <Grid container spacing={3}>
-          <Demo title="Noir" themeVariant={THEMES.DARK} />
-          <Demo title="Light" themeVariant={THEMES.LIGHT} />
+          <Demo title="Sombre" themeVariant={THEMES.DARK} />
+          <Demo title="Clair" themeVariant={THEMES.LIGHT} />
           <Demo title="Défaut" themeVariant={THEMES.DEFAULT} />
           <Demo title="Bleu" themeVariant={THEMES.BLUE} />
           <Demo title="Vert" themeVariant={THEMES.GREEN} />

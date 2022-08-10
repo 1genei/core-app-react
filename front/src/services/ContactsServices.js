@@ -24,7 +24,7 @@ import axios from '../api/Axios';
  * 
  * @returns la liste des contacts archivés
  */
- export const getArchiveContacts = async () => {
+ export const getArchivedContacts = async () => {
 
     return axios.get('contact/archived')
     .then( (res) => {
