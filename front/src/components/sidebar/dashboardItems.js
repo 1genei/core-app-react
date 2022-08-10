@@ -3,6 +3,7 @@ import {
   List,
   Square,
   Users,
+  Settings
 } from "react-feather";
 
 import {
@@ -40,6 +41,12 @@ const pagesSection = [
         title: "Archives",
       },
     ],
+  },
+
+  {
+    href: "/parametres",
+    icon: Settings,
+    title: "Paramètres",
   },
 ];
 

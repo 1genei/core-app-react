@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
@@ -14,14 +13,8 @@ import {
   Button
 } from "@mui/material";
 import { spacing } from "@mui/system";
-import { green, red } from "@mui/material/colors";
+import { useNavigate } from "react-router-dom";
 
-import Actions from "./Actions";
-import BarChart from "./BarChart";
-import LineChart from "./LineChart";
-import DoughnutChart from "./DoughnutChart";
-import Stats from "./Stats";
-import Table from "./Table";
 
 const Divider = styled(MuiDivider)(spacing);
 
@@ -31,6 +24,7 @@ const Typography = styled(MuiTypography)(spacing);
 
 function Default() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const user = useSelector( (state) => state.auth);
 
 
@@ -48,7 +42,9 @@ function Default() {
         </Grid>
 
         <Grid item>
-          <Actions />
+            <Button onClick={() => navigate('/profile/edit')} variant='contained' size='large'>
+                Modifier le profil
+            </Button>
         </Grid>
       </Grid>
 

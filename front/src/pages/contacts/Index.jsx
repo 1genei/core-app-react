@@ -11,7 +11,9 @@ import {
   Typography,
   Grid,
   IconButton,
-  Fab
+  Fab,
+  Skeleton,
+  Stack
 } from "@mui/material";
 
 
@@ -38,7 +40,6 @@ const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
 
 function getIfUser(params) {
-  console.log(params)
   return params?.row?.user === null ? 'Non' : 'Oui';
 }
 
@@ -136,13 +137,77 @@ function Contacts() {
           }
         }
       ];
+
+      const loadingC = [
+            {
+                field: "Prénom",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Nom",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Email",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "Adresse",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={170} />
+                    );
+                }
+            },
+            {
+                field: "User",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Skeleton animation='wave' variant='text' width={75} />
+                    );
+                }
+            },
+            {
+                field: "Actions",
+                width: 200,
+                renderCell:  () => {
+                    return (
+                        <Stack direction='row' spacing={2}>
+                            <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                            <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                        </Stack>
+                    );
+                }
+            }
+        ];
       
     const [contacts, setContacts] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect( async () => {
     
-        const listContacts = await getActiveContacts();
-        setContacts(listContacts);
+        try {
+            const listContacts = await getActiveContacts();
+            setContacts(listContacts);
+        } catch (e) {}
+        setLoading(false)
         
     }, []);
     
@@ -228,7 +293,7 @@ function Contacts() {
 
         <Divider my={6} />
 
-        <DataGridContact contacts={contacts} columns={columns}/>
+        {loading ? <DataGridContact columns={loadingC} contacts={[{id:1}, {id:2}, {id:3}]}/> : <DataGridContact contacts={contacts} columns={columns}/>}
     </React.Fragment>
   );
 }
