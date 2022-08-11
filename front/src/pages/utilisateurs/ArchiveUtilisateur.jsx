@@ -26,7 +26,7 @@ Unarchive as UnArchiveIcon,
 } from '@mui/icons-material';
 
 import { Link, NavLink } from "react-router-dom";
-import { getArchivedUsers, unArchiveUser } from "../../services/UtilisateursServices";
+import { getArchivedUsers, restoreUser } from "../../services/UtilisateursServices";
 
 
 const Card = styled(MuiCard)(spacing);
@@ -198,7 +198,7 @@ function Utilisateurs() {
       
       if (result.isConfirmed) {
         
-          unArchiveUser(cellValues.id).then( (res) => {            
+          restoreUser(cellValues.id).then( (res) => {            
      
             if(res.status === 200){
               console.log(utilisateurs);

@@ -250,7 +250,7 @@ function CreateContact() {
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} to="/contacts">
+        <Link component={NavLink} to="/contacts/actifs">
           Contacts
         </Link>
         <Typography>Ajout</Typography>

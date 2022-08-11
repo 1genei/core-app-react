@@ -1,17 +1,15 @@
 import axios from '../api/Axios';
 
 
-
-
 /**
  * 
  * @returns la liste des contacts actifs
  */
- export const getActiveContacts = async () => {
+ export const getActiveOrganismes = async () => {
 
-    return axios.get('contact/active')
+    return axios.get('organisme/active')
     .then( (res) => {
-        return res.data.contacts;
+        return res.data.organismes;
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);
@@ -24,11 +22,11 @@ import axios from '../api/Axios';
  * 
  * @returns la liste des contacts archivés
  */
- export const getArchivedContacts = async () => {
+ export const getArchivedOrganismes = async () => {
 
-    return axios.get('contact/archived')
+    return axios.get('organisme/archived')
     .then( (res) => {
-        return res.data.contacts;
+        return res.data.organismes;
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);
@@ -39,44 +37,28 @@ import axios from '../api/Axios';
  * 
  * @returns la liste des contacts
  */
-export const getContacts = async () => {
+export const getOrganismes = async () => {
 
-    return axios.get('contact/all')
+    return axios.get('organisme/all')
     .then( (res) => {
-        return res.data.contacts;
+        return res.data.organismes;
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);
         return error;
     });
-} 
-
-/**
- * 
- * @returns la liste des contacts qui n'ont pas de compte utilisateur
- */
- export const getContactsNoUser = async () => {
-
-    return axios.get('contact/no-user')
-    .then( (res) => {
-        return res.data.contacts;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
-} 
+}
 
 
 /**
  * 
  * @returns retourne le contact dont l'id est passé en paramètre
  */
- export const getContact = async (contact_id) => {
+ export const getOrganisme = async (contact_id) => {
 
-    return axios.get(`contact/${contact_id}`)
+    return axios.get(`organisme/${contact_id}`)
     .then( (res) => {
-        return res.data.contact;
+        return res.data.organisme;
     })
     .catch((error) => {
         console.log(`erreur: ${error}`);
@@ -88,9 +70,9 @@ export const getContacts = async () => {
 /**
  * Ajouter un contact
  */
-export const addContact = async (contact) => {
+export const addOrganisme = async (contact) => {
 
-    return axios.post('contact/store', contact)
+    return axios.post('organisme/store', contact)
     .then( (res) => {
         return res.data;
     })
@@ -104,9 +86,9 @@ export const addContact = async (contact) => {
 /**
  * Modifier le contact
 */
- export const updateContact = async (contact, contact_id) => {
+ export const updateOrganisme = async (contact, contact_id) => {
 
-    return axios.put(`contact/update/${contact_id}`, contact)
+    return axios.put(`organisme/update/${contact_id}`, contact)
     .then( (res) => {
         return res.data;
     })
@@ -120,8 +102,8 @@ export const addContact = async (contact) => {
 /**
  * Archiver le contact
 */
-export const archiveContact = async (id) => {
-    return axios.put(`contact/archive/${id}`)
+export const archiveOrganisme = async (id) => {
+    return axios.put(`organisme/archive/${id}`)
     .then( (res) => {
     console.log(res.data);
         return res.data
@@ -136,8 +118,8 @@ export const archiveContact = async (id) => {
 /**
  * Désarchiver le contact
 */
-export const restoreContact = async (id) => {
-    return axios.put(`contact/restore/${id}`)
+export const restoreOrganisme = async (id) => {
+    return axios.put(`organisme/restore/${id}`)
     .then( (res) => {
     console.log(res.data);
         return res.data

@@ -99,7 +99,7 @@ export const archiveUser = async (id) => {
  * @param {*} id 
  * Désarchiver un utilisateur
  */
-export const unArchiveUser = async (id) => {
+export const restoreUser = async (id) => {
 
     return axios.put(`utilisateur/restore/${id}`)
     .then( (res) => {

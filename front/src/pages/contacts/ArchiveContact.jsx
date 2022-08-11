@@ -23,7 +23,7 @@ import {
 Unarchive as UnArchiveIcon,
 }from '@mui/icons-material';
 import { Link, NavLink } from "react-router-dom";
-import { getArchivedContacts, unArchiveContact } from "../../services/ContactsServices";
+import { getArchivedContacts, restoreContact } from "../../services/ContactsServices";
 
 
 
@@ -110,7 +110,7 @@ function Contacts() {
             return (
                 <>
                   
-                  <IconButton  color="primary" title="archiver"
+                  <IconButton  color="primary" title="Restaurer"
                     onClick={(event) => {
                       handleClickArchive(event, cellValues);
                     }} >
@@ -224,7 +224,7 @@ function Contacts() {
         
         if (result.isConfirmed) {
           
-            unArchiveContact(cellValues.id).then( (res) => {            
+            restoreContact(cellValues.id).then( (res) => {            
        
               if(res.status === 200){
                 

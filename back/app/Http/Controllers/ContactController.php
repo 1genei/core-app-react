@@ -26,7 +26,7 @@ class ContactController extends Controller
     }
     
     /*
-    *  Renvoie tous les utilisateurs actifs
+    *  Renvoie tous les contacts actifs
     */
     public function getActiveContacts() {
     

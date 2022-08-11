@@ -10,11 +10,9 @@ const RequirePermission = ({ permission }) => {
     return (
         user?.permissions.includes(permission)
             ? <Outlet />
-            : <Outlet />
-            
-            // user?.status
-            //     ? <Navigate to='/unauthorized' state={{ from: location }} replace />
-            //     : <Navigate to='/login' state={{ from: location }} replace />
+            : user?.status
+                ? <Navigate to='/unauthorized' state={{ from: location }} replace />
+                : <Navigate to='/login' state={{ from: location }} replace />
     )
 }
 

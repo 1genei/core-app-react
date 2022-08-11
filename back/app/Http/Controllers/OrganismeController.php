@@ -12,9 +12,38 @@ class OrganismeController extends Controller
 public function getOrganismes() {
     $organismes = organisme::all();
     return Response()->json([
-        'organismes' => $organismes
+        'organismes' => $organismes,
+        'status' => 200,
     ]);
 }
+
+    /*
+    *  Renvoie tous les organismes actifs
+    */
+    public function getActiveOrganismes() {
+    
+        $organismes = Organisme::where('archive', 0)->get();
+
+        return Response()->json([
+            'organismes' => $organismes,
+            'status' => 200,
+        ], 200);
+    }
+    
+
+    /*
+    *  Renvoie tous les organismes archivés
+    */
+    public function getArchivedOrganismes() {
+    
+        $organismes = Organisme::where('archive', 1)->get();
+
+        return Response()->json([
+            'organismes' => $organismes,
+            'status' => 200,
+        ], 200);
+    }
+    
 
 //Renvoie le organisme d'id $organisme_id
 public function getOrganisme($organisme_id) {

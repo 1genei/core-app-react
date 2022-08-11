@@ -39,10 +39,6 @@ function NavbarUserDropdown() {
     navigate('/profile', { from: location, replace: false });
   };
 
-  const handleLogin = () => {
-    navigate('/login', { from: location, replace: false });
-  };
-
   const handleLogout = async () => {
     try {
       await LogoutAPI();

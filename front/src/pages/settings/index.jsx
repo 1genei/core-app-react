@@ -31,7 +31,7 @@ export default function Parametres() {
                     <Tab label='Application' icon={<AppsIcon />} iconPosition="start" />
                     <Tab label='Utilisateur' icon={<PersonIcon />} iconPosition="start" />
                     {user?.permissions.includes('Edit-Owner') && <Tab label='Société' icon={<BusinessCenterIcon />} iconPosition="start" />}
-                    <Tab label='Rôles & Permissions' icon={<ShieldIcon />} iconPosition="start" />
+                    {user?.permissions.includes('Edit-RolesPermissions') && <Tab label='Rôles & Permissions' icon={<ShieldIcon />} iconPosition="start" />}
                 </Tabs>
                 {tabsValue === 0 && <AppSettings />}
                 {tabsValue === 1 && <Navigate to='/profile/edit' />}

@@ -26,7 +26,7 @@ Edit as EditIcon,
 Add
 }from '@mui/icons-material';
 import { Link } from "react-router-dom";
-import { archiveContact, getActiveContacts } from "../../services/ContactsServices";
+import { archiveOrganisme, getActiveOrganismes } from "../../services/OrganismesServices";
 import { encrypt } from "../../utils/crypt";
 
 
@@ -200,7 +200,7 @@ function Organismes() {
     useEffect( async () => {
     
         try {
-            const listOrganismes = await getActiveContacts();
+            const listOrganismes = await getActiveOrganismes();
             setOrganismes(listOrganismes);
         } catch (e) {}
         setLoading(false)
@@ -234,7 +234,7 @@ function Organismes() {
         
         if (result.isConfirmed) {
           
-            archiveContact(cellValues.id).then( (res) => {            
+            archiveOrganisme(cellValues.id).then( (res) => {            
        
               if(res.status === 200){
                 
