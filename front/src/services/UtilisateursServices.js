@@ -67,11 +67,12 @@ export const addUtilisateur = async (user) => {
 /**
  * Modifier un user
 */
-export const updateUtilisateur = async (user) => {
+export const updateUtilisateur = async (user_id, role_id) => {
 
-    return axios.post('auth/update', user)
+    return axios.put('utilisateur/update/'+user_id, {role_id})
     .then( (res) => {
     
+    console.log(res.data);
         return res.data; 
     })
     .catch((error) => {

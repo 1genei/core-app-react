@@ -45,7 +45,7 @@ function UtilisateurForm() {
     const [alertError, setAlertError] = useState(false);
     const [roles, setRoles] = useState([]);
     const [roleId, setRoleId] = useState('');
-    const [contactId, setContactId] = useState('');
+    const [role, setRole] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     
     const [utilisateur, setUtilisateur] = useState({});
@@ -65,8 +65,10 @@ function UtilisateurForm() {
       const util = await getUtilisateur(id);
       setUtilisateur(util);
       
-    
+      setRole(util?.role?.nom);
+  
     }, []);
+    
     
     // console.log(contacts);
 
@@ -79,7 +81,7 @@ function UtilisateurForm() {
         setAlertError(false); 
         setAlertSuccess(false);
         
-        const result =  await updateUtilisateur({contact_id:contactId, role_id:roleId});
+        const result =  await updateUtilisateur(utilisateur?.id, roleId);
         
         if(result?.status === 200 ){
         
@@ -149,8 +151,13 @@ function UtilisateurForm() {
                       renderInput={(params) => <TextField required {...params} label="Rôle" />}
                       name="role"
                       fullWidth
-                      value={utilisateur?.role?.nom  ?? ''}
-                      onChange={(e, value) => setRoleId(value?.id)}
+                      value={ role ?? ''}
+                      onChange={(e, value) => {
+                      
+                        setRoleId(value?.id)
+                        setRole(value?.label)
+                       
+                        }}
                       variant="outlined"
                       my={2}
                       
