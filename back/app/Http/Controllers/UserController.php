@@ -124,6 +124,44 @@ class UserController extends Controller
         ], 200)->withCookie($cookie);
     }
 
+
+   /**
+    *    Fonction de register (ne login pas l'utilisateur automatiquement avec le compte créé)
+    */
+    public function update(Request $request, $user_id) {
+
+        try {
+           
+            $user = User::where('id', $user_id)->first();
+            
+          
+            if($user){
+            
+                $user->role_id = $request->role_id;
+                $user->update();
+                return Response()->json([
+                    'message' => 'Rôle de l\'utilisateur modifié',
+                    'status' => 200,
+                ], 200);
+            
+            }else{
+                
+                return Response()->json([
+                    'message' => 'Utilisateur non existant',
+                    'status' => 200,
+                ], 200);
+            
+            }
+         
+            
+        
+        
+        } catch (\Throwable $th) {
+        
+            return json_encode( end($th->errorInfo));
+        }
+    }
+    
     // VERIFY TOKEN
     public function verifyToken(Request $request) {
         // Check if cookie exists
