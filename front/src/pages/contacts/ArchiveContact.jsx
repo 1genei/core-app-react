@@ -12,7 +12,8 @@ import {
   Grid,
   IconButton,
   Skeleton,
-  Breadcrumbs
+  Breadcrumbs,
+  Stack
 } from "@mui/material";
 
 
@@ -21,10 +22,12 @@ import { spacing } from "@mui/system";
 
 import {
 Unarchive as UnArchiveIcon,
+AccountBox as AccountBoxIcon,
 }from '@mui/icons-material';
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import { getArchivedContacts, restoreContact } from "../../services/ContactsServices";
-
+import { encrypt } from "../../utils/crypt";
 
 
 const Card = styled(MuiCard)(spacing);
@@ -69,6 +72,8 @@ function DataGridContact({contacts, columns}) {
 }
 
 function Contacts() {
+    const navigate = useNavigate();
+    const user = useSelector( (state) => state.auth);
     
     const columns = [
       //   { field: "id", headerName: "ID", width: 150 },
@@ -105,22 +110,23 @@ function Contacts() {
         },
         {
           field: "Actions",
+          width: 150,
           renderCell:  (cellValues) => {
           
             return (
                 <>
-                  
-                  <IconButton  color="primary" title="Restaurer"
-                    onClick={(event) => {
-                      handleClickArchive(event, cellValues);
-                    }} >
-                    <UnArchiveIcon />
-                  </IconButton>
-                  
-                 
+                    <IconButton  color="info" title="Informations" onClick={() => navigate(`/contact/info/${encrypt(cellValues.id)}`)}>
+                        <AccountBoxIcon />
+                    </IconButton>
+
+                    {user.permissions.includes('Edit-Contact') &&
+                    <IconButton  color="primary" title="Restaurer"
+                      onClick={(event) => {
+                        handleClickArchive(event, cellValues);
+                      }} >
+                      <UnArchiveIcon />
+                    </IconButton>}
                 </>
-            
-              
             );
           }
         }
@@ -174,10 +180,14 @@ function Contacts() {
         },
         {
             field: "Actions",
-            width: 200,
+            width: 150,
             renderCell:  () => {
                 return (
-                    <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                    <Stack direction='row' spacing={2}>
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />
+                        {user.permissions.includes('Edit-Contact') &&
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />}
+                    </Stack>
                 );
             }
         }
@@ -236,14 +246,9 @@ function Contacts() {
                 '',
                 'success'
               )
-              ligne.closest('tr').remove();
-                
+              ligne.closest('tr').remove(); 
             }
-          
           })
-    
-        
-      
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {

@@ -2,6 +2,8 @@ import React, { useEffect, useState }  from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
 
 import {
   Card as MuiCard,
@@ -23,9 +25,9 @@ import { spacing } from "@mui/system";
 import {
 Archive as ArchiveIcon,
 Edit as EditIcon,
+AccountBox as AccountBoxIcon,
 Add
-}from '@mui/icons-material';
-import { Link } from "react-router-dom";
+} from '@mui/icons-material';
 import { archiveOrganisme, getActiveOrganismes } from "../../services/OrganismesServices";
 import { encrypt } from "../../utils/crypt";
 
@@ -72,7 +74,9 @@ function DataGridOrganisme({organismes, columns}) {
 }
 
 function Organismes() {
-    
+    const navigate = useNavigate();
+    const user = useSelector( (state) => state.auth);
+
     const columns = [
       //   { field: "id", headerName: "ID", width: 150 },
         {
@@ -108,22 +112,27 @@ function Organismes() {
         },
         {
           field: "Actions",
+          width: 150,
           renderCell:  (cellValues) => {
           
             return (
-                <>
-                  <Link to={`/organisme/modifier/${encrypt(cellValues.id)}`}>  
-                      <IconButton  color="success" title="Modifier">
+                <> 
+                    <IconButton  color="info" title="Informations" onClick={() => navigate(`/organisme/info/${encrypt(cellValues.id)}`)}>
+                        <AccountBoxIcon />
+                    </IconButton>
+
+                    {user.permissions.includes('Edit-Organisme') && 
+                    <IconButton  color="success" title="Modifier" onClick={() => navigate(`/organisme/modifier/${encrypt(cellValues.id)}`)}>
                         <EditIcon />
-                      </IconButton>
-                  </Link>
+                    </IconButton>}
                   
-                  <IconButton  color="warning" title="Archiver"
-                    onClick={(event) => {
-                      handleClickArchive(event, cellValues);
-                    }} >
-                    <ArchiveIcon />
-                  </IconButton>
+                    {user.permissions.includes('Edit-Organisme') &&
+                    <IconButton  color="warning" title="Archiver"
+                        onClick={(event) => {
+                        handleClickArchive(event, cellValues);
+                        }} >
+                        <ArchiveIcon />
+                    </IconButton>}
                   
                  
                 </>
@@ -182,12 +191,15 @@ function Organismes() {
             },
             {
                 field: "Actions",
-                width: 200,
+                width: 150,
                 renderCell:  () => {
                     return (
                         <Stack direction='row' spacing={2}>
-                            <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
-                            <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                            <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />
+                            {user.permissions.includes('Edit-Organisme') &&
+                            <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />}
+                            {user.permissions.includes('Edit-Organisme') &&
+                            <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />}
                         </Stack>
                     );
                 }
@@ -210,9 +222,7 @@ function Organismes() {
   
     // Archiver les contacts
     function handleClickArchive(event, cellValues){
- 
-  
-      
+
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success',
@@ -245,14 +255,9 @@ function Organismes() {
                 'Archivé!',
                 'Contact archivé!',
                 'success'
-              )
-                
+              )        
             }
-          
           })
-    
-        
-      
         } else if (
           result.dismiss === Swal.DismissReason.cancel
         ) {
@@ -276,13 +281,14 @@ function Organismes() {
                     Organismes 
                 </Typography>
             </Grid>
+            {user.permissions.includes('Add-Organisme') &&
             <Grid item >
                 <Link to="/organisme/ajouter">
                     <Fab  size="small" color="primary" aria-label="add">
                         <Add /> 
                     </Fab>
                 </Link>
-            </Grid>
+            </Grid>}
         </Grid>
 
         <Divider my={6} />

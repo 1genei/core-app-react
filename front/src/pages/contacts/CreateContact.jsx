@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import * as Yup from "yup";
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
-import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
 import { addContact } from "../../services/ContactsServices";
@@ -17,7 +15,6 @@ import {
   Divider as MuiDivider,
   Grid,
   Link,
-  TextareaAutosize,
   TextField as MuiTextField,
   Typography,
 } from "@mui/material";
@@ -30,20 +27,6 @@ const Card = styled(MuiCard)(spacing);
 const Alert = styled(MuiAlert)(spacing);
 const TextField = styled(MuiTextField)(spacing);
 const Button = styled(MuiButton)(spacing);
-
-
-const initialValues = {
-  prenom: "",
-  nom: "",
-  email: "",
-};
-
-const validationSchema = Yup.object().shape({
-  prenom: Yup.string().required("Obligatoire"),
-  nom: Yup.string().required("Obligatoire"),
-  email: Yup.string().email("Ce champs doit être une adresse mail").required("Obligatoire"),
-});
-
 
 
 
@@ -105,7 +88,7 @@ function ContactForm() {
 
   return (
 
-        <Card mb={6}>
+        <Card mb={4}>
           <CardContent>
         
             {alertSuccess && (
@@ -127,47 +110,63 @@ function ContactForm() {
               </Box>
             ) : (
               <form onSubmit={handleSubmit}>
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="prenom"
-                      label="Prénom"
-                      value={contact?.prenom ?? ''}
-                      fullWidth
-                      onChange={handleChange}
-                      required
-                      variant="outlined"
-                      my={2}
-                    />
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="prenom"
+                        label="Prénom"
+                        value={contact?.prenom ?? ''}
+                        fullWidth
+                        onChange={handleChange}
+                        required
+                        variant="outlined"
+                        my={2}
+                        />
                   </Grid>
-                  <Grid item md={6}>
-                    <TextField
-                      name="nom"
-                      label="Nom"
-                      value={contact?.nom ?? ''}
-                      fullWidth
-                      required
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
+                  <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="nom"
+                        label="Nom"
+                        value={contact?.nom ?? ''}
+                        fullWidth
+                        required
+                        onChange={handleChange}
+                        variant="outlined"
+                        my={2}
+                        />
                   </Grid>
                 </Grid>
 
-                <TextField
-                  name="email"
-                  label="Email"
-                  value={contact?.email ?? ''}
-                  fullWidth
-                  required
-                  onChange={handleChange}
-                  type="email"
-                  variant="outlined"
-                  my={2}
-                />
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="email"
+                        label="Email"
+                        value={contact?.email ?? ''}
+                        fullWidth
+                        required
+                        onChange={handleChange}
+                        type="email"
+                        variant="outlined"
+                        my={2}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="date_naissance"
+                        value={contact?.date_naissance ?? ''}
+                        fullWidth
+                        type='date'
+                        onChange={handleChange}
+                        variant="outlined"
+                        my={2}
+                        helperText="Date de naissance"
+                        />
+                    </Grid>
+                </Grid>
 
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                     <TextField
                       name="telephone1"
                       label="Téléphone mobile"
@@ -179,7 +178,7 @@ function ContactForm() {
                       my={2}
                     />
                   </Grid>
-                  <Grid item md={6}>
+                  <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                     <TextField
                       name="telephone2"
                       label="Téléphone fixe"
@@ -193,35 +192,46 @@ function ContactForm() {
                   </Grid>
                 </Grid>
                 
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="adresse"
-                      label="Adresse"
-                      value={contact?.adresse ?? ''}
-                      fullWidth
-                    
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextareaAutosize
-                      name="note"
-                      label="Note"
-                      value={contact?.note ?? ''}
-                      fullWidth
-                     
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                      minRows={8}
-                      placeholder="Notes"
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="adresse"
+                        label="Adresse"
+                        value={contact?.adresse ?? ''}
+                        fullWidth
+                        onChange={handleChange}
+                        variant="outlined"
+                        my={2}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                            name="complement_adresse"
+                            label="Complément d'adresse"
+                            value={contact?.complement_adresse ?? ''}
+                            fullWidth
+                            onChange={handleChange}
+                            variant="outlined"
+                            my={2}
+                            />
+                    </Grid>
+                </Grid>
 
-                      style={{ width: '100%' }}
-                    />
-                  </Grid>
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} p={2}>
+                        <TextField
+                            name="notes"
+                            label="Notes"
+                            value={contact?.notes ?? ''}
+                            fullWidth
+                            multiline
+                            minRows={4}
+                            maxRows={8}
+                            onChange={handleChange}
+                            variant="outlined"
+                            my={2}
+                        />
+                    </Grid>
                 </Grid>
 
                 <Button

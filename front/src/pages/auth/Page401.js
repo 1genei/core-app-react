@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   }
 `;
 
-function Page404() {
+function Page401() {
   return (
     <Wrapper>
       <Helmet title="Unauthorized" />
@@ -26,10 +26,10 @@ function Page404() {
         401
       </Typography>
       <Typography component="h2" variant="h5" align="center" gutterBottom>
-        Access denied.
+        Accès refusé.
       </Typography>
       <Typography component="h2" variant="body1" align="center" gutterBottom>
-        You were not allowed to go here.
+        Vous n'avez pas l'autorisation d'aller ici.
       </Typography>
 
       <Button
@@ -39,10 +39,10 @@ function Page404() {
         color="secondary"
         mt={2}
       >
-        Return to website
+        Retourner à l'accueil
       </Button>
     </Wrapper>
   );
 }
 
-export default Page404;
+export default Page401;

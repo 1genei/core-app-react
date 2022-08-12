@@ -6,6 +6,7 @@ import Utilisateurs from "../pages/utilisateurs/Index";
 import ArchiveUtilisateur from '../pages/utilisateurs/ArchiveUtilisateur';
 import CreateUtilisateur from "../pages/utilisateurs/CreateUtilisateur";
 import EditUtilisateur from "../pages/utilisateurs/EditUtilisateur";
+import ProfilUtilisateur from "../pages/utilisateurs/ProfilUtilisateur";
 
 
 const UserRoutes = {
@@ -38,6 +39,16 @@ const UserRoutes = {
                     path: 'utilisateur',
                     element: <Outlet />,
                     children: [
+                        {
+                            path: "info/:id",
+                            element: <RequirePermission permission={'View-Users'} />,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <ProfilUtilisateur />,
+                                }
+                            ] 
+                        },
                         {
                             path: "ajouter",
                             element: <RequirePermission permission={'Add-User'} />,

@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 import Swal from 'sweetalert2';
-
+import { useSelector } from 'react-redux';
+import { useNavigate, Link } from 'react-router-dom';
 
 import {
   Card as MuiCard,
@@ -24,9 +25,9 @@ import { spacing } from "@mui/system";
 import {
 Archive as ArchiveIcon,
 Edit as EditIcon,
+AccountBox as AccountBoxIcon,
 Add
-}from '@mui/icons-material';
-import { Link } from "react-router-dom";
+} from '@mui/icons-material';
 import { archiveUser, getActiveUsers } from "../../services/UtilisateursServices";
 import { encrypt } from "../../utils/crypt";
 
@@ -84,6 +85,8 @@ function DataGridUtilisateur({utilisateurs, columns}) {
 }
 
 function Utilisateurs() {
+    const navigate = useNavigate();
+    const user = useSelector( (state) => state.auth);
 
   const [utilisateurs, setUtilisateurs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -120,23 +123,26 @@ function Utilisateurs() {
       },
       {
         field: "Actions",
+        width: 150,
         renderCell: (cellValues) => {
           return (
               <>
-              
-                <Link to={`/utilisateur/modifier/${encrypt(cellValues.id)}`}>
-                    <IconButton  color="success" title="Modifier" >
-                      <EditIcon />
+                    <IconButton  color="info" title="Informations" onClick={() => navigate(`/utilisateur/info/${encrypt(cellValues.id)}`)}>
+                        <AccountBoxIcon />
                     </IconButton>
-                </Link>
-                
-                
-                <IconButton  color="warning" title="Archiver"
-                  onClick={(event) => {
-                    handleArchive(event, cellValues);
-                  }} >
-                  <ArchiveIcon />
-                </IconButton>
+
+                    {user.permissions.includes('Edit-User') && 
+                    <IconButton  color="success" title="Modifier" onClick={() => navigate(`/utilisateur/modifier/${encrypt(cellValues.id)}`)}>
+                        <EditIcon />
+                    </IconButton>}
+                  
+                    {user.permissions.includes('Edit-User') &&
+                    <IconButton  color="warning" title="Archiver"
+                        onClick={(event) => {
+                        handleClickArchive(event, cellValues);
+                        }} >
+                        <ArchiveIcon />
+                    </IconButton>}
                 
                
               </>
@@ -180,12 +186,15 @@ function Utilisateurs() {
         },
         {
             field: "Actions",
-            width: 200,
+            width: 150,
             renderCell:  () => {
                 return (
                     <Stack direction='row' spacing={2}>
-                        <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
-                        <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />
+                        {user.permissions.includes('Edit-User') &&
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />}
+                        {user.permissions.includes('Edit-User') &&
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />}
                     </Stack>
                 );
             }
@@ -193,7 +202,7 @@ function Utilisateurs() {
     ];
   
   
-  function handleArchive(event, cellValues){
+  function handleClickArchive(event, cellValues){
   
       
     const swalWithBootstrapButtons = Swal.mixin({
@@ -229,14 +238,8 @@ function Utilisateurs() {
               'Utilisateur archivé!',
               'success'
             )
-            
-            
-          }
-        
+            }
         })
-  
-      
-    
       } else if (
         result.dismiss === Swal.DismissReason.cancel
       ) {
@@ -262,18 +265,15 @@ function Utilisateurs() {
                     Utilisateurs 
                 </Typography>
             </Grid>
+            {user.permissions.includes('Add-User') &&
             <Grid item >
                 <Link to="/utilisateur/ajouter">
                     <Fab  size="small" color="primary" aria-label="add">
                         <Add /> 
                     </Fab>
                 </Link>
-            </Grid>
+            </Grid>}
         </Grid>
-        
-        
-        
-        
 
         <Divider my={6} />
         {loading ? <DataGridUtilisateur columns={loadingC} utilisateurs={[{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}]}/> : <DataGridUtilisateur utilisateurs={utilisateurs} columns={columns}/>}

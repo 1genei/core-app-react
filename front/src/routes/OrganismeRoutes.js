@@ -6,6 +6,7 @@ import Organismes from "../pages/organismes/Index";
 import ArchiveOrganisme from '../pages/organismes/ArchiveOrganisme';
 import CreateOrganisme from "../pages/organismes/CreateOrganisme";
 import EditOrganisme from "../pages/organismes/EditOrganisme";
+import ProfilOrganisme from "../pages/organismes/ProfilOrganisme";
 
 
 const OrganismeRoutes = {
@@ -38,6 +39,16 @@ const OrganismeRoutes = {
                     path: 'organisme',
                     element: <Outlet />,
                     children: [
+                        {
+                            path: "info/:id",
+                            element: <RequirePermission permission={'View-Organismes'} />,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <ProfilOrganisme />,
+                                }
+                            ] 
+                        },
                         {
                             path: "ajouter",
                             element: <RequirePermission permission={'Add-Organisme'} />,

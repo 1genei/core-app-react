@@ -8,108 +8,157 @@ use Illuminate\Support\Facades\Validator;
 
 class OrganismeController extends Controller
 {
-//Renvoie tous les organismes de la table
-public function getOrganismes() {
-    $organismes = organisme::all();
-    return Response()->json([
-        'organismes' => $organismes,
-        'status' => 200,
-    ]);
-}
-
-    /*
-    *  Renvoie tous les organismes actifs
-    */
-    public function getActiveOrganismes() {
-    
-        $organismes = Organisme::where('archive', 0)->get();
-
+    //Renvoie tous les organismes de la table
+    public function getOrganismes() {
+        $organismes = organisme::all();
         return Response()->json([
             'organismes' => $organismes,
             'status' => 200,
+        ]);
+    }
+
+        /*
+        *  Renvoie tous les organismes actifs
+        */
+        public function getActiveOrganismes() {
+        
+            $organismes = Organisme::where('archive', 0)->get();
+
+            return Response()->json([
+                'organismes' => $organismes,
+                'status' => 200,
+            ], 200);
+        }
+        
+
+        /*
+        *  Renvoie tous les organismes archivés
+        */
+        public function getArchivedOrganismes() {
+        
+            $organismes = Organisme::where('archive', 1)->get();
+
+            return Response()->json([
+                'organismes' => $organismes,
+                'status' => 200,
+            ], 200);
+        }
+        
+
+    //Renvoie le organisme d'id $organisme_id
+    public function getOrganisme($organisme_id) {
+        $organisme = Organisme::where('id','=',$organisme_id)->first();
+        return Response()->json([
+            'organisme' => $organisme
         ], 200);
     }
-    
 
-    /*
-    *  Renvoie tous les organismes archivés
-    */
-    public function getArchivedOrganismes() {
-    
-        $organismes = Organisme::where('archive', 1)->get();
-
+    //Crée un organisme selon les paramètres passés dans $request
+    public function store(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'nom' => 'required|string',
+            'adresse' => 'string',
+            'complement_adresse' => 'string',
+            'email' => 'email',
+            'telephone' => 'string',
+            'site' => 'string'
+        ]);
+        if ($validator->fails()) {
+            return Response()->json([
+                'erreurs' => $validator->errors(),
+                'status' => 400,
+            ], 200);
+        }
+        $organisme = Organisme::create([
+            'nom' => $request->nom,
+            'adresse' => $request->adresse,
+            'complement_adresse' => $request->complement_adresse,
+            'email' => $request->email,
+            'telephone' => $request->telephone,
+            'site' => $request->site,
+            'notes' => $request->notes
+        ]);
         return Response()->json([
-            'organismes' => $organismes,
+            'message' => 'Organisme créé',
             'status' => 200,
         ], 200);
     }
+
+    //Supprime le organisme d'id $organisme_id
+    public function delete($organisme_id) {
+        Organisme::where('id','=',$organisme_id)->delete();
+        return Response()->json([
+            'message' => 'Organisme supprimé'
+        ], 200);
+    }
+
+    /**
+    * Archive l'organisme d'id $organisme_id
+    */
+    public function archive($organisme_id) {
     
 
-//Renvoie le organisme d'id $organisme_id
-public function getOrganisme($organisme_id) {
-    $organisme = Organisme::where('id','=',$organisme_id)->first();
-    return Response()->json([
-        'organisme' => $organisme
-    ], 200);
-}
-
-//Crée un organisme selon les paramètres passés dans $request
-public function store(Request $request) {
-    $validator = Validator::make($request->all(),[
-        'nom' => 'required|string',
-        'adresse' => 'required|string',
-        'email' => 'required|email',
-        'telephone' => 'required|string',
-        'site' => 'required|string'
-    ]);
-    if ($validator->fails()) {
+        $organisme = Organisme::where('id','=',$organisme_id)->first();
+        
+        $organisme->archive = 1;
+        $organisme->update();
         return Response()->json([
-            'erreurs' => $validator->errors()
-        ], 400);
+            'message' => 'Organisme archivé',
+            'status' =>200
+        ], 200);
     }
-    $organisme = Organisme::create([
-        'nom' => $request->input('nom'),
-        'adresse' => $request->input('adresse'),
-        'email' => $request->input('email'),
-        'telephone' => $request->input('telephone'),
-        'site' => $request->input('site')
-    ]);
-    return Response()->json([
-        'message' => 'Organisme créé'
-    ], 200);
-}
 
-//Supprime le organisme d'id $organisme_id
-public function delete($organisme_id) {
-    Organisme::where('id','=',$organisme_id)->delete();
-    return Response()->json([
-        'message' => 'Organisme supprimé'
-    ], 200);
-}
-
-//Modifie le organisme d'id $organisme_id avec les paramètres passés dans $request
-public function update(Request $request, $organisme_id) {
-    $validator = Validator::make($request->all(),[
-        'nom' => 'required|string',
-        'adresse' => 'required|string',
-        'email' => 'required|email',
-        'telephone' => 'required|string',
-        'site' => 'required|string'
-    ]);
-    if ($validator->fails()) {
+    /**
+    * Restaure l'organisme d'id $organisme_id
+    */
+    public function restore($organisme_id) {
+    
+        $organisme = Organisme::where('id','=',$organisme_id)->first();
+        $organisme->archive = 0;
+        $organisme->update();
         return Response()->json([
-            'erreurs' => $validator->errors()
-        ], 400);
+            'message' => 'Organisme restauré',
+            'status' =>200
+            
+        ], 200);
     }
-    $organisme = Organisme::where('id', '=', $organisme_id)->first();
-    $organisme->nom = $request->nom; 
-    $organisme->adresse = $request->adresse; 
-    $organisme->email = $request->email; 
-    $organisme->telephone = $request->telephone;
-    $organisme->site = $request->site; 
-    $organisme->update();
-    return Response()->json([
-        'message' => 'Organisme modifié'
-    ], 200);
-}
+
+    /**
+    *   Modifie l'organisme d'id $organisme_id avec les paramètres passés dans $request
+    */
+    public function update(Request $request, $organisme_id) {
+    
+        $organisme = Organisme::where('id', '=', $organisme_id)->first();
+    
+        $validator = Validator::make($request->all(),[
+            'nom' => 'required|string',
+            'site' => 'string',
+            'adresse' => 'string',
+            'complement_adresse' => 'string',
+            'telephone' => 'string',
+            'email' => 'required',
+            'notes' => 'string'
+        ]);
+
+        if ($validator->fails()) {
+            return Response()->json([
+                'errors' => $validator->errors(),
+                'status' => 400,
+            ], 200);
+        }
+        
+        $organisme->nom = $request->nom; 
+        $organisme->adresse = $request->adresse; 
+        $organisme->complement_adresse = $request->complement_adresse; 
+        $organisme->email = $request->email; 
+        $organisme->site = $request->site; 
+        $organisme->telephone = $request->telephone; 
+        $organisme->notes = $request->notes; 
+        $organisme->update();
+
+        return Response()->json([
+            'message' => 'Organisme modifié',
+            'status' => 200,
+        ], 200);
+    }
 }

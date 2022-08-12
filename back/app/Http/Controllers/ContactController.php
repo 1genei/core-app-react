@@ -100,10 +100,11 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(),[
             'nom' => 'required|string',
             'prenom' => 'required|string',
-            'adresse' => 'string|required',
+            'adresse' => 'string',
+            'date_naissance' => 'date',
             'email' => 'required|unique:contacts|email',
-            'telephone1' => 'string|required',
-            'telephone2' => 'string|required',
+            'telephone1' => 'string',
+            'telephone2' => 'string',
             'notes' => 'string'
         ]);
         
@@ -120,6 +121,7 @@ class ContactController extends Controller
             'prenom' => $request->input('prenom'),
             'email' => $request->input('email'),
             'adresse' => $request->input('adresse'),
+            'date_naissance' => $request->input('date_naissance'),
             'telephone1' => $request->input('telephone1'),
             'telephone2' => $request->input('telephone2'),
             'notes' => $request->input('notes')
@@ -220,9 +222,9 @@ class ContactController extends Controller
     */
     public function restore($contact_id) {
     
-        $user = Contact::where('id','=',$contact_id)->first();
-        $user->archive = 0;
-        $user->update();
+        $contact = Contact::where('id','=',$contact_id)->first();
+        $contact->archive = 0;
+        $contact->update();
         return Response()->json([
             'message' => 'Contact restauré',
             'status' =>200

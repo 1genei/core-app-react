@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 
 import { CssBaseline } from "@mui/material";
 
-import Settings from "../components/Settings";
 import GlobalStyle from "../components/GlobalStyle";
 
 const Root = styled.div`
@@ -24,7 +23,6 @@ const Auth = ({ children }) => {
       <GlobalStyle />
       {children}
       <Outlet />
-      <Settings />
     </Root>
   );
 };

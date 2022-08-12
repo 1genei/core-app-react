@@ -3,7 +3,6 @@ import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 import Swal from 'sweetalert2';
 
-
 import {
   Card as MuiCard,
   CardContent as MuiCardContent,
@@ -23,11 +22,12 @@ import { spacing } from "@mui/system";
 
 import {
 Unarchive as UnArchiveIcon,
+AccountBox as AccountBoxIcon,
 } from '@mui/icons-material';
-
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
 import { getArchivedUsers, restoreUser } from "../../services/UtilisateursServices";
-
+import { encrypt } from "../../utils/crypt";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -75,17 +75,19 @@ function DataGridUtilisateur({utilisateurs, columns}) {
 }
 
 function Utilisateurs() {
+    const navigate = useNavigate();
+    const user = useSelector( (state) => state.auth);
 
-  const [utilisateurs, setUtilisateurs] = useState([]);
-  const [loading, setLoading] = useState(true);
+    const [utilisateurs, setUtilisateurs] = useState([]);
+    const [loading, setLoading] = useState(true);
 
-  useEffect( async () => {
-    try {
-        const listUtilisateurs = await getArchivedUsers();
-        setUtilisateurs(listUtilisateurs);
-    } catch (e) {}
-    setLoading(false)
-  }, []);
+    useEffect( async () => {
+        try {
+            const listUtilisateurs = await getArchivedUsers();
+            setUtilisateurs(listUtilisateurs);
+        } catch (e) {}
+        setLoading(false)
+    }, []);
   
   const columns = [
     //   { field: "id", headerName: "ID", width: 150 },
@@ -111,21 +113,22 @@ function Utilisateurs() {
       },
       {
         field: "Actions",
+        width: 150,
         renderCell: (cellValues) => {
           return (
               <>
-                
-                <IconButton  color="primary" title="Restaurer"
-                  onClick={(event) => {
-                    handleArchive(event, cellValues);
-                  }} >
-                  <UnArchiveIcon />
+                <IconButton  color="info" title="Informations" onClick={() => navigate(`/utilisateur/info/${encrypt(cellValues.id)}`)}>
+                    <AccountBoxIcon />
                 </IconButton>
-                
-               
+
+                {user.permissions.includes('Edit-User') &&
+                <IconButton  color="primary" title="Restaurer"
+                    onClick={(event) => {
+                    handleClickArchive(event, cellValues);
+                    }} >
+                    <UnArchiveIcon />
+                </IconButton>}
               </>
-          
-            
           );
         }
       }
@@ -164,17 +167,21 @@ function Utilisateurs() {
         },
         {
             field: "Actions",
-            width: 200,
+            width: 150,
             renderCell:  () => {
                 return (
-                    <Skeleton animation='wave' variant='rounded' width={40} height={40} sx={{ borderRadius:3 }} />
+                    <Stack direction='row' spacing={2}>
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />
+                        {user.permissions.includes('Edit-User') &&
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />}
+                    </Stack>
                 );
             }
         }
     ];
   
   
-  function handleArchive(event, cellValues){
+  function handleClickArchive(event, cellValues){
   
       
     const swalWithBootstrapButtons = Swal.mixin({
@@ -210,14 +217,8 @@ function Utilisateurs() {
               'Utilisateur restauré!',
               'success'
             )
-            
-            
           }
-        
         })
-  
-      
-    
       } else if (
         result.dismiss === Swal.DismissReason.cancel
       ) {

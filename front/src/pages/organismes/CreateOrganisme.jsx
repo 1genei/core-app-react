@@ -1,11 +1,9 @@
 import React, { useState } from "react";
-import * as Yup from "yup";
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
-import { Formik } from "formik";
 import { Helmet } from "react-helmet-async";
 
-import { addContact } from "../../services/ContactsServices";
+import { addOrganisme } from "../../services/OrganismesServices";
 import {
   Alert as MuiAlert,
   Box,
@@ -17,7 +15,6 @@ import {
   Divider as MuiDivider,
   Grid,
   Link,
-  TextareaAutosize,
   TextField as MuiTextField,
   Typography,
 } from "@mui/material";
@@ -32,35 +29,22 @@ const TextField = styled(MuiTextField)(spacing);
 const Button = styled(MuiButton)(spacing);
 
 
-const initialValues = {
-  prenom: "",
-  nom: "",
-  email: "",
-};
-
-const validationSchema = Yup.object().shape({
-  prenom: Yup.string().required("Obligatoire"),
-  nom: Yup.string().required("Obligatoire"),
-  email: Yup.string().email("Ce champs doit être une adresse mail").required("Obligatoire"),
-});
 
 
-
-
-function ContactForm() {
+function OrganismeForm() {
 
     const [messageSuccess, setMessageSuccess] = useState('');
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [contact, setContact] = useState({});
+    const [organisme, setOrganisme] = useState({});
     
     
     const handleChange = (e) => {
       
       const {name,value} = e.target;
-      setContact({...contact, [name]:value});
+      setOrganisme({...organisme, [name]:value});
     }
     
     
@@ -71,35 +55,33 @@ function ContactForm() {
         
         setIsSubmitting(true);
   
-        // try {
-            setAlertError(false); 
-            setAlertSuccess(false);
-            
+    // try {
+        setAlertError(false); 
+        setAlertSuccess(false);
         
-            const result =  await addContact(contact);
+    
+        const result =  await addOrganisme(organisme);
+        
+        if(result?.status === 200 ){
             
-            if(result?.status === 200 ){
-                
-                setIsSubmitting(false);
-                
-                setMessageSuccess(result?.message);
-                setAlertSuccess(true);
-                setContact({});
-  
-                
-            }else{
+            setIsSubmitting(false);
             
-                setIsSubmitting(false);
-                
-                let errors = validatorErrors(result?.errors);
-                
-                setAlertError(true);                
-                setMessageErrors(errors);
-      
-            }
-   
-       
-  };
+            setMessageSuccess(result?.message);
+            setAlertSuccess(true);
+            setOrganisme({});
+
+            
+        }else{
+        
+            setIsSubmitting(false);
+            
+            let errors = validatorErrors(result?.errors);
+            
+            setAlertError(true);                
+            setMessageErrors(errors);
+    
+        } 
+    };
 
 
 
@@ -126,114 +108,110 @@ function ContactForm() {
                 <CircularProgress />
               </Box>
             ) : (
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="prenom"
-                      label="Prénom"
-                      value={contact?.prenom ?? ''}
-                      fullWidth
-                      onChange={handleChange}
-                      required
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextField
-                      name="nom"
-                      label="Nom"
-                      value={contact?.nom ?? ''}
-                      fullWidth
-                      required
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
+            <form onSubmit={handleSubmit}>
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="nom"
+                        label="Nom"
+                        value={organisme?.nom ?? ''}
+                        fullWidth
+                        onChange={handleChange}
+                        required
+                        variant="outlined"
+                        my={2}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="site"
+                        label="Site"
+                        value={organisme?.site ?? ''}
+                        fullWidth
+                        onChange={handleChange}
+                        variant="outlined"
+                        my={2}
+                        />
+                    </Grid>
                 </Grid>
-
-                <TextField
-                  name="email"
-                  label="Email"
-                  value={contact?.email ?? ''}
-                  fullWidth
-                  required
-                  onChange={handleChange}
-                  type="email"
-                  variant="outlined"
-                  my={2}
-                />
-
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="telephone1"
-                      label="Téléphone mobile"
-                      value={contact?.telephone1 ?? ''}
-                      fullWidth
-                     
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextField
-                      name="telephone2"
-                      label="Téléphone fixe"
-                      value={contact?.telephone2 ?? ''}
-                      fullWidth
-                      
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
+    
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="adresse"
+                        label="Adresse"
+                        value={organisme?.adresse ?? ''}
+                        fullWidth
+                        onChange={handleChange}
+                        variant="outlined"
+                        my={2}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                            name="complement_adresse"
+                            label="Complément d'adresse"
+                            value={organisme?.complement_adresse ?? ''}
+                            fullWidth
+                            onChange={handleChange}
+                            variant="outlined"
+                            my={2}
+                            />
+                    </Grid>
                 </Grid>
-                
-                <Grid container spacing={6}>
-                  <Grid item md={6}>
-                    <TextField
-                      name="adresse"
-                      label="Adresse"
-                      value={contact?.adresse ?? ''}
-                      fullWidth
-                    
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                    />
-                  </Grid>
-                  <Grid item md={6}>
-                    <TextareaAutosize
-                      name="note"
-                      label="Note"
-                      value={contact?.note ?? ''}
-                      fullWidth
-                     
-                      onChange={handleChange}
-                      variant="outlined"
-                      my={2}
-                      minRows={8}
-                      placeholder="Notes"
-
-                      style={{ width: '100%' }}
-                    />
-                  </Grid>
+    
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="telephone"
+                        label="Téléphone"
+                        value={organisme?.telephone ?? ''}
+                        fullWidth
+                        
+                        onChange={handleChange}
+                        variant="outlined"
+                        my={2}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                        <TextField
+                        name="email"
+                        label="Email"
+                        value={organisme?.email ?? ''}
+                        fullWidth
+                        type="email"
+                        onChange={handleChange}
+                        variant="outlined"
+                        my={2}
+                        />
+                    </Grid>
                 </Grid>
-
+                <Grid container>
+                    <Grid item xs={12} sm={12} md={12} lg={12} xl={12} p={2}>
+                        <TextField
+                            name="notes"
+                            label="Notes"
+                            value={organisme?.notes ?? ''}
+                            fullWidth
+                            multiline
+                            minRows={4}
+                            maxRows={8}
+                            onChange={handleChange}
+                            variant="outlined"
+                            my={2}
+                        />
+                    </Grid>
+                </Grid>
+    
                 <Button
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  mt={3}
-                  size="large"
+                type="submit"
+                variant="contained"
+                mt={3}
+                size="large"
                 >
-                  Ajouter
+                Ajouter
                 </Button>
-              </form>
+            </form>
             )}
           </CardContent>
         </Card>
@@ -241,7 +219,7 @@ function ContactForm() {
   );
 }
 
-function CreateContact() {
+function CreateOrganisme() {
   return (
     <React.Fragment>
       <Helmet title="Organismes" />
@@ -258,9 +236,9 @@ function CreateContact() {
 
       <Divider my={6} />
 
-      <ContactForm />
+      <OrganismeForm />
     </React.Fragment>
   );
 }
 
-export default CreateContact;
+export default CreateOrganisme;

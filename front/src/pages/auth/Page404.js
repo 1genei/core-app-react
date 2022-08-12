@@ -26,10 +26,10 @@ function Page404() {
         404
       </Typography>
       <Typography component="h2" variant="h5" align="center" gutterBottom>
-        Page not found.
+        Page inconnue.
       </Typography>
       <Typography component="h2" variant="body1" align="center" gutterBottom>
-        The page you are looking for might have been removed.
+        La page demandée n'a pas été trouvée.
       </Typography>
 
       <Button
@@ -39,7 +39,7 @@ function Page404() {
         color="secondary"
         mt={2}
       >
-        Return to website
+        Retourner à l'accueil
       </Button>
     </Wrapper>
   );

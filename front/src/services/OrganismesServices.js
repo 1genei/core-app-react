@@ -3,7 +3,7 @@ import axios from '../api/Axios';
 
 /**
  * 
- * @returns la liste des contacts actifs
+ * @returns la liste des organismes actifs
  */
  export const getActiveOrganismes = async () => {
 
@@ -20,7 +20,7 @@ import axios from '../api/Axios';
 
 /**
  * 
- * @returns la liste des contacts archivés
+ * @returns la liste des organismes archivés
  */
  export const getArchivedOrganismes = async () => {
 
@@ -35,7 +35,7 @@ import axios from '../api/Axios';
 }
 /**
  * 
- * @returns la liste des contacts
+ * @returns la liste des organismes
  */
 export const getOrganismes = async () => {
 
@@ -52,27 +52,23 @@ export const getOrganismes = async () => {
 
 /**
  * 
- * @returns retourne le contact dont l'id est passé en paramètre
+ * @returns retourne l'organisme dont l'id est passé en paramètre
  */
- export const getOrganisme = async (contact_id) => {
+ export const getOrganisme = async (organisme_id) => {
 
-    return axios.get(`organisme/${contact_id}`)
+    return axios.get(`organisme/${organisme_id}`)
     .then( (res) => {
         return res.data.organisme;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
     });
 } 
 
 
 /**
- * Ajouter un contact
+ * Ajouter un organisme
  */
-export const addOrganisme = async (contact) => {
+export const addOrganisme = async (organisme) => {
 
-    return axios.post('organisme/store', contact)
+    return axios.post('organisme/store', organisme)
     .then( (res) => {
         return res.data;
     })
@@ -84,11 +80,11 @@ export const addOrganisme = async (contact) => {
 
 
 /**
- * Modifier le contact
+ * Modifier l'organisme
 */
- export const updateOrganisme = async (contact, contact_id) => {
+ export const updateOrganisme = async (organisme, organisme_id) => {
 
-    return axios.put(`organisme/update/${contact_id}`, contact)
+    return axios.put(`organisme/update/${organisme_id}`, organisme)
     .then( (res) => {
         return res.data;
     })
@@ -100,7 +96,7 @@ export const addOrganisme = async (contact) => {
 
 
 /**
- * Archiver le contact
+ * Archiver l'organisme
 */
 export const archiveOrganisme = async (id) => {
     return axios.put(`organisme/archive/${id}`)
@@ -116,7 +112,7 @@ export const archiveOrganisme = async (id) => {
 
 
 /**
- * Désarchiver le contact
+ * Désarchiver l'organisme
 */
 export const restoreOrganisme = async (id) => {
     return axios.put(`organisme/restore/${id}`)

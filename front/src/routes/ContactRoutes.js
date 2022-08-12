@@ -4,9 +4,9 @@ import Contacts from "../pages/contacts/Index";
 import ArchiveContact from '../pages/contacts/ArchiveContact';
 import CreateContact from "../pages/contacts/CreateContact"
 import EditContact from "../pages/contacts/EditContact";
+import ProfilContact from "../pages/contacts/ProfilContact";
 import RequirePermission from './middlewares/RequirePermission';
 import RequireAuth from "./middlewares/RequireAuth";
-
 
 const ContactRoutes = {
     path: '/',
@@ -38,6 +38,16 @@ const ContactRoutes = {
                     path: 'contact',
                     element: <Outlet />,
                     children: [
+                        {
+                            path: "info/:id",
+                            element: <RequirePermission permission={'View-Contacts'} />,
+                            children: [
+                                {
+                                    path: '',
+                                    element: <ProfilContact />,
+                                }
+                            ] 
+                        },
                         {
                             path: "ajouter",
                             element: <RequirePermission permission={'Add-Contact'} />,
