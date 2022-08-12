@@ -44,7 +44,7 @@ Route::group(['prefix' => 'utilisateur'], function () {
     Route::get('archived', [UserController::class, 'getArchivedUsers']);
     Route::put('archive/{id}', [UserController::class, 'archive'])->where('id', '[0-9]+');
     Route::put('restore/{id}', [UserController::class, 'restore'])->where('id', '[0-9]+');
-    Route::delete('update/{id}', [UserController::class, 'update'])->where('id', '[0-9]+');
+    Route::put('update/{id}', [UserController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('delete/{id}', [UserController::class, 'delete'])->where('id', '[0-9]+');
 });
 

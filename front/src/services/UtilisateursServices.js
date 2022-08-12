@@ -49,12 +49,30 @@ export const getArchivedUsers = async () => {
 
 /**
  * Ajouter un user
- */
+*/
 export const addUtilisateur = async (user) => {
 
     return axios.post('auth/register', user)
     .then( (res) => {
     
+        return res.data; 
+    })
+    .catch((error) => {
+        console.log(`erreur: ${error}`);
+        return error;
+    });
+}
+
+
+/**
+ * Modifier un user
+*/
+export const updateUtilisateur = async (user_id, role_id) => {
+
+    return axios.put('utilisateur/update/'+user_id, {role_id})
+    .then( (res) => {
+    
+    console.log(res.data);
         return res.data; 
     })
     .catch((error) => {

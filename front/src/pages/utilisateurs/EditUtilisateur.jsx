@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { NavLink, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import { addUtilisateur, getRoles, getUtilisateur } from "../../services/UtilisateursServices";
+import { addUtilisateur, getRoles, getUtilisateur, updateUtilisateur } from "../../services/UtilisateursServices";
 import { validatorErrors } from "../../utils/errors";
 import { getContactsNoUser } from "../../services/ContactsServices";
 
@@ -45,9 +45,10 @@ function UtilisateurForm() {
     const [alertError, setAlertError] = useState(false);
     const [roles, setRoles] = useState([]);
     const [roleId, setRoleId] = useState('');
-    const [contacts, setContacts] = useState([]);
-    const [contactId, setContactId] = useState('');
+    const [role, setRole] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    
+    const [utilisateur, setUtilisateur] = useState({});
     
     const params = useParams();
     
@@ -61,16 +62,16 @@ function UtilisateurForm() {
       const allRoles = await getRoles();
       setRoles(allRoles.roles);
       
-      const utilisateur = await getUtilisateur(id);
+      const util = await getUtilisateur(id);
+      setUtilisateur(util);
       
-      console.log(allRoles);
-      const allContacts = await getContactsNoUser();
-      setContacts(allContacts);
+      setRole(util?.role?.nom);
+  
     }, []);
+    
     
     // console.log(contacts);
 
-    const optionsContacts = contacts?.map((option, key ) => ({ id: option.id, label: (key+1)+" - "+option.nom })) ?? [];
     const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom}));
 
 
@@ -80,25 +81,18 @@ function UtilisateurForm() {
         setAlertError(false); 
         setAlertSuccess(false);
         
-        const result =  await addUtilisateur({contact_id:contactId, role_id:roleId});
+        const result =  await updateUtilisateur(utilisateur?.id, roleId);
         
         if(result?.status === 200 ){
         
             setMessageSuccess(result.message);
             setAlertSuccess(true);
             
-            // Réactualisation de la liste des contacts
-            var newContacts = contacts.filter(contact => contact.id != contactId);
-            
-            setContacts(newContacts);
-            
-            console.log(newContacts);
-            
+        
         }else{
         
             let errors = validatorErrors(result.erreurs);
             
-            console.log(result);
             setAlertError(true);                
             setMessageErrors(errors);
       
@@ -114,7 +108,6 @@ function UtilisateurForm() {
 
       <Card mb={6}>
         <CardContent>
-      
           {alertSuccess && (
             <Alert severity="success" onClose={() => setAlertSuccess(false) } my={3}>
                   <Typography variant="h6" component="h6" > {messageSuccess}  </Typography> 
@@ -138,16 +131,13 @@ function UtilisateurForm() {
               
                 <Grid item md={6}>
                   <Autocomplete
-                    options={optionsContacts}
+                    options={{}}
                     renderInput={(params) => <TextField required {...params} label="Contact" />}
                     name="contact"
                     fullWidth
-                                
-                    onChange={(e, value) => {
-                      setContactId(value.id)
-                      console.log(contactId);
-                    }}
-                    
+                    disabled
+                    value={ utilisateur?.contact?.prenom + " "+ utilisateur?.contact?.nom ?? ''}
+
                     variant="outlined"
                     my={2}
                   />
@@ -160,12 +150,17 @@ function UtilisateurForm() {
                       options={optionsRoles}
                       renderInput={(params) => <TextField required {...params} label="Rôle" />}
                       name="role"
-                      
                       fullWidth
-
-                      onChange={(e, value) => setRoleId(value?.id)}
+                      value={ role ?? ''}
+                      onChange={(e, value) => {
+                      
+                        setRoleId(value?.id)
+                        setRole(value?.label)
+                       
+                        }}
                       variant="outlined"
                       my={2}
+                      
                     />
                 </Grid>
                 
@@ -194,7 +189,7 @@ function CreateUtilisateur() {
     <React.Fragment>
       <Helmet title="Utilisateurs" />
       <Typography variant="h3" gutterBottom display="inline">
-        Modifier
+        Modifier le rôle 
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
