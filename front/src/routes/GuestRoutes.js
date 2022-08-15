@@ -7,27 +7,27 @@ import SignUp from "../pages/auth/SignUp";
 import ResetPassword from "../pages/auth/ResetPassword";
 
 const GuestRoutes = {
-  path: '/',
-  element: <RequireNotAuth />,
-  children: [
-    {
-      element: <AuthLayout />,
-      children: [
+    path: '/',
+    element: <RequireNotAuth />,
+    children: [
         {
-          path: "login",
-          element: <SignIn />,
-        },
-        {
-          path: "register",
-          element: <SignUp />,
-        },
-        {
-          path: "reset-password",
-          element: <ResetPassword />,
-        },
-      ]
-    }
-  ]
+            element: <AuthLayout />,
+            children: [
+                {
+                    path: "login",
+                    element: <SignIn />,
+                },
+                {
+                    path: "register",
+                    element: <SignUp />,
+                },
+                {
+                    path: "reset-password",
+                    element: <ResetPassword />,
+                },
+            ]
+        }
+    ]
 };
 
 export default GuestRoutes;

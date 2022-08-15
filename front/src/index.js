@@ -14,12 +14,12 @@ import { Provider as ReduxProvider } from 'react-redux';
 import store from './store';
 
 ReactDOM.render(
-  <ReduxProvider store={store}>
-    <BrowserRouter>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
-    </BrowserRouter>
-  </ReduxProvider>,
-  document.getElementById("root")
+    <ReduxProvider store={store}>
+        <BrowserRouter>
+            <ThemeProvider>
+                <App />
+            </ThemeProvider>
+        </BrowserRouter>
+    </ReduxProvider>,
+    document.getElementById("root")
 );

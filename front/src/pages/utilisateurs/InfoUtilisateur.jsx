@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 import { parseDateTime } from "../../utils/datetime";
 
 import {
-  Grid,
-  Divider as MuiDivider,
-  Typography as MuiTypography,
-  Stack,
-  Button
+    Grid,
+    Divider as MuiDivider,
+    Typography as MuiTypography,
+    Stack,
+    Button
 } from "@mui/material";
 import { spacing } from "@mui/system";
 import { useNavigate } from "react-router-dom";
@@ -20,14 +20,14 @@ const Divider = styled(MuiDivider)(spacing);
 const Typography = styled(MuiTypography)(spacing);
 
 
-function ProfilContact() {
+function ProfilUtilisateur() {
 
     return (
         <>
             <Helmet title='Organisme Name' />
-            <h1>Contact Profil</h1>
+            <h1>Utilisateur Profil</h1>
         </>
-  );
+    );
 }
 
-export default ProfilContact;
+export default ProfilUtilisateur;

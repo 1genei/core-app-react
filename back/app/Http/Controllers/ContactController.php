@@ -86,6 +86,7 @@ class ContactController extends Controller
     public function getContact($contact_id) {
     
         $contact = Contact::where('id','=',$contact_id)->first();
+        $contact->user;
         return Response()->json([
             'contact' => $contact
         ], 200);

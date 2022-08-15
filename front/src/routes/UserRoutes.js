@@ -6,7 +6,7 @@ import Utilisateurs from "../pages/utilisateurs/Index";
 import ArchiveUtilisateur from '../pages/utilisateurs/ArchiveUtilisateur';
 import CreateUtilisateur from "../pages/utilisateurs/CreateUtilisateur";
 import EditUtilisateur from "../pages/utilisateurs/EditUtilisateur";
-import ProfilUtilisateur from "../pages/utilisateurs/ProfilUtilisateur";
+import InfoUtilisateur from "../pages/utilisateurs/InfoUtilisateur";
 
 
 const UserRoutes = {
@@ -45,9 +45,9 @@ const UserRoutes = {
                             children: [
                                 {
                                     path: '',
-                                    element: <ProfilUtilisateur />,
+                                    element: <InfoUtilisateur />,
                                 }
-                            ] 
+                            ]
                         },
                         {
                             path: "ajouter",
@@ -57,7 +57,7 @@ const UserRoutes = {
                                     path: '',
                                     element: <CreateUtilisateur />,
                                 }
-                            ] 
+                            ]
                         },
                         {
                             path: "modifier/:id",
@@ -67,7 +67,7 @@ const UserRoutes = {
                                     path: '',
                                     element: <EditUtilisateur />,
                                 }
-                            ] 
+                            ]
                         },
                     ]
                 }

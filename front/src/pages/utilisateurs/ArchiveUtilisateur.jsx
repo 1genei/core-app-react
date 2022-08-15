@@ -4,16 +4,16 @@ import { Helmet } from "react-helmet-async";
 import Swal from 'sweetalert2';
 
 import {
-  Card as MuiCard,
-  CardContent as MuiCardContent,
-  Divider as MuiDivider,
-  Paper as MuiPaper,
-  Typography,
-  Grid,
-  IconButton,
-  Breadcrumbs,
-  Skeleton,
-  Stack
+    Card as MuiCard,
+    CardContent as MuiCardContent,
+    Divider as MuiDivider,
+    Paper as MuiPaper,
+    Typography,
+    Grid,
+    IconButton,
+    Breadcrumbs,
+    Skeleton,
+    Stack
 } from "@mui/material";
 
 
@@ -21,8 +21,8 @@ import { DataGrid } from "@mui/x-data-grid";
 import { spacing } from "@mui/system";
 
 import {
-Unarchive as UnArchiveIcon,
-AccountBox as AccountBoxIcon,
+    Unarchive as UnArchiveIcon,
+    AccountBox as AccountBoxIcon,
 } from '@mui/icons-material';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
@@ -38,107 +38,107 @@ const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
 
 function getFullName(params) {
-  return `${params.row.contact.prenom || ''} ${params.row.contact.nom || ''}`;
+    return `${params.row.contact.prenom || ''} ${params.row.contact.nom || ''}`;
 }
 
 function getRoleName(params) {
-  return `${params.row.role.nom}`;
+    return `${params.row.role.nom}`;
 }
 
 
-function DataGridUtilisateur({utilisateurs, columns}) {
+function DataGridUtilisateur({ utilisateurs, columns }) {
     const [pageSize, setPageSize] = React.useState(10);
-     
+
     return (
         <Card mb={6}>
-          <CardContent pb={1}>
-            <Typography variant="h6" gutterBottom>
-              Liste
-            </Typography>
-           
-          </CardContent>
-          <Paper>
-            <div style={{ height: 800, width: "100%" }}>
-              <DataGrid
-                rowsPerPageOptions={[10, 25, 50, 100]}
-                pageSize={pageSize}
-                pagination
-                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                rows={utilisateurs}
-                columns={columns}
-                checkboxSelection
-              />
-            </div>
-          </Paper>
+            <CardContent pb={1}>
+                <Typography variant="h6" gutterBottom>
+                    Liste
+                </Typography>
+
+            </CardContent>
+            <Paper>
+                <div style={{ height: 800, width: "100%" }}>
+                    <DataGrid
+                        rowsPerPageOptions={[10, 25, 50, 100]}
+                        pageSize={pageSize}
+                        pagination
+                        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                        rows={utilisateurs}
+                        columns={columns}
+                        checkboxSelection
+                    />
+                </div>
+            </Paper>
         </Card>
-      );
+    );
 }
 
 function Utilisateurs() {
     const navigate = useNavigate();
-    const user = useSelector( (state) => state.auth);
+    const user = useSelector((state) => state.auth);
 
     const [utilisateurs, setUtilisateurs] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect( async () => {
+    useEffect(async () => {
         try {
             const listUtilisateurs = await getArchivedUsers();
             setUtilisateurs(listUtilisateurs);
-        } catch (e) {}
+        } catch (e) { }
         setLoading(false)
     }, []);
-  
-  const columns = [
-    //   { field: "id", headerName: "ID", width: 150 },
-      {
-        field: "contact",
-        headerName: "Contact",
-        width: 200,
-        editable: false,
-        valueGetter : getFullName
-      },
-      {
-        field: "email",
-        headerName: "Email",
-        width: 200,
-        editable: false,
-      },
-      {
-        field: "role",
-        headerName: "Rôle",
-        width: 200,
-        editable: false,
-        valueGetter : getRoleName
-      },
-      {
-        field: "Actions",
-        width: 150,
-        renderCell: (cellValues) => {
-          return (
-              <>
-                <IconButton  color="info" title="Informations" onClick={() => navigate(`/utilisateur/info/${encrypt(cellValues.id)}`)}>
-                    <AccountBoxIcon />
-                </IconButton>
 
-                {user.permissions.includes('Edit-User') &&
-                <IconButton  color="primary" title="Restaurer"
-                    onClick={(event) => {
-                    handleClickArchive(event, cellValues);
-                    }} >
-                    <UnArchiveIcon />
-                </IconButton>}
-              </>
-          );
+    const columns = [
+        //   { field: "id", headerName: "ID", width: 150 },
+        {
+            field: "contact",
+            headerName: "Contact",
+            width: 200,
+            editable: false,
+            valueGetter: getFullName
+        },
+        {
+            field: "email",
+            headerName: "Email",
+            width: 200,
+            editable: false,
+        },
+        {
+            field: "role",
+            headerName: "Rôle",
+            width: 200,
+            editable: false,
+            valueGetter: getRoleName
+        },
+        {
+            field: "Actions",
+            width: 150,
+            renderCell: (cellValues) => {
+                return (
+                    <>
+                        <IconButton color="info" title="Informations" onClick={() => navigate(`/utilisateur/info/${encrypt(cellValues.id)}`)}>
+                            <AccountBoxIcon />
+                        </IconButton>
+
+                        {user.permissions.includes('Edit-User') &&
+                            <IconButton color="primary" title="Restaurer"
+                                onClick={(event) => {
+                                    handleClickArchive(event, cellValues);
+                                }} >
+                                <UnArchiveIcon />
+                            </IconButton>}
+                    </>
+                );
+            }
         }
-      }
     ];
 
     const loadingC = [
         {
             field: "Contact",
             width: 200,
-            renderCell:  () => {
+            renderCell: () => {
                 return (
                     <Stack direction='row' spacing={2}>
                         <Skeleton animation='wave' variant='text' width={65} />
@@ -150,7 +150,7 @@ function Utilisateurs() {
         {
             field: "Email",
             width: 200,
-            renderCell:  () => {
+            renderCell: () => {
                 return (
                     <Skeleton animation='wave' variant='text' width={170} />
                 );
@@ -159,7 +159,7 @@ function Utilisateurs() {
         {
             field: "Rôle",
             width: 200,
-            renderCell:  () => {
+            renderCell: () => {
                 return (
                     <Skeleton animation='wave' variant='text' width={140} />
                 );
@@ -168,98 +168,98 @@ function Utilisateurs() {
         {
             field: "Actions",
             width: 150,
-            renderCell:  () => {
+            renderCell: () => {
                 return (
                     <Stack direction='row' spacing={2}>
-                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />
+                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius: 3 }} />
                         {user.permissions.includes('Edit-User') &&
-                        <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius:3 }} />}
+                            <Skeleton animation='wave' variant='rounded' width={35} height={35} sx={{ borderRadius: 3 }} />}
                     </Stack>
                 );
             }
         }
     ];
-  
-  
-  function handleClickArchive(event, cellValues){
-  
-      
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    })
-    
-    swalWithBootstrapButtons.fire({
-      title: 'Voulez-vous restaurer cet utilisateur ?',
-      text: "",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Oui',
-      cancelButtonText: 'Non',
-      reverseButtons: true
-    }).then((result) => {
-    
-      
-      if (result.isConfirmed) {
-        
-          restoreUser(cellValues.id).then( (res) => {            
-     
-            if(res.status === 200){
-              console.log(utilisateurs);
-             var newUtilisateurs = utilisateurs.filter( utilisateur => utilisateur.id != cellValues.id );
-             setUtilisateurs(newUtilisateurs);
-             
-            swalWithBootstrapButtons.fire(
-              'Restauré!',
-              'Utilisateur restauré!',
-              'success'
-            )
-          }
+
+
+    function handleClickArchive(event, cellValues) {
+
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
         })
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
-          'Annulé',
-          'Archivage annulé',
-          'error'
-        )
-      }
-    })
-  }
 
-  
-  
-  
-  return (
-    <React.Fragment>
-        <Helmet title="Utilisateurs" />
-        
-        <Grid container spacing={5}>
-            <Grid item >
-                <Typography variant="h3" gutterBottom display="inline">
-                    Utilisateurs archivés
-                </Typography>
-                
-                <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                    <Link component={NavLink} to="/utilisateurs/actifs">
-                      Utilisateurs actifs
-                    </Link>
-                    
-                </Breadcrumbs>
+        swalWithBootstrapButtons.fire({
+            title: 'Voulez-vous restaurer cet utilisateur ?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Oui',
+            cancelButtonText: 'Non',
+            reverseButtons: true
+        }).then((result) => {
+
+
+            if (result.isConfirmed) {
+
+                restoreUser(cellValues.id).then((res) => {
+
+                    if (res.status === 200) {
+                        console.log(utilisateurs);
+                        var newUtilisateurs = utilisateurs.filter(utilisateur => utilisateur.id != cellValues.id);
+                        setUtilisateurs(newUtilisateurs);
+
+                        swalWithBootstrapButtons.fire(
+                            'Restauré!',
+                            'Utilisateur restauré!',
+                            'success'
+                        )
+                    }
+                })
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Annulé',
+                    'Archivage annulé',
+                    'error'
+                )
+            }
+        })
+    }
+
+
+
+
+    return (
+        <React.Fragment>
+            <Helmet title="Utilisateurs" />
+
+            <Grid container spacing={5}>
+                <Grid item >
+                    <Typography variant="h3" gutterBottom display="inline">
+                        Utilisateurs archivés
+                    </Typography>
+
+                    <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+                        <Link component={NavLink} to="/utilisateurs/actifs">
+                            Utilisateurs actifs
+                        </Link>
+
+                    </Breadcrumbs>
+                </Grid>
+
+
             </Grid>
-         
-            
-        </Grid>
-               
 
-        <Divider my={6} />
-        {loading ? <DataGridUtilisateur columns={loadingC} utilisateurs={[{id:1}, {id:2}, {id:3}, {id:4}, {id:5}, {id:6}, {id:7}, {id:8}, {id:9}, {id:10}]}/> : <DataGridUtilisateur utilisateurs={utilisateurs} columns={columns}/>}
-    </React.Fragment>
-  );
+
+            <Divider my={6} />
+            {loading ? <DataGridUtilisateur columns={loadingC} utilisateurs={[{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }, { id: 6 }, { id: 7 }, { id: 8 }, { id: 9 }, { id: 10 }]} /> : <DataGridUtilisateur utilisateurs={utilisateurs} columns={columns} />}
+        </React.Fragment>
+    );
 }
 
 export default Utilisateurs;

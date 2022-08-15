@@ -5,11 +5,11 @@ import { useSelector } from 'react-redux';
 import { parseDateTime } from "../../utils/datetime";
 
 import {
-  Grid,
-  Divider as MuiDivider,
-  Typography as MuiTypography,
-  Stack,
-  Button
+    Grid,
+    Divider as MuiDivider,
+    Typography as MuiTypography,
+    Stack,
+    Button
 } from "@mui/material";
 import { spacing } from "@mui/system";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +27,7 @@ function EditProfile() {
             <Helmet title='Profil' />
             <h1>Edit profile</h1>
         </>
-  );
+    );
 }
 
 export default EditProfile;

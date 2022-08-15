@@ -6,7 +6,7 @@ import Organismes from "../pages/organismes/Index";
 import ArchiveOrganisme from '../pages/organismes/ArchiveOrganisme';
 import CreateOrganisme from "../pages/organismes/CreateOrganisme";
 import EditOrganisme from "../pages/organismes/EditOrganisme";
-import ProfilOrganisme from "../pages/organismes/ProfilOrganisme";
+import InfoOrganisme from "../pages/organismes/InfoOrganisme";
 
 
 const OrganismeRoutes = {
@@ -45,9 +45,9 @@ const OrganismeRoutes = {
                             children: [
                                 {
                                     path: '',
-                                    element: <ProfilOrganisme />,
+                                    element: <InfoOrganisme />,
                                 }
-                            ] 
+                            ]
                         },
                         {
                             path: "ajouter",
@@ -57,7 +57,7 @@ const OrganismeRoutes = {
                                     path: '',
                                     element: <CreateOrganisme />,
                                 }
-                            ] 
+                            ]
                         },
                         {
                             path: "modifier/:id",
@@ -67,7 +67,7 @@ const OrganismeRoutes = {
                                     path: '',
                                     element: <EditOrganisme />,
                                 }
-                            ] 
+                            ]
                         },
                     ]
                 }

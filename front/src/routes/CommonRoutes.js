@@ -31,7 +31,7 @@ const CommonRoutes = {
                     element: <DataGrid />
                 },
                 {
-                    path:'profile',
+                    path: 'profile',
                     children: [
                         {
                             path: '',

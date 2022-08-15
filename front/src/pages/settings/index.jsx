@@ -21,12 +21,12 @@ import RolesPermissionsSettings from './RolesPermissionsSettings';
 export default function Parametres() {
 
     const [tabsValue, setTabsValue] = useState(0);
-    const user = useSelector( (state) => state.auth);
+    const user = useSelector((state) => state.auth);
 
     return (
         <>
             <Helmet title="Paramètres" />
-            <Box sx={{ width:'100%', height:'100%' }}>
+            <Box sx={{ width: '100%', height: '100%' }}>
                 <Tabs value={tabsValue} onChange={(e, val) => setTabsValue(val)} variant="scrollable" scrollButtons="auto">
                     <Tab label='Application' icon={<AppsIcon />} iconPosition="start" />
                     <Tab label='Utilisateur' icon={<PersonIcon />} iconPosition="start" />

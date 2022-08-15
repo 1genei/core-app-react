@@ -25,45 +25,45 @@ const clientSideEmotionCache = createEmotionCache();
 
 function App({ emotionCache = clientSideEmotionCache }) {
 
-  const { theme } = useTheme();
-  const content = useRoutes(MyRoutes);
+    const { theme } = useTheme();
+    const content = useRoutes(MyRoutes);
 
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
-  useEffect( () => {
-    axios.post('auth/verify-token', {}, {withCredentials:true})
-    .then( (res) => {
-      if (res?.data?.status === 200) {
-        const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
-        const email = res?.data?.user?.email;
-        const created_at = res?.data?.user?.created_at;
-        const permissions = res?.data?.permissions;
-        const resAPI = { name, email, created_at, permissions };
-        dispatch(login({ resAPI }));
-      }
-      setLoading(false);
-    })
-    .catch(function (error) {
-      console.log(error)
-      setLoading(false);
-    });
-  }, []);
+    const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        axios.post('auth/verify-token', {}, { withCredentials: true })
+            .then((res) => {
+                if (res?.data?.status === 200) {
+                    const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
+                    const email = res?.data?.user?.email;
+                    const created_at = res?.data?.user?.created_at;
+                    const permissions = res?.data?.permissions;
+                    const resAPI = { name, email, created_at, permissions };
+                    dispatch(login({ resAPI }));
+                }
+                setLoading(false);
+            })
+            .catch(function (error) {
+                console.log(error)
+                setLoading(false);
+            });
+    }, []);
 
-  return (
-    <CacheProvider value={emotionCache}>
-      <HelmetProvider>
-        <Helmet
-          titleTemplate="%s | Core App"
-          defaultTitle="Core App"
-        />
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <MuiThemeProvider theme={createTheme(theme)}>
-              {loading ? <Loading /> : content}
-            </MuiThemeProvider>
-          </LocalizationProvider>
-      </HelmetProvider>
-    </CacheProvider>
-  );
+    return (
+        <CacheProvider value={emotionCache}>
+            <HelmetProvider>
+                <Helmet
+                    titleTemplate="%s | Core App"
+                    defaultTitle="Core App"
+                />
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <MuiThemeProvider theme={createTheme(theme)}>
+                        {loading ? <Loading /> : content}
+                    </MuiThemeProvider>
+                </LocalizationProvider>
+            </HelmetProvider>
+        </CacheProvider>
+    );
 }
 
 export default App;

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 const RequirePermission = ({ permission }) => {
     const location = useLocation();
-    const user = useSelector( (state) => state.auth);
+    const user = useSelector((state) => state.auth);
 
     return (
         user?.permissions.includes(permission)

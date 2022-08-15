@@ -6,12 +6,12 @@ import OrganismeRoutes from './OrganismeRoutes';
 import ErrorRoutes from './ErrorRoutes';
 
 const MyRoutes = [
-  CommonRoutes,
-  GuestRoutes,
-  UserRoutes,
-  ContactRoutes,
-  OrganismeRoutes,
-  ErrorRoutes
+    CommonRoutes,
+    GuestRoutes,
+    UserRoutes,
+    ContactRoutes,
+    OrganismeRoutes,
+    ErrorRoutes
 ]
 
 export default MyRoutes;

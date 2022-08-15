@@ -7,16 +7,16 @@ import axios from '../api/Axios';
  * 
  * @returns la liste des contacts actifs
  */
- export const getActiveContacts = async () => {
+export const getActiveContacts = async () => {
 
     return axios.get('contact/active')
-    .then( (res) => {
-        return res.data.contacts;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
+        .then((res) => {
+            return res.data.contacts;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
 }
 
 
@@ -24,16 +24,16 @@ import axios from '../api/Axios';
  * 
  * @returns la liste des contacts archivés
  */
- export const getArchivedContacts = async () => {
+export const getArchivedContacts = async () => {
 
     return axios.get('contact/archived')
-    .then( (res) => {
-        return res.data.contacts;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
+        .then((res) => {
+            return res.data.contacts;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
 }
 /**
  * 
@@ -42,47 +42,43 @@ import axios from '../api/Axios';
 export const getContacts = async () => {
 
     return axios.get('contact/all')
-    .then( (res) => {
-        return res.data.contacts;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
-} 
+        .then((res) => {
+            return res.data.contacts;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
 
 /**
  * 
  * @returns la liste des contacts qui n'ont pas de compte utilisateur
  */
- export const getContactsNoUser = async () => {
+export const getContactsNoUser = async () => {
 
     return axios.get('contact/no-user')
-    .then( (res) => {
-        return res.data.contacts;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
-} 
+        .then((res) => {
+            return res.data.contacts;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
 
 
 /**
  * 
  * @returns retourne le contact dont l'id est passé en paramètre
  */
- export const getContact = async (contact_id) => {
+export const getContact = async (contact_id) => {
 
     return axios.get(`contact/${contact_id}`)
-    .then( (res) => {
-        return res.data.contact;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
-} 
+        .then((res) => {
+            return res.data.contact;
+        });
+}
 
 
 /**
@@ -91,29 +87,29 @@ export const getContacts = async () => {
 export const addContact = async (contact) => {
 
     return axios.post('contact/store', contact)
-    .then( (res) => {
-        return res.data;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
+        .then((res) => {
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
 }
 
 
 /**
  * Modifier le contact
 */
- export const updateContact = async (contact, contact_id) => {
+export const updateContact = async (contact, contact_id) => {
 
     return axios.put(`contact/update/${contact_id}`, contact)
-    .then( (res) => {
-        return res.data;
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
+        .then((res) => {
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
 }
 
 
@@ -122,14 +118,14 @@ export const addContact = async (contact) => {
 */
 export const archiveContact = async (id) => {
     return axios.put(`contact/archive/${id}`)
-    .then( (res) => {
-    console.log(res.data);
-        return res.data
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
+        .then((res) => {
+            console.log(res.data);
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
 }
 
 
@@ -138,12 +134,12 @@ export const archiveContact = async (id) => {
 */
 export const restoreContact = async (id) => {
     return axios.put(`contact/restore/${id}`)
-    .then( (res) => {
-    console.log(res.data);
-        return res.data
-    })
-    .catch((error) => {
-        console.log(`erreur: ${error}`);
-        return error;
-    });
+        .then((res) => {
+            console.log(res.data);
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
 }
