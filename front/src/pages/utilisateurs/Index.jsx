@@ -215,7 +215,7 @@ function Utilisateurs() {
 
         swalWithBootstrapButtons.fire({
             title: 'Voulez-vous archiver l\'utilisateur ?',
-            text: "Vous retrouverez l'utilisateur dans les archives!",
+            text: "",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Oui',
@@ -234,8 +234,8 @@ function Utilisateurs() {
                         setUtilisateurs(newUtilisateurs);
 
                         swalWithBootstrapButtons.fire(
-                            'Archivé!',
-                            'Utilisateur archivé!',
+                            'Utilisateur archivé',
+                            '',
                             'success'
                         )
                     }
@@ -244,8 +244,8 @@ function Utilisateurs() {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Annulé',
                     'Archivage annulé',
+                    '',
                     'error'
                 )
             }

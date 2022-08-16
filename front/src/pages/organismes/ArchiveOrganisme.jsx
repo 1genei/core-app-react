@@ -243,7 +243,7 @@ function Organismes() {
                         setOrganismes(newOrganismes);
 
                         swalWithBootstrapButtons.fire(
-                            'Organisme restauré!',
+                            'Organisme restauré',
                             '',
                             'success'
                         )
@@ -255,7 +255,7 @@ function Organismes() {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Annulé',
+                    'Restauration annulée',
                     '',
                     'error'
                 )

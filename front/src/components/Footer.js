@@ -2,10 +2,10 @@ import * as React from "react";
 import styled from "@emotion/styled";
 
 import {
-  Grid,
-  List,
-  ListItemText as MuiListItemText,
-  ListItemButton as MuiListItemButton,
+    Grid,
+    List,
+    ListItemText as MuiListItemText,
+    ListItemButton as MuiListItemButton,
 } from "@mui/material";
 
 const Wrapper = styled.div`
@@ -35,20 +35,20 @@ const ListItemText = styled(MuiListItemText)`
 `;
 
 function Footer() {
-  return (
-    <Wrapper>
-      <Grid container spacing={0}>
-        
-        <Grid container item xs={12} md={6} justifyContent="flex-end">
-          <List>
-            <ListItemButton>
-              <ListItemText primary={`© ${new Date().getFullYear()} - Mira`} />
-            </ListItemButton>
-          </List>
-        </Grid>
-      </Grid>
-    </Wrapper>
-  );
+    return (
+        <Wrapper>
+            <Grid container spacing={0}>
+
+                <Grid container item xs={12} md={6} justifyContent="flex-end">
+                    <List>
+                        <ListItemButton>
+                            <ListItemText primary={`© ${new Date().getFullYear()} - Core App`} />
+                        </ListItemButton>
+                    </List>
+                </Grid>
+            </Grid>
+        </Wrapper>
+    );
 }
 
 export default Footer;

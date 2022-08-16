@@ -77,8 +77,6 @@ function ContactForm({ contactTab, errorStatus }) {
 
     };
 
-    // console.log(contact.contact.nom);
-
     function handleChange(e) {
 
         const { name, value } = e.target;
@@ -262,7 +260,7 @@ function ContactForm({ contactTab, errorStatus }) {
                                     color="error"
                                     mt={3}
                                     size="large"
-                                    onClick={() => navigate('/contacts/actifs')}
+                                    onClick={() => navigate(-1)}
                                     ml={4}
                                 >
                                     Annuler

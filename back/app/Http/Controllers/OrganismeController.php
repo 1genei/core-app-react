@@ -57,11 +57,6 @@ class OrganismeController extends Controller
     public function store(Request $request) {
         $validator = Validator::make($request->all(),[
             'nom' => 'required|string',
-            'adresse' => 'string',
-            'complement_adresse' => 'string',
-            'email' => 'email',
-            'telephone' => 'string',
-            'site' => 'string'
         ]);
         if ($validator->fails()) {
             return Response()->json([
@@ -132,12 +127,6 @@ class OrganismeController extends Controller
     
         $validator = Validator::make($request->all(),[
             'nom' => 'required|string',
-            'site' => 'string',
-            'adresse' => 'string',
-            'complement_adresse' => 'string',
-            'telephone' => 'string',
-            'email' => 'required',
-            'notes' => 'string'
         ]);
 
         if ($validator->fails()) {

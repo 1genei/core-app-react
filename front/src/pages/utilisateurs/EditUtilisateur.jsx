@@ -71,8 +71,6 @@ function UtilisateurForm() {
     }, []);
 
 
-    // console.log(contacts);
-
     const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom }));
 
 
@@ -182,7 +180,7 @@ function UtilisateurForm() {
                             color="error"
                             mt={3}
                             size="large"
-                            onClick={() => navigate('/contacts/actifs')}
+                            onClick={() => navigate(-1)}
                             ml={4}
                         >
                             Annuler

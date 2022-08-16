@@ -1,22 +1,18 @@
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 import { useSelector } from 'react-redux';
-import { parseDateTime } from "../../utils/datetime";
+import { parseDateTime, parseDate } from "../../utils/datetime";
 import React, { useState, useEffect } from "react";
-import { NavLink, Link, useParams, useNavigate } from "react-router-dom";
+import { NavLink, Link, useParams } from "react-router-dom";
 import { getContact } from "../../services/ContactsServices";
-import Auth from "../../layouts/Auth";
+import { styled as MuiStyled } from '@mui/material/styles';
 import {
-    Alert as MuiAlert,
     Box,
     Breadcrumbs as MuiBreadcrumbs,
-    Button as MuiButton,
     Card as MuiCard,
     CardContent,
-    CircularProgress,
     Divider as MuiDivider,
     Grid,
-    TextField as MuiTextField,
     Typography as MuiTypography,
     Skeleton,
     Fab,
@@ -43,6 +39,11 @@ const Divider = styled(MuiDivider)(spacing);
 const Card = styled(MuiCard)(spacing);
 const Typography = styled(MuiTypography)(spacing);
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+
+const TypoTitle = MuiStyled(Typography)(() => ({
+    textDecoration: 'underline',
+    fontWeight: 800
+}));
 
 
 function InfoContact() {
@@ -95,7 +96,69 @@ function InfoContact() {
             </Breadcrumbs>
             <Divider my={6} />
             {loading
-                ? <Skeleton />
+                ? <>
+                    <Box p={7} sx={{ maxWidth: 1000, margin: '0 auto', backgroundColor: 'background.paper', borderRadius: 10 }}>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                        </Grid>
+                        <Divider />
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                        </Grid>
+                        <Divider />
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                        </Grid>
+                        <Divider />
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                        </Grid>
+                        <Divider />
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                        </Grid>
+                        <Divider />
+                        <Grid container spacing={4}>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                                <Skeleton animation='wave' variant='text' height={80} />
+                            </Grid>
+                        </Grid>
+                        <Divider />
+                        <Grid container>
+                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+                                <Skeleton animation='wave' variant='text' height={120} />
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </>
                 : error
                     ? <>
                         <Card mb={6}>
@@ -115,20 +178,20 @@ function InfoContact() {
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <PersonIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Nom</Typography>
+                                        <TypoTitle variant='h4'>Nom</TypoTitle>
                                     </Stack>
                                     {contact?.nom
-                                        ? <Typography noWrap>{contact.nom}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact.nom}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                                     }
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <PersonIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Prénom</Typography>
+                                        <TypoTitle variant='h4'>Prénom</TypoTitle>
                                     </Stack>
                                     {contact?.prenom
-                                        ? <Typography noWrap>{contact.prenom}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact.prenom}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                                     }
                                 </Grid>
@@ -138,20 +201,20 @@ function InfoContact() {
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <CalendarIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Date de naissance</Typography>
+                                        <TypoTitle variant='h4'>Date de naissance</TypoTitle>
                                     </Stack>
                                     {contact?.date_naissance
-                                        ? <Typography noWrap>{parseDateTime(contact?.date_naissance)}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{parseDate(contact?.date_naissance)}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
                                     }
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <EmailIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Email</Typography>
+                                        <TypoTitle variant='h4'>Email</TypoTitle>
                                     </Stack>
                                     {contact?.email
-                                        ? <Typography noWrap>{contact?.email}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.email}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                                     }
                                 </Grid>
@@ -161,20 +224,20 @@ function InfoContact() {
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <LocationIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Adresse</Typography>
+                                        <TypoTitle variant='h4'>Adresse</TypoTitle>
                                     </Stack>
                                     {contact?.adresse
-                                        ? <Typography noWrap>{contact?.adresse}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.adresse}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
                                     }
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <LocationIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Complément d'adresse</Typography>
+                                        <TypoTitle variant='h4'>Complément d'adresse</TypoTitle>
                                     </Stack>
                                     {contact?.complement_adresse
-                                        ? <Typography noWrap>{contact?.complement_adresse}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.complement_adresse}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                                     }
                                 </Grid>
@@ -184,20 +247,20 @@ function InfoContact() {
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <MobileIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Téléphone portable</Typography>
+                                        <TypoTitle variant='h4'>Téléphone portable</TypoTitle>
                                     </Stack>
                                     {contact?.telephone1
-                                        ? <Typography noWrap>{contact?.telephone1}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.telephone1}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                                     }
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <FixeIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Téléphone fixe</Typography>
+                                        <TypoTitle variant='h4'>Téléphone fixe</TypoTitle>
                                     </Stack>
                                     {contact?.telephone2
-                                        ? <Typography noWrap>{contact?.telephone2}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.telephone2}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                                     }
                                 </Grid>
@@ -207,17 +270,17 @@ function InfoContact() {
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <InventoryIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Archive</Typography>
+                                        <TypoTitle variant='h4'>Archive</TypoTitle>
                                     </Stack>
                                     <Typography>{contact?.archive === 0 ? 'Non' : 'Oui'}</Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <AddIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Date de création</Typography>
+                                        <TypoTitle variant='h4'>Date de création</TypoTitle>
                                     </Stack>
                                     {contact?.created_at
-                                        ? <Typography noWrap>{parseDateTime(contact?.created_at)}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{parseDateTime(contact?.created_at)}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
                                     }
                                 </Grid>
@@ -227,28 +290,20 @@ function InfoContact() {
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <AccountIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Utilisateur</Typography>
+                                        <TypoTitle variant='h4'>Utilisateur</TypoTitle>
                                     </Stack>
                                     <Typography>{contact.user === null ? 'Non' : 'Oui'}</Typography>
                                 </Grid>
                                 {contact.user !== null &&
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                         <Grid container direction='column'>
-                                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                                <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                                    <InventoryIcon color="primary" />
-                                                    <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Archive</Typography>
-                                                </Stack>
-                                                <Typography>{contact?.user?.archive === 0 ? 'Non' : 'Oui'}</Typography>
+                                            <Grid item pb={1}>
+                                                <Typography>{contact?.user?.archive === 0 ? 'Actif' : 'Archivé'}</Typography>
                                             </Grid>
-                                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                                <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                                    <AddIcon color="primary" />
-                                                    <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Date de création</Typography>
-                                                </Stack>
+                                            <Grid item pt={1}>
                                                 {contact?.created_at
-                                                    ? <Typography noWrap>{parseDateTime(contact?.user?.created_at)}</Typography>
-                                                    : <Typography sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
+                                                    ? <Typography style={{ wordWrap: 'break-word' }}> Créé le {parseDateTime(contact?.user?.created_at)}</Typography>
+                                                    : <Typography style={{ wordWrap: 'break-word' }} sx={{ color: 'text.secondary' }}>Date de création non renseignée</Typography>
                                                 }
                                             </Grid>
                                         </Grid>
@@ -260,10 +315,10 @@ function InfoContact() {
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <NotesIcon color="primary" />
-                                        <Typography variant='h4' sx={{ textDecoration: 'underline', textDecorationColor: 'primary.main', fontWeight: 800 }}>Notes</Typography>
+                                        <TypoTitle variant='h4'>Notes</TypoTitle>
                                     </Stack>
                                     {contact?.notes
-                                        ? <Typography noWrap>{contact?.notes}</Typography>
+                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.notes}</Typography>
                                         : <Typography sx={{ color: 'text.secondary' }}>Pas de notes</Typography>
                                     }
                                 </Grid>

@@ -232,8 +232,8 @@ function Organismes() {
         })
 
         swalWithBootstrapButtons.fire({
-            title: 'Voulez-vous archiver le contact ?',
-            text: "Vous retrouverez le contact dans les archives!",
+            title: "Voulez-vous archiver l'organisme ?",
+            text: "",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Oui',
@@ -252,8 +252,8 @@ function Organismes() {
                         setOrganismes(newOrganismes);
 
                         swalWithBootstrapButtons.fire(
-                            'Archivé!',
-                            'Contact archivé!',
+                            'Organisme archivé',
+                            '',
                             'success'
                         )
                     }
@@ -262,8 +262,8 @@ function Organismes() {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Annulé',
                     'Archivage annulé',
+                    '',
                     'error'
                 )
             }

@@ -11,10 +11,17 @@ export function parseDateTime(rawDateTime) {
 
 
 export function parseDate(rawDate) {
-    return
+    let year = rawDate.slice(0, 4);
+    let month = rawDate.slice(5, 7);
+    let day = rawDate.slice(8, 10);
+    let months = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+    return day + ' ' + months[month - 1] + ' ' + year;
 }
 
 
 export function parseTime(rawTime) {
-    return
+    let hour = rawTime.slice(11, 13);
+    let min = rawTime.slice(14, 16);
+    let sec = rawTime.slice(17, 19);
+    return hour + 'h' + min + 'm' + sec + 's (UTC)';
 }

@@ -242,7 +242,7 @@ function Contacts() {
                         setContacts(newContacts);
 
                         swalWithBootstrapButtons.fire(
-                            'Contact restauré!',
+                            'Contact restauré',
                             '',
                             'success'
                         )
@@ -253,7 +253,7 @@ function Contacts() {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Annulé',
+                    'Restauration annulée',
                     '',
                     'error'
                 )

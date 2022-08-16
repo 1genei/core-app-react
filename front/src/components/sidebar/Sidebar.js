@@ -6,10 +6,10 @@ import { spacing } from "@mui/system";
 import { green } from "@mui/material/colors";
 
 import {
-  Box as MuiBox,
-  Chip,
-  Drawer as MuiDrawer,
-  ListItemButton,
+    Box as MuiBox,
+    Chip,
+    Drawer as MuiDrawer,
+    ListItemButton,
 } from "@mui/material";
 
 import { ReactComponent as Logo } from "../../vendor/logo.svg";
@@ -72,17 +72,17 @@ const BrandChip = styled(Chip)`
 `;
 
 const Sidebar = ({ items, showFooter = true, ...rest }) => {
-  return (
-    <Drawer variant="permanent" {...rest}>
-      <Brand component={NavLink} to="/">
-        <BrandIcon />{" "}
-        <Box ml={1}>
-         Module Core
-        </Box>
-      </Brand>
-      <SidebarNav items={items} />
-    </Drawer>
-  );
+    return (
+        <Drawer variant="permanent" {...rest}>
+            <Brand component={NavLink} to="/">
+                <BrandIcon />{" "}
+                <Box ml={1}>
+                    Core App
+                </Box>
+            </Brand>
+            <SidebarNav items={items} />
+        </Drawer>
+    );
 };
 
 export default Sidebar;

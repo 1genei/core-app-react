@@ -101,12 +101,7 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(),[
             'nom' => 'required|string',
             'prenom' => 'required|string',
-            'adresse' => 'string',
-            'date_naissance' => 'date',
             'email' => 'required|unique:contacts|email',
-            'telephone1' => 'string',
-            'telephone2' => 'string',
-            'notes' => 'string'
         ]);
         
         if ($validator->fails()) {
@@ -164,7 +159,6 @@ class ContactController extends Controller
             $validator = Validator::make($request->all(),[
                 'nom' => 'required|string',
                 'prenom' => 'required|string',
-                'adresse' => 'string',
                 'email' => 'required',
             ]);
         
@@ -174,7 +168,6 @@ class ContactController extends Controller
             $validator = Validator::make($request->all(),[
                 'nom' => 'required|string',
                 'prenom' => 'required|string',
-                'adresse' => 'string',
                 'email' => 'required|unique:contacts|email',
             ]);        
         }

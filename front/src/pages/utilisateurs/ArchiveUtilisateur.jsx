@@ -213,8 +213,8 @@ function Utilisateurs() {
                         setUtilisateurs(newUtilisateurs);
 
                         swalWithBootstrapButtons.fire(
-                            'Restauré!',
-                            'Utilisateur restauré!',
+                            'Utilisateur restauré',
+                            '',
                             'success'
                         )
                     }
@@ -223,8 +223,8 @@ function Utilisateurs() {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Annulé',
-                    'Archivage annulé',
+                    'Restauration annulée',
+                    '',
                     'error'
                 )
             }

@@ -238,7 +238,7 @@ function Contacts() {
 
         swalWithBootstrapButtons.fire({
             title: 'Voulez-vous archiver le contact ?',
-            text: "Vous retrouverez le contact dans les archives!",
+            text: "",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'Oui',
@@ -257,8 +257,8 @@ function Contacts() {
                         setContacts(newContacts);
 
                         swalWithBootstrapButtons.fire(
-                            'Archivé!',
-                            'Contact archivé!',
+                            'Contact archivé',
+                            '',
                             'success'
                         )
                     }
@@ -267,8 +267,8 @@ function Contacts() {
                 result.dismiss === Swal.DismissReason.cancel
             ) {
                 swalWithBootstrapButtons.fire(
-                    'Annulé',
                     'Archivage annulé',
+                    '',
                     'error'
                 )
             }

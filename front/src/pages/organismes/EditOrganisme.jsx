@@ -102,7 +102,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                 </Card>
                 :
                 <Card mb={6}>
-                    <CardContent>{console.log(organisme)}
+                    <CardContent>
 
                         {alertSuccess && (
                             <Alert severity="success" onClose={() => setAlertSuccess(false)} my={3}>
@@ -231,7 +231,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                     color="error"
                                     mt={3}
                                     size="large"
-                                    onClick={() => navigate('/contacts/actifs')}
+                                    onClick={() => navigate(-1)}
                                     ml={4}
                                 >
                                     Annuler
