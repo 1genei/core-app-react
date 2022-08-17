@@ -49,4 +49,30 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo(Role::class);
     }
+    
+    /**
+     * The permissions that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissions()
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+    
+    /**
+     * The permissions that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function permissionsName()
+    {
+        $permissions = $this->permissions;
+        $permissionsName = array();
+        
+        foreach ($permissions as $permission) {
+            array_push($permissionsName, $permission->name);
+        }
+        return $permissionsName;
+    }
 }

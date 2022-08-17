@@ -86,14 +86,6 @@ class UserController extends Controller
         // Authenticate user
         $user = Auth::user();
 
-        // Get permissions from role
-        $ternary = DB::table('permission_user')->where('user_id', $user->id)->get();
-        $permissions = array();
-        foreach ($ternary as $i) {
-            $name = DB::table('permissions')->select('name')->where('id', $i->permission_id)->first()->name;
-            array_push($permissions, $name);
-        }
-        
         // Create personal access token
         $token = $user->createToken('token')->plainTextToken;
 
@@ -113,7 +105,7 @@ class UserController extends Controller
             'message' => 'Login successful',
             'user' => $user,
             'name' => $names,
-            'permissions' => $permissions
+            'permissionsName' => $user->permissionsName()
         ], 200)->withCookie($cookie);
     }
 

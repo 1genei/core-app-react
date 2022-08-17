@@ -11,7 +11,7 @@ export const LoginAPI = async (loginUser) => {
         const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
         const email = res?.data?.user?.email;
         const created_at = res?.data?.user?.created_at;
-        const permissions = res?.data?.permissions;
+        const permissions = res?.data?.permissionsName;
         return { name, email, created_at, permissions };
     });
 }
@@ -20,10 +20,10 @@ export const LogoutAPI = async () => {
     return axios.post('auth/logout', {}, {withCredentials:true});
 }
 
+
 /**
 * retourne les rôles et permissions et les groupes de permissions
 */
-
 export const getRolesPermissions = () => {
 
     return axios.get('auth/get-roles-permissions')
