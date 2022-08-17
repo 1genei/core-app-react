@@ -68,7 +68,7 @@ function UtilisateurForm() {
         setUtilisateur(util);
 
         setRole(util?.role?.nom);
-
+        setRoleId(util?.role?.id);
         setLoading(false);
 
     }, []);
