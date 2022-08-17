@@ -37,7 +37,7 @@ function Profile() {
                 </Grid>
 
                 <Grid item>
-                    <Button onClick={() => navigate('/profile/edit')} variant='contained' size='large'>
+                    <Button onClick={() => navigate('/parametres')} variant='contained' size='large'>
                         Modifier le profil
                     </Button>
                 </Grid>

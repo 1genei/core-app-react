@@ -129,12 +129,6 @@ function InfoUtilisateur() {
                                 <Skeleton animation='wave' variant='text' height={80} />
                             </Grid>
                         </Grid>
-                        <Divider />
-                        <Grid container>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <Skeleton animation='wave' variant='text' height={120} />
-                            </Grid>
-                        </Grid>
                     </Box>
                 </>
                 : error
@@ -215,19 +209,6 @@ function InfoUtilisateur() {
                                             }
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <NotesIcon color="primary" />
-                                        <TypoTitle variant='h4'>Notes</TypoTitle>
-                                    </Stack>
-                                    {utilisateur?.notes
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{utilisateur?.notes}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Pas de notes</Typography>
-                                    }
                                 </Grid>
                             </Grid>
                         </Box>

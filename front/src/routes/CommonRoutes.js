@@ -3,7 +3,6 @@ import async from "../components/Async";
 import DashboardLayout from "../layouts/Dashboard";
 import Blank from "../pages/pages/Blank";
 import Profile from "../pages/profile";
-import EditProfile from "../pages/profile/Edit";
 import Parametres from "../pages/settings";
 import RequireAuth from './middlewares/RequireAuth';
 
@@ -36,10 +35,6 @@ const CommonRoutes = {
                         {
                             path: '',
                             element: <Profile />
-                        },
-                        {
-                            path: 'edit',
-                            element: <EditProfile />
                         }
                     ]
                 },

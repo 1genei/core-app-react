@@ -3,7 +3,6 @@ import RequireNotAuth from './middlewares/RequireNotAuth';
 
 import AuthLayout from "../layouts/Auth";
 import SignIn from "../pages/auth/SignIn";
-import SignUp from "../pages/auth/SignUp";
 import ResetPassword from "../pages/auth/ResetPassword";
 
 const GuestRoutes = {
@@ -16,10 +15,6 @@ const GuestRoutes = {
                 {
                     path: "login",
                     element: <SignIn />,
-                },
-                {
-                    path: "register",
-                    element: <SignUp />,
                 },
                 {
                     path: "reset-password",

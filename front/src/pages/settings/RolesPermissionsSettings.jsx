@@ -46,19 +46,19 @@ function Row(props) {
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={5}>
 
 
-                    <Typography variant="h6" gutterBottom component="div">{groupName}</Typography>
+                    <Typography variant="h5" gutterBottom component="div" sx={{ fontWeight: 800, textDecoration: 'underline' }} mt={2}>{groupName}</Typography>
 
                     <Table >
                         <TableHead>
                             <TableRow>
-                                <TableCell width={250}>#</TableCell>
+                                <TableCell width={250}>&nbsp;</TableCell>
 
 
                                 {
                                     roles.map((role) =>
                                     (
                                         <>
-                                            <TableCell key={role.id} >{role.nom}</TableCell>
+                                            <TableCell key={role.id}>{role.nom}</TableCell>
                                         </>
                                     )
 
@@ -79,7 +79,7 @@ function Row(props) {
                                             var checked = permissionRoles.includes(permission.id + '_' + role.id) ? true : false;
 
                                             return (
-                                                <TableCell ><Checkbox key={permission.id + '_' + role.id} checked={permissionRoleChecked[permission.id + '_' + role.id] ?? checked} onChange={handleChange} color="success" value={permission.id + '_' + role.id} name={permission.id + '_' + role.id} /> </TableCell>
+                                                <TableCell ><Checkbox key={permission.id + '_' + role.id} checked={permissionRoleChecked[permission.id + '_' + role.id] ?? checked} onChange={handleChange} value={permission.id + '_' + role.id} name={permission.id + '_' + role.id} /> </TableCell>
                                             )
                                         })
 

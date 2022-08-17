@@ -4,49 +4,33 @@ import { Helmet } from "react-helmet-async";
 import { useSelector } from 'react-redux';
 
 import {
-  Grid,
-  Divider as MuiDivider,
-  Typography as MuiTypography,
+    Grid,
+    Typography as MuiTypography,
 } from "@mui/material";
-import { green, red } from "@mui/material/colors";
 import { spacing } from "@mui/system";
-
-import Actions from "./Actions";
-import BarChart from "./BarChart";
-import DoughnutChart from "./DoughnutChart";
-import LanguagesTable from "./LanguagesTable";
-import Stats from "./Stats";
-import Table from "./Table";
-import WorldMap from "./WorldMap";
-
-const Divider = styled(MuiDivider)(spacing);
 
 const Typography = styled(MuiTypography)(spacing);
 
 function Analytics() {
-  const user = useSelector( (state) => state.auth);
+    const user = useSelector((state) => state.auth);
 
-  return (
-    <React.Fragment>
-      <Helmet title="Analytics Dashboard" />
-      <Grid justifyContent="space-between" container spacing={6}>
-        <Grid item>
-          <Typography variant="h3" gutterBottom>
-            Analytics Dashboard
-          </Typography>
-          <Typography variant="subtitle1">
-            {user.status
-            ? 'Ravi de vous revoir ' + user?.name + ' !'
-            : 'Bienvenue dans Core App'}
-          </Typography>
-        </Grid>
+    return (
+        <React.Fragment>
+            <Helmet title="Accueil" />
+            <Grid justifyContent="space-between" container spacing={6}>
+                <Grid item>
+                    <Typography variant="h3" gutterBottom>
+                        Accueil
+                    </Typography>
+                    <Typography variant="subtitle1">
+                        {user.status
+                            ? 'Ravi de vous revoir ' + user?.name + ' !'
+                            : 'Bienvenue dans Core App'}
+                    </Typography>
+                </Grid>
+            </Grid>
 
-        <Grid item>
-          <Actions />
-        </Grid>
-      </Grid>
-
-      {/*<Divider my={6} />
+            {/*<Divider my={6} />
 
       <Grid container spacing={6}>
         <Grid item xs={12} lg={5}>
@@ -111,8 +95,8 @@ function Analytics() {
           <Table />
         </Grid>
       </Grid>*/}
-    </React.Fragment>
-  );
+        </React.Fragment>
+    );
 }
 
 export default Analytics;

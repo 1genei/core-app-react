@@ -92,7 +92,7 @@ class RoleController extends Controller
         // Return them
         return Response()->json([
            
-            'message' => 'permissions modfiées',
+            'message' => 'Permissions modifiées',
             'status' => 200
             
         ], 200);
