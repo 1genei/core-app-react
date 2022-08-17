@@ -17,10 +17,11 @@ class CreateProprietairesTable extends Migration
             $table->id();
             $table->string('nom');
             $table->string('adresse');
+            $table->string('complement_adresse')->nullable();
             $table->string('telephone');
             $table->string('email');
             $table->string('siret');
-            $table->string('logo');
+            $table->string('logo')->nullable();
             $table->timestamps();
         });
     }

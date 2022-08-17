@@ -30,13 +30,13 @@ export default function Parametres() {
                 <Tabs value={tabsValue} onChange={(e, val) => setTabsValue(val)} variant="scrollable" scrollButtons="auto">
                     <Tab label='Application' icon={<AppsIcon />} iconPosition="start" />
                     <Tab label='Utilisateur' icon={<PersonIcon />} iconPosition="start" />
-                    {user?.permissions.includes('Edit-Owner') && <Tab label='Société' icon={<BusinessCenterIcon />} iconPosition="start" />}
-                    {user?.permissions.includes('Edit-RolesPermissions') && <Tab label='Rôles & Permissions' icon={<ShieldIcon />} iconPosition="start" />}
+                    {user?.permissions.includes('View-Owner') && <Tab label='Société' icon={<BusinessCenterIcon />} iconPosition="start" />}
+                    {user?.permissions.includes('View-RolesPermissions') && <Tab label='Rôles & Permissions' icon={<ShieldIcon />} iconPosition="start" />}
                 </Tabs>
                 {tabsValue === 0 && <AppSettings />}
                 {tabsValue === 1 && <Navigate to='/profile/edit' />}
-                {tabsValue === 2 && user?.permissions.includes('Edit-Owner') && <OwnerSettings />}
-                {tabsValue === 3 && user?.permissions.includes('Edit-RolesPermissions') && <RolesPermissionsSettings />}
+                {tabsValue === 2 && user?.permissions.includes('View-Owner') && <OwnerSettings />}
+                {tabsValue === 3 && user?.permissions.includes('View-RolesPermissions') && <RolesPermissionsSettings />}
             </Box>
         </>
     )

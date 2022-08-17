@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrganismeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\ProprietaireController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,4 +70,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('logout', [UserController::class, 'logout']);
     Route::post('verify-token', [UserController::class, 'verifyToken']);
     Route::get('get-roles', [RoleController::class, 'getRoles']);
+});
+
+//Routes proprietaire
+Route::group(['prefix' => 'owner'], function () {
+    Route::get('infos', [ProprietaireController::class, 'getInfos']);
+    Route::put('update', [ProprietaireController::class, 'update']);
 });
