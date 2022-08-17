@@ -25,4 +25,26 @@ class Permission extends Model
         'created_at',
         'updated_at',
     ];
+    
+    
+    
+    /**
+     * Retourne le group de permission auquel appartient la permission
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function permissionGroup()
+    {
+        return $this->belongsTo(PermissionGroup::class);
+    }
+    
+    /**
+     * The roles that belong to the Permission
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
 }
