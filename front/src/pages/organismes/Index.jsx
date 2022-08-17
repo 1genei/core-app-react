@@ -42,7 +42,7 @@ const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
 
 function getFullAdress(params) {
-    return `${params.row?.adresse || ''} ${params.row?.complement_adresse || ''}`;
+    return `${params?.row?.adresse || ''} ${params?.row?.complement_adresse || ''}`;
 }
 
 function DataGridOrganisme({ organismes, columns }) {

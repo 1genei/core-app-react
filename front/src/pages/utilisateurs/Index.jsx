@@ -41,19 +41,12 @@ const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
 
 function getFullName(params) {
-    return `${params.row.contact.prenom || ''} ${params.row.contact.nom || ''}`;
+    return `${params?.row?.contact?.prenom || ''} ${params?.row?.contact?.nom || ''}`;
 }
 
 function getRoleName(params) {
-    return `${params.row.role.nom}`;
+    return `${params?.row?.role?.nom}`;
 }
-
-
-
-function handleEdit(event, cellValues) {
-    console.log(cellValues);
-}
-
 
 
 function DataGridUtilisateur({ utilisateurs, columns }) {

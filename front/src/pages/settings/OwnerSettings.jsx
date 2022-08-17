@@ -151,9 +151,9 @@ function OwnerSettings() {
                                 <TypoTitle variant='h4'>Nom {editMode && '*'}</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')
-                                ? <TextField name='nom' onChange={(e) => handleChange(e)} value={draft.nom} sx={{ width: 350 }}></TextField>
+                                ? <TextField name='nom' onChange={(e) => handleChange(e)} value={draft?.nom} sx={{ width: 350 }}></TextField>
                                 : owner?.nom
-                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner.nom}</Typography>
+                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.nom}</Typography>
                                     : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                             }
                         </Grid>
@@ -163,7 +163,7 @@ function OwnerSettings() {
                                 <TypoTitle variant='h4'>Email {editMode && '*'}</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')
-                                ? <TextField name='email' type='email' onChange={(e) => handleChange(e)} value={draft.email} sx={{ width: 350 }}></TextField>
+                                ? <TextField name='email' type='email' onChange={(e) => handleChange(e)} value={draft?.email} sx={{ width: 350 }}></TextField>
                                 : owner?.email
                                     ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.email}</Typography>
                                     : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
@@ -175,7 +175,7 @@ function OwnerSettings() {
                                 <TypoTitle variant='h4'>Téléphone {editMode && '*'}</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')
-                                ? <TextField name='telephone' onChange={(e) => handleChange(e)} value={draft.telephone} sx={{ width: 350 }}></TextField>
+                                ? <TextField name='telephone' onChange={(e) => handleChange(e)} value={draft?.telephone} sx={{ width: 350 }}></TextField>
                                 : owner?.telephone
                                     ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.telephone}</Typography>
                                     : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
@@ -187,7 +187,7 @@ function OwnerSettings() {
                                 <TypoTitle variant='h4'>Adresse {editMode && '*'}</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')
-                                ? <TextField name='adresse' onChange={(e) => handleChange(e)} value={draft.adresse} sx={{ width: 350 }}></TextField>
+                                ? <TextField name='adresse' onChange={(e) => handleChange(e)} value={draft?.adresse} sx={{ width: 350 }}></TextField>
                                 : owner?.adresse
                                     ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.adresse}</Typography>
                                     : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
@@ -199,7 +199,7 @@ function OwnerSettings() {
                                 <TypoTitle variant='h4'>Complément d'adresse</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')
-                                ? <TextField name='complement_adresse' onChange={(e) => handleChange(e)} value={draft.complement_adresse} sx={{ width: 350 }}></TextField>
+                                ? <TextField name='complement_adresse' onChange={(e) => handleChange(e)} value={draft?.complement_adresse} sx={{ width: 350 }}></TextField>
                                 : owner?.complement_adresse
                                     ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.complement_adresse}</Typography>
                                     : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
@@ -211,9 +211,9 @@ function OwnerSettings() {
                                 <TypoTitle variant='h4'>Siret {editMode && '*'}</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')
-                                ? <TextField name='siret' onChange={(e) => handleChange(e)} value={draft.siret} sx={{ width: 350 }}></TextField>
+                                ? <TextField name='siret' onChange={(e) => handleChange(e)} value={draft?.siret} sx={{ width: 350 }}></TextField>
                                 : owner?.siret
-                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner.siret}</Typography>
+                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.siret}</Typography>
                                     : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
                             }
                         </Grid>
@@ -223,7 +223,7 @@ function OwnerSettings() {
                                 <TypoTitle variant='h4'>Date de création</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')
-                                ? <TextField name='created_at' type='date' onChange={(e) => handleChange(e)} value={draft.created_at} sx={{ width: 350 }}></TextField>
+                                ? <TextField name='created_at' type='date' onChange={(e) => handleChange(e)} value={draft?.created_at} sx={{ width: 350 }}></TextField>
                                 : owner?.created_at
                                     ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{parseDate(owner?.created_at)}</Typography>
                                     : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseignée</Typography>

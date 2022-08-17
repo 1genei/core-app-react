@@ -46,7 +46,7 @@ function getIfUser(params) {
 }
 
 function getFullAdress(params) {
-    return `${params.row?.adresse || ''} ${params.row?.complement_adresse || ''}`;
+    return `${params?.row?.adresse || ''} ${params?.row?.complement_adresse || ''}`;
 }
 
 function DataGridContact({ contacts, columns }) {
