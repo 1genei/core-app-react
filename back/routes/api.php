@@ -70,6 +70,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('logout', [UserController::class, 'logout']);
     Route::post('verify-token', [UserController::class, 'verifyToken']);
     Route::get('get-roles', [RoleController::class, 'getRoles']);
+    Route::get('get-roles-permissions', [RoleController::class, 'getRolesPermissions']);
+    Route::put('update-roles-permissions', [RoleController::class, 'updateRolesPermissions']);
 });
 
 //Routes proprietaire

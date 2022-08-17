@@ -29,7 +29,7 @@ export default function Parametres() {
             <Box sx={{ width: '100%', height: '100%' }}>
                 <Tabs value={tabsValue} onChange={(e, val) => setTabsValue(val)} variant="scrollable" scrollButtons="auto">
                     <Tab label='Application' icon={<AppsIcon />} iconPosition="start" />
-                    <Tab label='Utilisateur' icon={<PersonIcon />} iconPosition="start" />
+                    <Tab label='Mon profil' icon={<PersonIcon />} iconPosition="start" />
                     {user?.permissions.includes('View-Owner') && <Tab label='Société' icon={<BusinessCenterIcon />} iconPosition="start" />}
                     {user?.permissions.includes('View-RolesPermissions') && <Tab label='Rôles & Permissions' icon={<ShieldIcon />} iconPosition="start" />}
                 </Tabs>

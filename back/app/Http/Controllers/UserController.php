@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Cookie;
 use Auth;
 use DB;
+use App\Mail\NewUserCredentials;
+use Illuminate\Support\Facades\Mail;
+
 
 class UserController extends Controller
 {
@@ -50,6 +53,8 @@ class UserController extends Controller
                 $row = array('permission_id'=>$i->permission_id,'user_id'=>$user->id);
                 DB::table('permission_user')->insert($row);
             }
+            
+            Mail::to($user->email)->send(new NewUserCredentials($user,$password));
     
             // Return confirmation
             return Response()->json([
