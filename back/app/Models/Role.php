@@ -26,7 +26,23 @@ class Role extends Model
         'updated_at',
     ];
 
+
+    /**
+    * Retournes toutes les permissions du rôle
+    */
     public function permissions() {
         return $this->belongsToMany(Permission::class);
     }
+    
+    /**
+    * Vérifie si le rôle a la permission passée en paramètre
+    */
+    public function havePermission($permission_id) {
+        
+        $permission_role = PermissionRole::where([['permission_id', $permission_id], ['role_id', $this->id] ])->count();
+      
+        return $permission_role > 0 ? true : false;
+        
+    }
+    
 }   

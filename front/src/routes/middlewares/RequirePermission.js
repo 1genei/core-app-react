@@ -13,6 +13,8 @@ const RequirePermission = ({ permission }) => {
             : user?.status
                 ? <Navigate to='/unauthorized' state={{ from: location }} replace />
                 : <Navigate to='/login' state={{ from: location }} replace />
+            
+         
     )
 }
 
