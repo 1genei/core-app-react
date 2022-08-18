@@ -78,7 +78,7 @@ function InfoOrganisme() {
                         Informations de l'organisme
                     </Typography>
                 </Grid>
-                {!loading && !error && user.permissions.includes('Edit-Organisme') &&
+                {!loading && !error && user.permissions.includes('Edit-Organisme') && organisme?.archive === 0 &&
                     <Grid item >
                         <Link to={`/organisme/modifier/${encrypt(organisme.id)}`}>
                             <Fab size="small" color="primary" aria-label="add">
@@ -88,7 +88,7 @@ function InfoOrganisme() {
                     </Grid>}
             </Grid>
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                <Link component={NavLink} to="/organismes/actifs">
+                <Link component={NavLink} to={organisme?.archive === 0 ? "/organismes/actifs" : '/organismes/archives'}>
                     Organismes
                 </Link>
                 <Typography>Informations</Typography>

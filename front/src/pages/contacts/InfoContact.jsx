@@ -79,7 +79,7 @@ function InfoContact() {
                         Informations du contact
                     </Typography>
                 </Grid>
-                {!loading && !error && user.permissions.includes('Edit-Contact') &&
+                {!loading && !error && user.permissions.includes('Edit-Contact') && contact?.archive === 0 &&
                     <Grid item >
                         <Link to={`/contact/modifier/${encrypt(contact.id)}`}>
                             <Fab size="small" color="primary" aria-label="add">
@@ -89,7 +89,7 @@ function InfoContact() {
                     </Grid>}
             </Grid>
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                <Link component={NavLink} to="/contacts/actifs">
+                <Link component={NavLink} to={contact?.archive === 0 ? "/contacts/actifs" : "/contacts/archives"}>
                     Contacts
                 </Link>
                 <Typography>Informations</Typography>

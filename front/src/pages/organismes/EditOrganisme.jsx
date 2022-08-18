@@ -98,6 +98,9 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                         <Typography variant='h3'>
                             Impossible de trouver l'organisme
                         </Typography>
+                        <Typography variant='subtitle1'>
+                            Il se peut que l'organisme soit archivé ou n'existe pas
+                        </Typography>
                     </CardContent>
                 </Card>
                 :
@@ -301,6 +304,9 @@ function EditOrganisme() {
             id = decrypt(id);
             const org = await getOrganisme(id);
             setOrganisme(org);
+            if (org?.archive === 1) {
+                setError(true);
+            }
         } catch (err) {
             setError(true);
             console.log(err);

@@ -97,6 +97,9 @@ function ContactForm({ contactTab, errorStatus }) {
                         <Typography variant='h3'>
                             Impossible de trouver le contact
                         </Typography>
+                        <Typography variant='subtitle1'>
+                            Il se peut que le contact soit archivé ou n'existe pas
+                        </Typography>
                     </CardContent>
                 </Card>
                 :
@@ -339,6 +342,9 @@ function EditContact() {
             id = decrypt(id);
             const cont = await getContact(id);
             setContact(cont);
+            if (cont?.archive === 1) {
+                setError(true);
+            }
         } catch (err) {
             setError(true);
             console.log(err);

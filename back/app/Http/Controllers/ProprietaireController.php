@@ -28,6 +28,8 @@ class ProprietaireController extends Controller
             'siret' => 'required|string',
             'email' => 'required|email',
             'adresse' => 'required|string',
+            'pays' => 'required|string',
+            'ville' => 'required|string',
             'telephone' => 'required|string',
         ]);
         
@@ -41,6 +43,9 @@ class ProprietaireController extends Controller
         $owner->nom = $request->nom;
         $owner->email = $request->email;
         $owner->telephone = $request->telephone;
+        $owner->pays = $request->pays;
+        $owner->province = $request->province;
+        $owner->ville = $request->ville;
         $owner->adresse = $request->adresse;
         $owner->complement_adresse = $request->complement_adresse;
         $owner->siret = $request->siret;

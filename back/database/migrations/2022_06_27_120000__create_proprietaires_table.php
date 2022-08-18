@@ -16,7 +16,11 @@ class CreateProprietairesTable extends Migration
         Schema::create('proprietaires', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->string('adresse');
+            $table->string('pays')->nullable();
+            $table->string('province')->nullable();
+            $table->string('code')->nullable();
+            $table->string('ville')->nullable();
+            $table->string('adresse')->nullable();
             $table->string('complement_adresse')->nullable();
             $table->string('telephone');
             $table->string('email');

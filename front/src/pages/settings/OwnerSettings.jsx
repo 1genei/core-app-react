@@ -184,6 +184,54 @@ function OwnerSettings() {
                         <Grid item p={2}>
                             <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                 <LocationIcon color="primary" fontSize='large' />
+                                <TypoTitle variant='h4'>Pays {editMode && '*'}</TypoTitle>
+                            </Stack>
+                            {editMode && user.permissions.includes('Edit-Owner')
+                                ? <TextField name='pays' onChange={(e) => handleChange(e)} value={draft?.pays} sx={{ width: 350 }}></TextField>
+                                : owner?.pays
+                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.pays}</Typography>
+                                    : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
+                            }
+                        </Grid>
+                        <Grid item p={2}>
+                            <Stack direction='row' alignItems='center' spacing={2} pb={4}>
+                                <LocationIcon color="primary" fontSize='large' />
+                                <TypoTitle variant='h4'>Province</TypoTitle>
+                            </Stack>
+                            {editMode && user.permissions.includes('Edit-Owner')
+                                ? <TextField name='province' onChange={(e) => handleChange(e)} value={draft?.province} sx={{ width: 350 }}></TextField>
+                                : owner?.province
+                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.province}</Typography>
+                                    : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
+                            }
+                        </Grid>
+                        <Grid item p={2}>
+                            <Stack direction='row' alignItems='center' spacing={2} pb={4}>
+                                <LocationIcon color="primary" fontSize='large' />
+                                <TypoTitle variant='h4'>Code</TypoTitle>
+                            </Stack>
+                            {editMode && user.permissions.includes('Edit-Owner')
+                                ? <TextField name='code' onChange={(e) => handleChange(e)} value={draft?.code} sx={{ width: 350 }}></TextField>
+                                : owner?.code
+                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.code}</Typography>
+                                    : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
+                            }
+                        </Grid>
+                        <Grid item p={2}>
+                            <Stack direction='row' alignItems='center' spacing={2} pb={4}>
+                                <LocationIcon color="primary" fontSize='large' />
+                                <TypoTitle variant='h4'>Ville {editMode && '*'}</TypoTitle>
+                            </Stack>
+                            {editMode && user.permissions.includes('Edit-Owner')
+                                ? <TextField name='ville' onChange={(e) => handleChange(e)} value={draft?.ville} sx={{ width: 350 }}></TextField>
+                                : owner?.ville
+                                    ? <Typography variant='subtitle1' style={{ wordWrap: 'break-word' }}>{owner?.ville}</Typography>
+                                    : <Typography variant='subtitle1' sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
+                            }
+                        </Grid>
+                        <Grid item p={2}>
+                            <Stack direction='row' alignItems='center' spacing={2} pb={4}>
+                                <LocationIcon color="primary" fontSize='large' />
                                 <TypoTitle variant='h4'>Adresse {editMode && '*'}</TypoTitle>
                             </Stack>
                             {editMode && user.permissions.includes('Edit-Owner')

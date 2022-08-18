@@ -23,7 +23,6 @@ import { spacing } from "@mui/system";
 import {
     Edit as EditIcon,
     Shield as ShieldIcon,
-    TextSnippet as NotesIcon,
     Email as EmailIcon,
     Person as PersonIcon,
     Inventory as InventoryIcon,
@@ -75,7 +74,7 @@ function InfoUtilisateur() {
                         Informations de l'utilisateur
                     </Typography>
                 </Grid>
-                {!loading && !error && user.permissions.includes('Edit-User') &&
+                {!loading && !error && user.permissions.includes('Edit-User') && utilisateur?.archive === 0 &&
                     <Grid item >
                         <Link to={`/utilisateur/modifier/${encrypt(utilisateur.id)}`}>
                             <Fab size="small" color="primary" aria-label="add">
@@ -85,7 +84,7 @@ function InfoUtilisateur() {
                     </Grid>}
             </Grid>
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                <Link component={NavLink} to="/utilisateurs/actifs">
+                <Link component={NavLink} to={utilisateur?.archive === 0 ? "/utilisateurs/actifs" : '/utilisateurs/archives'}>
                     Utilisateurs
                 </Link>
                 <Typography>Informations</Typography>
@@ -140,6 +139,9 @@ function InfoUtilisateur() {
                                 </Typography>
                                 <Typography variant='h5'>
                                     Impossible de trouver l'utilisateur
+                                </Typography>
+                                <Typography variant='subtitle1'>
+                                    Il se peut que l'utilisateur soit archivé ou n'existe pas
                                 </Typography>
                             </CardContent>
                         </Card>
