@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\User;
+use App\Models\Codepostalville;
+use App\Models\Paysindicatif;
+
 use Illuminate\Support\Facades\Validator;
 
 class ContactController extends Controller
@@ -14,7 +17,7 @@ class ContactController extends Controller
     *   Renvoie tous les contacts 
     */
     public function getContacts() {
-    
+        
         $contacts = Contact::all();
         foreach ($contacts as $contact) {
             $contact->user;
@@ -111,17 +114,32 @@ class ContactController extends Controller
             ], 200);
         }
         
+       
+       try {
+            $contact = Contact::create([
+                'nom' => $request->input('nom'),
+                'prenom' => $request->input('prenom'),
+                'email' => $request->input('email'),
+                'adresse' => $request->input('adresse'),
+                'date_naissance' => $request->input('date_naissance'),
+                'telephone1' => $request->input('telephone1'),
+                'telephone2' => $request->input('telephone2'),
+                'notes' => $request->input('notes'),
+                'code_postal' => $request->input('code_postal'),
+                'ville' => $request->input('ville'),
+                'pays' => $request->input('pays'),
+                'indicatif1' => $request->input('indicatif1'),
+                'indicatif2' => $request->input('indicatif2'),
+                'provence' => $request->input('provence'),
+                'region' => $request->input('region'),
+                'etat' => $request->input('etat'),
+            ]);
+       } catch (\Throwable $th) {
         
-        $contact = Contact::create([
-            'nom' => $request->input('nom'),
-            'prenom' => $request->input('prenom'),
-            'email' => $request->input('email'),
-            'adresse' => $request->input('adresse'),
-            'date_naissance' => $request->input('date_naissance'),
-            'telephone1' => $request->input('telephone1'),
-            'telephone2' => $request->input('telephone2'),
-            'notes' => $request->input('notes')
-        ]);
+        return $th;
+       }
+        
+       
         
         return Response()->json([
             'message' => 'Contact créé',
@@ -187,6 +205,13 @@ class ContactController extends Controller
         $contact->telephone1 = $request->telephone1; 
         $contact->telephone2 = $request->telephone2; 
         $contact->notes = $request->notes; 
+        $contact->ville = $request->ville ;
+        $contact->pays = $request->pays ;
+        $contact->indicatif1 = $request->indicatif1 ;
+        $contact->indicatif2 = $request->indicatif2 ;
+        $contact->provence = $request->provence ;
+        $contact->region = $request->region ;
+        $contact->etat = $request->etat ;
         $contact->update();
 
         return Response()->json([

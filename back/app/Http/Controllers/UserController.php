@@ -85,7 +85,7 @@ class UserController extends Controller
         
         // Authenticate user
         $user = Auth::user();
-
+        $user->contact;
         // Create personal access token
         $token = $user->createToken('token')->plainTextToken;
 
@@ -94,7 +94,7 @@ class UserController extends Controller
             $cookie = cookie('jwt', $token, 60*24*365); // One year
         }
         else {
-            $cookie = cookie('jwt', $token, 60); // One hour
+            $cookie = cookie('jwt', $token, 60*24); // One day
         }
 
         // Get username
@@ -169,9 +169,13 @@ class UserController extends Controller
             // Check if token is valid
             if (hash_equals($accessToken->token, hash('sha256', $token))) {
                 // Retreive user infos
-                $user = DB::table('users')->select('email','created_at')->where('id', $accessToken->tokenable_id)->first();
-                $contact_id = DB::table('users')->select('contact_id')->where('id', $accessToken->tokenable_id)->first()->contact_id;
-                $names = DB::table('contacts')->select('nom', 'prenom')->where('id',$contact_id)->first();
+                $user = User::where('id', $accessToken->tokenable_id)->first();
+                $user->role;
+                // $user = DB::table('users')->select('email','created_at')->where('id', $accessToken->tokenable_id)->first();
+                // $contact_id = DB::table('users')->select('contact_id')->where('id', $accessToken->tokenable_id)->first()->contact_id;
+                // $names = DB::table('contacts')->select('nom', 'prenom')->where('id',$user->contact->id)->first();
+                $names = $user->contact->nom . " ".$user->contact->prenom;
+                
                 $ternary = DB::table('permission_user')->where('user_id', $accessToken->tokenable_id)->get();
                 $permissions = array();
                 foreach ($ternary as $i) {
@@ -203,6 +207,7 @@ class UserController extends Controller
             ], 200);
         }
     }
+
 
     /*
     *  Renvoie tous les utilisateurs actifs

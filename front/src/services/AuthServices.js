@@ -6,14 +6,15 @@ export const RegisterAPI = async (newUser) => {
 }
 
 export const LoginAPI = async (loginUser) => {
-    return axios.post('auth/login', loginUser, {withCredentials:true})
-    .then( (res) => {
-        const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
-        const email = res?.data?.user?.email;
-        const created_at = res?.data?.user?.created_at;
-        const permissions = res?.data?.permissionsName;
-        return { name, email, created_at, permissions };
-    });
+    return axios.post('auth/login', loginUser, { withCredentials: true })
+        .then((res) => {
+            const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
+            const email = res?.data?.user?.email;
+            const user = res?.data?.user;
+            const created_at = res?.data?.user?.created_at;
+            const permissions = res?.data?.permissionsName;
+            return { name, email, user, created_at, permissions };
+        });
 }
 
 export const LogoutAPI = async () => {
@@ -27,15 +28,15 @@ export const LogoutAPI = async () => {
 export const getRolesPermissions = () => {
 
     return axios.get('auth/get-roles-permissions')
-    .then( (res) => {
-        return res.data;
-        
-    })
-    .catch((error) => {
-    
-        console.log(`erreur: ${error}`);
-        return error;
-    })
+        .then((res) => {
+            return res.data;
+
+        })
+        .catch((error) => {
+
+            console.log(`erreur: ${error}`);
+            return error;
+        })
 }
 
 /**
@@ -45,13 +46,51 @@ export const getRolesPermissions = () => {
 export const updateRolesPermissions = (permissionRoleChecked) => {
 
     return axios.put('auth/update-roles-permissions', permissionRoleChecked)
-    .then( (res) => {
-        return res.data;
-        
-    })
-    .catch((error) => {
-    
-        console.log(`erreur: ${error}`);
-        return error;
-    })
+        .then((res) => {
+            return res.data;
+
+        })
+        .catch((error) => {
+
+            console.log(`erreur: ${error}`);
+            return error;
+        })
+}
+
+
+
+/**
+* retourne  permissions de l'utilisateur
+*/
+export const getUserPermissions = (user_id) => {
+
+    return axios.get('auth/get-user-permissions/' + user_id)
+        .then((res) => {
+            return res.data;
+
+        })
+        .catch((error) => {
+
+            console.log(`erreur: ${error}`);
+            return error;
+        })
+}
+
+/**
+* modifier les permissions de de l'utilisateur
+*/
+
+export const updateUserPermissions = (permissionUserChecked, user_id) => {
+
+
+    return axios.put('auth/update-user-permissions/' + user_id, permissionUserChecked)
+        .then((res) => {
+            return res.data;
+
+        })
+        .catch((error) => {
+
+            console.log(`erreur: ${error}`);
+            return error;
+        })
 }

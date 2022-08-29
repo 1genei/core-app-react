@@ -7,6 +7,8 @@ use App\Http\Controllers\OrganismeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProprietaireController;
+use App\Http\Controllers\CodepostalVilleController;
+use App\Http\Controllers\PaysindicatifController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +74,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::get('get-roles', [RoleController::class, 'getRoles']);
     Route::get('get-roles-permissions', [RoleController::class, 'getRolesPermissions']);
     Route::put('update-roles-permissions', [RoleController::class, 'updateRolesPermissions']);
+    Route::get('get-user-permissions/{user_id}', [RoleController::class, 'getUserPermissions']);
+    Route::put('update-user-permissions/{user_id}', [RoleController::class, 'updateUserPermissions']);
 });
 
 //Routes proprietaire
@@ -79,3 +83,13 @@ Route::group(['prefix' => 'owner'], function () {
     Route::get('infos', [ProprietaireController::class, 'getInfos']);
     Route::put('update', [ProprietaireController::class, 'update']);
 });
+
+//Routes codes postaux et villes
+Route::get('get-codepostal-by-ville/{ville}', [CodepostalvilleController::class, 'getCodePostalByVille']);
+Route::get('get-villes-by-codepostal/{code_postal}', [CodepostalvilleController::class, 'getVillesByCodePostal']);
+
+
+//Routes indicatif et pays
+Route::get('get-indicatif-by-pays/{pays}', [PaysindicatifController::class, 'getIndicatifByPays']);
+Route::get('get-pays/', [PaysindicatifController::class, 'getPays']);
+

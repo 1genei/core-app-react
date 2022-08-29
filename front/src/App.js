@@ -34,11 +34,12 @@ function App({ emotionCache = clientSideEmotionCache }) {
         axios.post('auth/verify-token', {}, { withCredentials: true })
             .then((res) => {
                 if (res?.data?.status === 200) {
-                    const name = res?.data?.name?.prenom + ' ' + res?.data?.name?.nom;
+                    const name = res?.data?.name;
                     const email = res?.data?.user?.email;
+                    const user = res?.data?.user;
                     const created_at = res?.data?.user?.created_at;
                     const permissions = res?.data?.permissions;
-                    const resAPI = { name, email, created_at, permissions };
+                    const resAPI = { name, email, user, created_at, permissions };
                     dispatch(login({ resAPI }));
                 }
                 setLoading(false);

@@ -61,7 +61,8 @@ function SignIn() {
                 try {
                     const resAPI = await LoginAPI(loginUser);
                     dispatch(login({ resAPI }));
-                    navigate(-1, { replace: true });
+
+                    // navigate(-1, { replace: true });
                 } catch (error) {
                     const message = error.message || "Something went wrong";
 

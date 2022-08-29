@@ -18,6 +18,7 @@ const auth = createSlice({
     reducers: {
         login(state, action) {
             state.name = action?.payload?.resAPI?.name;
+            state.user = action?.payload?.resAPI?.user;
             state.email = action?.payload?.resAPI?.email;
             state.created_at = action?.payload?.resAPI?.created_at;
             state.permissions = action?.payload?.resAPI?.permissions;
@@ -26,6 +27,7 @@ const auth = createSlice({
         logout(state, action) {
             state.name = '';
             state.email = '';
+            state.user = '';
             state.created_at = '';
             state.permissions = [];
             state.status = false;

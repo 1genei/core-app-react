@@ -1,0 +1,753 @@
+[
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "87a4aff1c0e932b0bb189a0cdf6ef57827bd9a52",
+        "fields": {
+            "nom_de_la_commune": "NESMY",
+            "libelle_d_acheminement": "NESMY",
+            "code_postal": "85310",
+            "coordonnees_gps": [
+                46.592028626,
+                -1.409461466
+            ],
+            "code_commune_insee": "85160"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -1.409461466,
+                46.592028626
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "19bc1372121a921e489c022b5b4b0b2fb927579c",
+        "fields": {
+            "nom_de_la_commune": "DUHORT BACHEN",
+            "libelle_d_acheminement": "DUHORT BACHEN",
+            "code_postal": "40800",
+            "coordonnees_gps": [
+                43.717375947,
+                -0.32125093200000004
+            ],
+            "code_commune_insee": "40091"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.32125093200000004,
+                43.717375947
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "90b5e5cd057d4ad0963e2a9c4a0ab86388f59f6d",
+        "fields": {
+            "nom_de_la_commune": "BONNEFONTAINE",
+            "libelle_d_acheminement": "BONNEFONTAINE",
+            "code_postal": "39800",
+            "coordonnees_gps": [
+                46.731998664,
+                5.746703121
+            ],
+            "code_commune_insee": "39065"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.746703121,
+                46.731998664
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "69ac626b4cf8c6ebce0bf8c5151c71ab9d99bf65",
+        "fields": {
+            "nom_de_la_commune": "GRANGES AUMONTZEY",
+            "libelle_d_acheminement": "GRANGES AUMONTZEY",
+            "code_postal": "88640",
+            "coordonnees_gps": [
+                48.131328375,
+                6.806971862
+            ],
+            "code_commune_insee": "88218",
+            "ligne_5": "GRANGES SUR VOLOGNE"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                6.806971862,
+                48.131328375
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "42baf6b2083fdaf876da0deb6014e0302a568629",
+        "fields": {
+            "nom_de_la_commune": "SOUDAN",
+            "libelle_d_acheminement": "SOUDAN",
+            "code_postal": "79800",
+            "coordonnees_gps": [
+                46.432601985,
+                -0.095548647
+            ],
+            "code_commune_insee": "79316"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.095548647,
+                46.432601985
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "9d20c1901802af0e0f687643420a1efba6b1cafa",
+        "fields": {
+            "nom_de_la_commune": "NOTRE DAME DE MONTS",
+            "libelle_d_acheminement": "NOTRE DAME DE MONTS",
+            "code_postal": "85690",
+            "coordonnees_gps": [
+                46.842363952,
+                -2.109416208
+            ],
+            "code_commune_insee": "85164"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -2.109416208,
+                46.842363952
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "a5508dbb5ea844f8afef7be67fa574caec45ff40",
+        "fields": {
+            "nom_de_la_commune": "ESTIGARDE",
+            "libelle_d_acheminement": "ESTIGARDE",
+            "code_postal": "40240",
+            "coordonnees_gps": [
+                44.036870818,
+                -0.11600553400000001
+            ],
+            "code_commune_insee": "40096"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.11600553400000001,
+                44.036870818
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "dd866d4fe5de5b5780413f62c9f706bf094ada23",
+        "fields": {
+            "nom_de_la_commune": "BRANS",
+            "libelle_d_acheminement": "BRANS",
+            "code_postal": "39290",
+            "coordonnees_gps": [
+                47.224141752,
+                5.573025706
+            ],
+            "code_commune_insee": "39074"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.573025706,
+                47.224141752
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "2e96feadfa8700f4ec5dd41017875b95e8a021d3",
+        "fields": {
+            "nom_de_la_commune": "GUGNECOURT",
+            "libelle_d_acheminement": "GUGNECOURT",
+            "code_postal": "88600",
+            "coordonnees_gps": [
+                48.247258772,
+                6.622572839
+            ],
+            "code_commune_insee": "88222"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                6.622572839,
+                48.247258772
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "b50921cc208b1f2b85df2e7114cbed7336119f1a",
+        "fields": {
+            "nom_de_la_commune": "SOUVIGNE",
+            "libelle_d_acheminement": "SOUVIGNE",
+            "code_postal": "79800",
+            "coordonnees_gps": [
+                46.358955969,
+                -0.170652559
+            ],
+            "code_commune_insee": "79319"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.170652559,
+                46.358955969
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "ff3136ecbeb05275e179ceef8e269aa22dfab86d",
+        "fields": {
+            "nom_de_la_commune": "L ORBRIE",
+            "libelle_d_acheminement": "L ORBRIE",
+            "code_postal": "85200",
+            "coordonnees_gps": [
+                46.500083378,
+                -0.7744835050000001
+            ],
+            "code_commune_insee": "85167"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.7744835050000001,
+                46.500083378
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "7aa14c61d36bb3183ed72a831f0a629e1cdf1ac0",
+        "fields": {
+            "nom_de_la_commune": "FARGUES",
+            "libelle_d_acheminement": "FARGUES",
+            "code_postal": "40500",
+            "coordonnees_gps": [
+                43.724887239,
+                -0.45211702400000003
+            ],
+            "code_commune_insee": "40099"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.45211702400000003,
+                43.724887239
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "698da9fd0bbbbb5fa7d8b9d29d81fee979e55e03",
+        "fields": {
+            "nom_de_la_commune": "BREVANS",
+            "libelle_d_acheminement": "BREVANS",
+            "code_postal": "39100",
+            "coordonnees_gps": [
+                47.10057367,
+                5.522703497
+            ],
+            "code_commune_insee": "39078"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.522703497,
+                47.10057367
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "f1670eb0fc31d6d07697ffd191b4cb42bc03285d",
+        "fields": {
+            "nom_de_la_commune": "HADOL",
+            "libelle_d_acheminement": "HADOL",
+            "code_postal": "88220",
+            "coordonnees_gps": [
+                48.082170351,
+                6.456044705
+            ],
+            "code_commune_insee": "88225"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                6.456044705,
+                48.082170351
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "ff81ad0ae428d31385b83be7833b3f761fabfc3f",
+        "fields": {
+            "nom_de_la_commune": "THOUARS",
+            "libelle_d_acheminement": "THOUARS",
+            "code_postal": "79100",
+            "coordonnees_gps": [
+                46.973389907,
+                -0.253271703
+            ],
+            "code_commune_insee": "79329",
+            "ligne_5": "MAUZE THOUARSAIS"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.253271703,
+                46.973389907
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "fdbf32dafe040e02f09d6034b5cc6fb8629b0aa7",
+        "fields": {
+            "nom_de_la_commune": "PALLUAU",
+            "libelle_d_acheminement": "PALLUAU",
+            "code_postal": "85670",
+            "coordonnees_gps": [
+                46.806614962,
+                -1.602670626
+            ],
+            "code_commune_insee": "85169"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -1.602670626,
+                46.806614962
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "338a07fef1c1a71d3f04d723fd5ad9ede340b816",
+        "fields": {
+            "nom_de_la_commune": "LE FRECHE",
+            "libelle_d_acheminement": "LE FRECHE",
+            "code_postal": "40190",
+            "coordonnees_gps": [
+                43.925497282,
+                -0.24467096700000002
+            ],
+            "code_commune_insee": "40100"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.24467096700000002,
+                43.925497282
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "b4d62d5dad3c2997708ea74a63c6132022325c91",
+        "fields": {
+            "nom_de_la_commune": "BRIOD",
+            "libelle_d_acheminement": "BRIOD",
+            "code_postal": "39570",
+            "coordonnees_gps": [
+                46.663637616,
+                5.625005295
+            ],
+            "code_commune_insee": "39079"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.625005295,
+                46.663637616
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "213b59084798c44d32f9718c18ddff3e9622b232",
+        "fields": {
+            "nom_de_la_commune": "HAGNEVILLE ET RONCOURT",
+            "libelle_d_acheminement": "HAGNEVILLE ET RONCOURT",
+            "code_postal": "88300",
+            "coordonnees_gps": [
+                48.246144924,
+                5.789942911
+            ],
+            "code_commune_insee": "88227"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.789942911,
+                48.246144924
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "7ffe3d6dd40cfaeaec3d79c4ee5740a29f70035d",
+        "fields": {
+            "nom_de_la_commune": "THOUARS",
+            "libelle_d_acheminement": "THOUARS",
+            "code_postal": "79100",
+            "coordonnees_gps": [
+                46.973389907,
+                -0.253271703
+            ],
+            "code_commune_insee": "79329",
+            "ligne_5": "MISSE"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.253271703,
+                46.973389907
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "61bf44558591f679ba1b5379ed1fedf03b9b755e",
+        "fields": {
+            "nom_de_la_commune": "LE PERRIER",
+            "libelle_d_acheminement": "LE PERRIER",
+            "code_postal": "85300",
+            "coordonnees_gps": [
+                46.819789558,
+                -1.979312643
+            ],
+            "code_commune_insee": "85172"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -1.979312643,
+                46.819789558
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "138ed19827013bca8e10f3b9fdd42b291d0756ca",
+        "fields": {
+            "nom_de_la_commune": "GRENADE SUR L ADOUR",
+            "libelle_d_acheminement": "GRENADE SUR L ADOUR",
+            "code_postal": "40270",
+            "coordonnees_gps": [
+                43.792363353,
+                -0.423044644
+            ],
+            "code_commune_insee": "40117"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.423044644,
+                43.792363353
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "281cb5aa96c62c62c938fd10e0c39a010d074448",
+        "fields": {
+            "nom_de_la_commune": "BROISSIA",
+            "libelle_d_acheminement": "BROISSIA",
+            "code_postal": "39320",
+            "coordonnees_gps": [
+                46.356486646,
+                5.432909561
+            ],
+            "code_commune_insee": "39080"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.432909561,
+                46.356486646
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "91b4b8fa13d52fe319b303efb819d4ce4f5f3ff5",
+        "fields": {
+            "nom_de_la_commune": "HARCHECHAMP",
+            "libelle_d_acheminement": "HARCHECHAMP",
+            "code_postal": "88300",
+            "coordonnees_gps": [
+                48.405705969,
+                5.800758394
+            ],
+            "code_commune_insee": "88229"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.800758394,
+                48.405705969
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "4a4bb4938789cb49a19937596198ccccc9027029",
+        "fields": {
+            "nom_de_la_commune": "TOURTENAY",
+            "libelle_d_acheminement": "TOURTENAY",
+            "code_postal": "79100",
+            "coordonnees_gps": [
+                47.047060737,
+                -0.11215123
+            ],
+            "code_commune_insee": "79331"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.11215123,
+                47.047060737
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "e140eee61bbb4604d3371a4cc8124c3c57bbb770",
+        "fields": {
+            "nom_de_la_commune": "POUILLE",
+            "libelle_d_acheminement": "POUILLE",
+            "code_postal": "85570",
+            "coordonnees_gps": [
+                46.50242744,
+                -0.9559799640000001
+            ],
+            "code_commune_insee": "85181"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.9559799640000001,
+                46.50242744
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "0da58be2cb5cc9df4c14d77df27cd8423ee3981a",
+        "fields": {
+            "nom_de_la_commune": "HASTINGUES",
+            "libelle_d_acheminement": "HASTINGUES",
+            "code_postal": "40300",
+            "coordonnees_gps": [
+                43.515121696,
+                -1.118977154
+            ],
+            "code_commune_insee": "40120"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -1.118977154,
+                43.515121696
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "5a6e92b7bacbfcb396b3f941b5f02c82a9ef5cff",
+        "fields": {
+            "nom_de_la_commune": "CHAINEE DES COUPIS",
+            "libelle_d_acheminement": "CHAINEE DES COUPIS",
+            "code_postal": "39120",
+            "coordonnees_gps": [
+                46.922343436,
+                5.434999475
+            ],
+            "code_commune_insee": "39090"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.434999475,
+                46.922343436
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "26cd35d8fabd19b667fe583a25340363a315503c",
+        "fields": {
+            "nom_de_la_commune": "HAREVILLE",
+            "libelle_d_acheminement": "HAREVILLE",
+            "code_postal": "88800",
+            "coordonnees_gps": [
+                48.203812971,
+                6.016838772
+            ],
+            "code_commune_insee": "88231"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                6.016838772,
+                48.203812971
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "fe4b2281dd0bbf8d0b97e33c0d172652ad615491",
+        "fields": {
+            "nom_de_la_commune": "VAUTEBIS",
+            "libelle_d_acheminement": "VAUTEBIS",
+            "code_postal": "79420",
+            "coordonnees_gps": [
+                46.5321612,
+                -0.153403071
+            ],
+            "code_commune_insee": "79341"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.153403071,
+                46.5321612
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "b5c8b6cb02a2c8f933e215d80cd25583d2280b0c",
+        "fields": {
+            "nom_de_la_commune": "POUZAUGES",
+            "libelle_d_acheminement": "POUZAUGES",
+            "code_postal": "85700",
+            "coordonnees_gps": [
+                46.781606321,
+                -0.828304844
+            ],
+            "code_commune_insee": "85182"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.828304844,
+                46.781606321
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "eeef20f2507840047df456bf32d0c203fa582f6c",
+        "fields": {
+            "nom_de_la_commune": "HAUT MAUCO",
+            "libelle_d_acheminement": "HAUT MAUCO",
+            "code_postal": "40280",
+            "coordonnees_gps": [
+                43.829094158,
+                -0.562370508
+            ],
+            "code_commune_insee": "40122"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                -0.562370508,
+                43.829094158
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "1cbca5b4470c0957e2b08ac5ff1055f609bfa85b",
+        "fields": {
+            "nom_de_la_commune": "CHAMPAGNE SUR LOUE",
+            "libelle_d_acheminement": "CHAMPAGNE SUR LOUE",
+            "code_postal": "39600",
+            "coordonnees_gps": [
+                47.033539228,
+                5.806691198
+            ],
+            "code_commune_insee": "39095"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                5.806691198,
+                47.033539228
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    },
+    {
+        "datasetid": "laposte_hexasmal",
+        "recordid": "81198c17daef2f368a2afe3a67f19450b520ff40",
+        "fields": {
+            "nom_de_la_commune": "HAROL",
+            "libelle_d_acheminement": "HAROL",
+            "code_postal": "88270",
+            "coordonnees_gps": [
+                48.144031285,
+                6.247069874
+            ],
+            "code_commune_insee": "88233"
+        },
+        "geometry": {
+            "type": "Point",
+            "coordinates": [
+                6.247069874,
+                48.144031285
+            ]
+        },
+        "record_timestamp": "2022-03-21T00:35:00+01:00"
+    }
+]

@@ -75,4 +75,16 @@ class User extends Authenticatable
         }
         return $permissionsName;
     }
+    
+    
+    /**
+    * Vérifie si le user a la permission passée en paramètre
+    */
+    public function havePermission($permission_id) {
+        
+        $permission_user = PermissionUser::where([['permission_id', $permission_id], ['user_id', $this->id] ])->count();
+      
+        return $permission_user > 0 ? true : false;
+        
+    }
 }

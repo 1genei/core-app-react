@@ -88,6 +88,8 @@ export const addContact = async (contact) => {
 
     return axios.post('contact/store', contact)
         .then((res) => {
+
+            console.log(res.data);
             return res.data;
         })
         .catch((error) => {
