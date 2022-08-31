@@ -145,3 +145,84 @@ export const restoreContact = async (id) => {
             return error;
         });
 }
+
+
+
+/**
+ * 
+ * @returns retourne les types de contact 
+ */
+export const getActiveTypeContact = async () => {
+
+    return axios.get(`contact/type/all`)
+        .then((res) => {
+
+            return res.data.typeContacts;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });;
+}
+
+
+/**
+ * Ajouter un type de contact
+ */
+export const addTypeContact = async (typeContact) => {
+
+    return axios.post('contact/type/store', typeContact)
+        .then((res) => {
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Modifier le type de contact
+*/
+export const updateTypeContact = async (typeContact, typeContact_id) => {
+
+    return axios.put(`contact/type/update/${typeContact_id}`, typeContact)
+        .then((res) => {
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Archiver le type de contact
+*/
+export const archiveTypeContact = async (id) => {
+    return axios.put(`contact/type/archive/${id}`)
+        .then((res) => {
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Désarchiver le type de contact
+*/
+export const restoreTypeContact = async (id) => {
+    return axios.put(`contact/type/restore/${id}`)
+        .then((res) => {
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}

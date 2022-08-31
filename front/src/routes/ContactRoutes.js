@@ -7,6 +7,7 @@ import EditContact from "../pages/contacts/EditContact";
 import InfoContact from "../pages/contacts/InfoContact";
 import RequirePermission from './middlewares/RequirePermission';
 import RequireAuth from "./middlewares/RequireAuth";
+import TypeContact from "../pages/contacts/TypeContact";
 
 const ContactRoutes = {
     path: '/',
@@ -29,7 +30,13 @@ const ContactRoutes = {
                                 {
                                     path: 'archives',
                                     element: <ArchiveContact />
+                                },
+                                {
+                                    path: 'types',
+                                    element: <TypeContact />,
+
                                 }
+
                             ]
                         }
                     ]

@@ -7,6 +7,7 @@ import ArchiveOrganisme from '../pages/organismes/ArchiveOrganisme';
 import CreateOrganisme from "../pages/organismes/CreateOrganisme";
 import EditOrganisme from "../pages/organismes/EditOrganisme";
 import InfoOrganisme from "../pages/organismes/InfoOrganisme";
+import TypeOrganisme from "../pages/organismes/TypeOrganisme";
 
 
 const OrganismeRoutes = {
@@ -30,7 +31,13 @@ const OrganismeRoutes = {
                                 {
                                     path: 'archives',
                                     element: <ArchiveOrganisme />
-                                }
+                                },
+                                {
+                                    path: 'types',
+                                    element: <TypeOrganisme />,
+
+                                },
+
                             ]
                         }
                     ]

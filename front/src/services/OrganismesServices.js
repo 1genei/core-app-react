@@ -125,3 +125,82 @@ export const restoreOrganisme = async (id) => {
             return error;
         });
 }
+
+/**
+ * 
+ * @returns retourne les types d'organisme 
+ */
+export const getActiveTypeOrganisme = async () => {
+
+    return axios.get(`organisme/type/all`)
+        .then((res) => {
+
+            return res.data.typeOrganismes;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });;
+}
+
+
+/**
+ * Ajouter un type d'organisme
+ */
+export const addTypeOrganisme = async (typeOrganisme) => {
+
+    return axios.post('organisme/type/store', typeOrganisme)
+        .then((res) => {
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Modifier le type d'organisme
+*/
+export const updateTypeOrganisme = async (typeOrganisme, typeOrganisme_id) => {
+
+    return axios.put(`organisme/type/update/${typeOrganisme_id}`, typeOrganisme)
+        .then((res) => {
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Archiver le type d'organisme
+*/
+export const archiveTypeOrganisme = async (id) => {
+    return axios.put(`organisme/type/archive/${id}`)
+        .then((res) => {
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Désarchiver le type d'organisme
+*/
+export const restoreTypeOrganisme = async (id) => {
+    return axios.put(`organisme/type/restore/${id}`)
+        .then((res) => {
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}

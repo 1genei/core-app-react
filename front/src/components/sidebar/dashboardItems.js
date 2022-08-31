@@ -25,6 +25,11 @@ const pagesSection = [
                 href: "/contacts/archives",
                 title: "Archives",
             },
+            {
+                href: "/contacts/types",
+                title: "Types",
+            },
+
         ],
     },
     {
@@ -39,6 +44,10 @@ const pagesSection = [
             {
                 href: "/organismes/archives",
                 title: "Archives",
+            },
+            {
+                href: "/organismes/types",
+                title: "Types",
             },
         ],
     },

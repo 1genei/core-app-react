@@ -91,7 +91,6 @@ function ContactForm() {
 
         const { name, value } = e.target;
         setContact({ ...contact, [name]: value });
-        console.log("eeee");
 
 
     }
