@@ -21,6 +21,8 @@ class CreateContactOrganismeTable extends Migration
             $table->foreignIdFor(Organisme::class);
             $table->string('poste')->nullable();
             $table->boolean('archive')->default(false);
+            $table->timestamps();
+            
         });
     }
 

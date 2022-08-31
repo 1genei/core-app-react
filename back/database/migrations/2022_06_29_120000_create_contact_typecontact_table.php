@@ -15,11 +15,10 @@ class CreateContactTypecontactTable extends Migration
     {
         Schema::create('contact_typecontact', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-
             $table->foreignId('contact_id')->nullable();
             $table->foreignId('typecontact_id')->nullable();
             $table->boolean('archive')->default(false);
+            $table->timestamps();
         });
     }
 

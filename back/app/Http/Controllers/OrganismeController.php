@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organisme;
+use App\Models\Typesorganisme;
 use Illuminate\Support\Facades\Validator;
 
 class OrganismeController extends Controller
@@ -150,4 +151,144 @@ class OrganismeController extends Controller
             'status' => 200,
         ], 200);
     }
+    
+    
+    
+    /**
+    *   Renvoie tous les types d'organismes actifs 
+    */
+    public function getTypeOrganismes() {
+        
+        $typeOrganismes = Typesorganisme::where('archive', false)->get();
+        return Response()->json([
+            'typeOrganismes' => $typeOrganismes,
+            'status' => 200,
+        ], 200);
+    }
+    
+    /**
+    *   Création de type organisme 
+    */
+    public function storeTypeOrganisme(Request $request) {
+    
+        $validator = Validator::make($request->all(),[
+            'type' => 'required|unique:typesorganismes|string',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response()->json([
+                'errors' => $validator->errors(),
+                'status' => 400,
+            ], 200);
+        }
+        
+       
+       try {
+            Typesorganisme::create([
+                'type' => $request->input('type'),
+                'details' => $request->input('details'),
+            ]);
+       } catch (\Throwable $th) {
+        
+        return $th;
+       }
+        
+       
+        
+        return Response()->json([
+            'message' => "Type d'organisme  créé",
+            'status' => 200,
+            
+        ], 200);
+        
+    }
+    
+    
+
+ 
+    /**
+    * Supprime le type organisme d'id $typeorganisme_id
+    */
+    public function deleteTypeOrganisme($typeorganisme_id) {
+    
+        Typesorganisme::where('id','=',$typeorganisme_id)->delete();
+        return Response()->json([
+            'message' => 'Type organisme supprimé'
+        ], 200);
+    }
+    
+
+    /**
+    *   Modifie l'organisme d'id $typeorganisme_id avec les paramètres passés dans $request
+    */
+    public function updateTypeOrganisme(Request $request, $typeorganisme_id) {
+    
+        $typeOrganisme = Typesorganisme::where('id', '=', $typeorganisme_id)->first();
+    
+   
+        if($typeOrganisme->type == $request->type){
+        
+            $validator = Validator::make($request->all(),[
+                'type' => 'required|string',
+            ]);
+        
+       
+        }
+        else{
+            $validator = Validator::make($request->all(),[
+                'type' => 'required|unique:typesorganismes|string',
+            ]);        
+        }
+        
+        if ($validator->fails()) {
+            return Response()->json([
+                'errors' => $validator->errors(),
+                'status' => 400,
+            ], 200);
+        }
+        
+        $typeOrganisme->type = $request->type; 
+        $typeOrganisme->details = $request->details; 
+       
+        $typeOrganisme->update();
+
+        return Response()->json([
+            'message' => "Type d'organisme modifié",
+            'status' => 200,
+        ], 200);
+    }
+    
+     /**
+    * Archive l'organisme d'id $typeorganisme_id
+    */
+    public function archiveTypeOrganisme($typeorganisme_id) {
+    
+
+        $typeOrganisme = Typesorganisme::where('id',$typeorganisme_id)->first();
+        
+        $typeOrganisme->archive = true;
+        $typeOrganisme->update();
+        
+  
+        return Response()->json([
+            'message' => "Type d'organisme archivé",
+            'status' =>200
+        ], 200);
+    }
+
+    /**
+    * Restaure l'organisme d'id $typeorganisme_id
+    */
+    public function restoreTypeOrganisme($typeorganisme_id) {
+    
+        $typeOrganisme = Typesorganisme::where('id','=',$typeorganisme_id)->first();
+        $typeOrganisme->archive = 0;
+        $typeOrganisme->update();
+        return Response()->json([
+            'message' => "Type d'organisme restauré",
+            'status' =>200
+            
+        ], 200);
+    }
+    
 }

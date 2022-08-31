@@ -19,6 +19,8 @@ class CreatePermissionUserTable extends Migration
             $table->primary(['permission_id', 'user_id']);
             $table->foreignIdFor(Permission::class);
             $table->foreignIdFor(User::class);
+            $table->timestamps();
+            
         });
     }
 

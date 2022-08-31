@@ -15,10 +15,10 @@ class CreateTypescontactsTable extends Migration
     {
         Schema::create('typescontacts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-
-            $table->string('nom')->nullable();
+            $table->string('type')->nullable();
             $table->string('details')->nullable();
+            $table->boolean('archive')->default(false);
+            $table->timestamps();
         });
     }
 

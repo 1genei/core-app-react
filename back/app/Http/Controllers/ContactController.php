@@ -7,6 +7,7 @@ use App\Models\Contact;
 use App\Models\User;
 use App\Models\Codepostalville;
 use App\Models\Paysindicatif;
+use App\Models\Typescontact;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -246,6 +247,143 @@ class ContactController extends Controller
         $contact->update();
         return Response()->json([
             'message' => 'Contact restauré',
+            'status' =>200
+            
+        ], 200);
+    }
+
+    /**
+    *   Renvoie tous les types de contacts actifs 
+    */
+    public function getTypeContacts() {
+        
+        $typeContacts = Typescontact::where('archive', false)->get();
+        return Response()->json([
+            'typeContacts' => $typeContacts,
+            'status' => 200,
+        ], 200);
+    }
+    
+    /**
+    *   Création de type de contact
+    */
+    public function storeTypeContact(Request $request) {
+    
+        $validator = Validator::make($request->all(),[
+            'type' => 'required|unique:typescontacts|string',
+        ]);
+        
+        if ($validator->fails()) {
+            return Response()->json([
+                'errors' => $validator->errors(),
+                'status' => 400,
+            ], 200);
+        }
+        
+       
+       try {
+            $contact = Typescontact::create([
+                'type' => $request->input('type'),
+                'details' => $request->input('details'),
+            ]);
+       } catch (\Throwable $th) {
+        
+        return $th;
+       }
+        
+       
+        
+        return Response()->json([
+            'message' => 'Type de contact créé',
+            'status' => 200,
+            
+        ], 200);
+        
+    }
+    
+    
+
+ 
+    /**
+    * Supprime le type de contact d'id $typecontact_id
+    */
+    public function deleteTypeContact($typecontact_id) {
+    
+        Typescontact::where('id','=',$typecontact_id)->delete();
+        return Response()->json([
+            'message' => 'Contact supprimé'
+        ], 200);
+    }
+    
+
+    /**
+    *   Modifie le contact d'id $typecontact_id avec les paramètres passés dans $request
+    */
+    public function updateTypeContact(Request $request, $typecontact_id) {
+    
+        $typeContact = Typescontact::where('id', '=', $typecontact_id)->first();
+    
+   
+        if($typeContact->type == $request->type){
+        
+            $validator = Validator::make($request->all(),[
+                'type' => 'required|string',
+            ]);
+        
+       
+        }
+        else{
+            $validator = Validator::make($request->all(),[
+                'type' => 'required|unique:typescontacts|string',
+            ]);        
+        }
+        
+        if ($validator->fails()) {
+            return Response()->json([
+                'errors' => $validator->errors(),
+                'status' => 400,
+            ], 200);
+        }
+        
+        $typeContact->type = $request->type; 
+        $typeContact->details = $request->details; 
+       
+        $typeContact->update();
+
+        return Response()->json([
+            'message' => 'Type de Contact modifié',
+            'status' => 200,
+        ], 200);
+    }
+    
+     /**
+    * Archive le contact d'id $typecontact_id
+    */
+    public function archiveTypeContact($typecontact_id) {
+    
+
+        $typeContact = Typescontact::where('id',$typecontact_id)->first();
+        
+        $typeContact->archive = true;
+        $typeContact->update();
+        
+  
+        return Response()->json([
+            'message' => 'Type de Contact archivé',
+            'status' =>200
+        ], 200);
+    }
+
+    /**
+    * Restaure le contact d'id $typecontact_id
+    */
+    public function restoreTypeContact($typecontact_id) {
+    
+        $typeContact = Typescontact::where('id','=',$typecontact_id)->first();
+        $typeContact->archive = 0;
+        $typeContact->update();
+        return Response()->json([
+            'message' => 'Type de Contact restauré',
             'status' =>200
             
         ], 200);

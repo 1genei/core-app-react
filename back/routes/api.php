@@ -37,6 +37,13 @@ Route::group(['prefix' => 'contact'], function () {
     Route::put('restore/{id}', [ContactController::class, 'restore'])->where('id', '[0-9]+');
     Route::put('update/{id}', [ContactController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('delete/{id}', [ContactController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('type/all', [ContactController::class, 'getTypeContacts']);
+    Route::post('type/store', [ContactController::class, 'storeTypeContact']);
+    Route::put('type/archive/{id}', [ContactController::class, 'archiveTypeContact'])->where('id', '[0-9]+');
+    Route::put('type/restore/{id}', [ContactController::class, 'restoreTypeContact'])->where('id', '[0-9]+');
+    Route::put('type/update/{id}', [ContactController::class, 'updateTypeContact'])->where('id', '[0-9]+');
+    
+    
 });
 
 //Routes utilisateurs
@@ -62,6 +69,12 @@ Route::group(['prefix' => 'organisme'], function () {
     Route::put('restore/{id}', [OrganismeController::class, 'restore'])->where('id', '[0-9]+');
     Route::put('update/{id}', [OrganismeController::class, 'update'])->where('id', '[0-9]+');
     Route::delete('delete/{id}', [OrganismeController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('type/all', [OrganismeController::class, 'getTypeOrganismes']);
+    Route::post('type/store', [OrganismeController::class, 'storeTypeOrganisme']);
+    Route::put('type/archive/{id}', [OrganismeController::class, 'archiveTypeOrganisme'])->where('id', '[0-9]+');
+    Route::put('type/restore/{id}', [OrganismeController::class, 'restoreTypeOrganisme'])->where('id', '[0-9]+');
+    Route::put('type/update/{id}', [OrganismeController::class, 'updateTypeOrganisme'])->where('id', '[0-9]+');
+    
 });
 
 
