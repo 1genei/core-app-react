@@ -1,332 +1,381 @@
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
+import { NavLink, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { useSelector } from 'react-redux';
 import { parseDateTime, parseDate } from "../../utils/datetime";
-import React, { useState, useEffect } from "react";
-import { NavLink, Link, useParams } from "react-router-dom";
-import { getContact } from "../../services/ContactsServices";
 import { styled as MuiStyled } from '@mui/material/styles';
+
+import { useSelector } from "react-redux";
+
 import {
-    Box,
-    Breadcrumbs as MuiBreadcrumbs,
-    Card as MuiCard,
-    CardContent,
-    Divider as MuiDivider,
-    Grid,
-    Typography as MuiTypography,
-    Skeleton,
-    Fab,
-    Stack
-} from "@mui/material";
-import { encrypt, decrypt } from "../../utils/crypt";
-import { spacing } from "@mui/system";
-import {
-    Edit as EditIcon,
     LocationOn as LocationIcon,
     TextSnippet as NotesIcon,
-    PhoneAndroid as MobileIcon,
     Phone as FixeIcon,
     CalendarToday as CalendarIcon,
     Email as EmailIcon,
-    Person as PersonIcon,
-    Inventory as InventoryIcon,
-    AddCircle as AddIcon,
-    AccountBox as AccountIcon
-} from '@mui/icons-material';
+    Home as HomeIcon,
+    AccountBox as AccountIcon,
+    Archive as ArchiveIcon,
+
+} from '@mui/icons-material/';
+
+import {
+    Avatar as MuiAvatar,
+    Box,
+    Breadcrumbs as MuiBreadcrumbs,
+    Button as MuiButton,
+    Card as MuiCard,
+    CardContent,
+    Chip,
+    Divider as MuiDivider,
+    Grid as MuiGrid,
+    Link,
+    Paper,
+
+    Typography as MuiTypography,
+} from "@mui/material";
+
+import { spacing } from "@mui/system";
+import { decrypt, encrypt } from "../../utils/crypt";
+import { getContact } from "../../services/ContactsServices";
+
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+
+const Button = styled(MuiButton)(spacing);
+
+const Card = styled(MuiCard)(spacing);
 
 
 const Divider = styled(MuiDivider)(spacing);
-const Card = styled(MuiCard)(spacing);
-const Typography = styled(MuiTypography)(spacing);
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
-const TypoTitle = MuiStyled(Typography)(() => ({
-    textDecoration: 'underline',
-    fontWeight: 800
-}));
+const Grid = styled(MuiGrid)(spacing);
+
+
+const Spacer = styled.div(spacing);
+
+const Typography = styled(MuiTypography)(spacing);
+
+const Centered = styled.div`
+  text-align: center;
+`;
+
+const Avatar = styled(MuiAvatar)`
+  display: inline-block;
+  height: 128px;
+  width: 128px;
+`;
+
+const AboutIcon = styled.span`
+  display: flex;
+  padding-right: ${(props) => props.theme.spacing(4)};
+  color:primary;
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+`;
+
+
+
+
+function Details(props) {
+
+    const { contact } = props;
+
+    console.log(contact);
+    return (
+        <Card mb={6}>
+            <CardContent>
+
+                <Spacer mb={4} />
+
+                <Centered>
+                    <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
+                    <Typography variant="body2" component="div" gutterBottom>
+                        <Box fontWeight="fontWeightMedium">{contact?.nom} {contact?.prenom}</Box>
+
+                    </Typography>
+
+                    <Link to={`/contact/modifier/${encrypt(contact?.id)}`} component={NavLink}>
+                        <Button mr={4} variant="contained" color="success" size="small"  >
+                            Modifier
+                        </Button>
+                    </Link>
+
+                </Centered>
+            </CardContent>
+        </Card >
+    );
+}
+
+
+function About(props) {
+
+    const { contact } = props;
+
+    const [error, setError] = useState(false);
+    const TypoTitle = MuiStyled(Typography)(() => ({
+        textDecoration: 'underline',
+        fontWeight: 800
+    }));
+    return (
+        <>
+
+            <Card mb={6}>
+                <CardContent>
+                    <Typography variant="h3" gutterBottom>
+                        Infos
+                    </Typography>
+
+                    <Spacer mb={10} />
+                    <Grid container direction="row" alignItems="center" mb={4}>
+                        <Grid item>
+                            <AboutIcon color="primary">
+                                <EmailIcon color="primary" />
+                            </AboutIcon>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">Email :  {contact?.email ? contact?.email : "..."} </Typography>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container direction="row" alignItems="center" mb={4}>
+                        <Grid item>
+                            <AboutIcon>
+                                <HomeIcon color="primary" />
+                            </AboutIcon>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">Adresse :  {contact?.adresse} {contact?.complement_adresse} {contact?.code_postal} </Typography>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container direction="row" alignItems="center" mb={4}>
+                        <Grid item>
+                            <AboutIcon>
+                                <LocationIcon color="primary" />
+                            </AboutIcon>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">Ville: {contact?.ville ? contact?.ville : "..."}</Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid container direction="row" alignItems="center" mb={4}>
+                        <Grid item>
+                            <AboutIcon>
+                                <LocationIcon color="primary" />
+                            </AboutIcon>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">Code postal: {contact?.code_postal ? contact?.code_postal : "..."}</Typography>
+                        </Grid>
+                    </Grid>
+
+                    <Grid container direction="row" alignItems="center" mb={4}>
+                        <Grid item>
+                            <AboutIcon>
+                                <LocationIcon color="primary" />
+                            </AboutIcon>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">Pays: {contact?.pays ? contact?.pays : "..."}</Typography>
+                        </Grid>
+                    </Grid>
+
+                    {
+                        contact?.pays != "France" ?
+                            <>
+                                <Grid container direction="row" alignItems="center" mb={4}>
+                                    <Grid item>
+                                        <AboutIcon>
+                                            <LocationIcon color="primary" />
+                                        </AboutIcon>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant="h6">Région: {contact?.region ? contact?.region : "..."}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Grid container direction="row" alignItems="center" mb={4}>
+                                    <Grid item>
+                                        <AboutIcon>
+                                            <LocationIcon color="primary" />
+                                        </AboutIcon>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant="h6">Etat: {contact?.etat ? contact?.etat : "..."}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Grid container direction="row" alignItems="center" mb={4}>
+                                    <Grid item>
+                                        <AboutIcon>
+                                            <LocationIcon color="primary" />
+                                        </AboutIcon>
+                                    </Grid>
+                                    <Grid item>
+                                        <Typography variant="h6">Province: {contact?.province ? contact?.province : "..."}</Typography>
+                                    </Grid>
+                                </Grid>
+                            </>
+                            :
+
+                            ""
+                    }
+
+                    <Grid container direction="row" alignItems="center" mb={4}>
+                        <Grid item>
+                            <AboutIcon>
+                                <FixeIcon color="primary" />
+                            </AboutIcon>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6"> Mobile:{contact?.telephone1 ? contact?.indicatif1 + ' ' + contact?.telephone1 : "..."}</Typography>
+                        </Grid>
+                    </Grid>
+
+
+                    <Grid container direction="row" alignItems="center" mb={4}>
+                        <Grid item>
+                            <AboutIcon>
+                                <FixeIcon color="primary" />
+                            </AboutIcon>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6"> Fixe: {contact?.telephone2 ? contact?.indicatif2 + ' ' + contact?.telephone2 : "..."}</Typography>
+                        </Grid>
+                    </Grid>
+
+
+                </CardContent>
+            </Card>
+
+
+
+        </>
+    );
+}
+
+function Elsewhere(props) {
+
+    const { contact } = props;
+
+
+    return (
+        <Card mb={6}>
+            <CardContent>
+                <Typography variant="h3" >
+                    Autres infos
+                </Typography>
+
+                <Spacer mb={10} />
+
+                <Grid container direction="row" alignItems="center" mb={4}>
+                    <Grid item>
+                        <AboutIcon>
+                            <NotesIcon color="primary" />
+                        </AboutIcon>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6">Notes: {contact?.notes ? contact?.notes : "..."}</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container direction="row" alignItems="center" mb={4}>
+                    <Grid item>
+                        <AboutIcon>
+                            <CalendarIcon color="primary" />
+                        </AboutIcon>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6">Date de création: {contact?.created_at ? parseDateTime(contact?.created_at) : "..."}</Typography>
+                    </Grid>
+                </Grid>
+                <Grid container direction="row" alignItems="center" mb={4}>
+                    <Grid item>
+                        <AboutIcon>
+                            <AccountIcon color="primary" />
+                        </AboutIcon>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6">Est un utilisateur: {contact?.user != null ? <Chip label="Oui" color="primary" variant="outlined" /> : <Chip label="Non" color="error" variant="outlined" />}  </Typography>
+                    </Grid>
+                </Grid>
+                <Grid container direction="row" alignItems="center" mb={4}>
+                    <Grid item>
+                        <AboutIcon>
+                            <ArchiveIcon color="primary" />
+                        </AboutIcon>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6">Archivé: {contact?.archive === true ? <Chip label="Oui" color="primary" variant="outlined" /> : <Chip label="Non" color="error" variant="outlined" />}  </Typography>
+                    </Grid>
+                </Grid>
+
+            </CardContent>
+        </Card>
+    );
+}
 
 
 function InfoContact() {
 
-    const [contact, setContact] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
-    const params = useParams();
-    const user = useSelector((state) => state.auth);
+
+    const auth = useSelector((state) => state.auth);
+
+    const [contact, setContact] = useState({});
+    const param = useParams();
+    const contact_id = decrypt(param.id);
+
+    useEffect(() => {
 
 
-    useEffect(async () => {
+        getContact(contact_id)
+            .then(res => {
 
-        try {
-            let id = params.id;
-            id = decrypt(id);
-            const cont = await getContact(id);
-            setContact(cont);
-        } catch (err) {
-            setError(true);
-            console.log(err);
-        }
-        setLoading(false);
+                if (res.status == 200) {
+                    setContact(res.contact);
+                } else {
+
+                    console.log("xxx");
+                }
+
+            })
 
     }, [])
 
     return (
-        <>
-            <Helmet title='Informations du contact' />
-            <Grid container alignItems='center' justifyContent='flex-start' spacing={5}>
-                <Grid item >
-                    <Typography variant="h5" gutterBottom display="inline">
-                        Informations du contact
-                    </Typography>
-                </Grid>
-                {!loading && !error && user.permissions.includes('Edit-Contact') &&
-                    <Grid item >
-                        <Link to={`/contact/modifier/${encrypt(contact.id)}`}>
-                            <Fab size="small" color="primary" aria-label="add">
-                                <EditIcon />
-                            </Fab>
-                        </Link>
-                    </Grid>}
-            </Grid>
-            <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+        <React.Fragment>
+            <Helmet title="Profile" />
+
+            <Typography variant="h3" gutterBottom display="inline">
+                Contact
+            </Typography>
+
+            <Breadcrumbs aria-label="Breadcrumb" mt={4}>
                 <Link component={NavLink} to="/contacts/actifs">
                     Contacts
                 </Link>
-                <Typography>Informations</Typography>
+
+                <Typography>Détail</Typography>
             </Breadcrumbs>
+
             <Divider my={6} />
-            {loading
-                ? <>
-                    <Box p={7} sx={{ maxWidth: 1000, margin: '0 auto', backgroundColor: 'background.paper', borderRadius: 10 }}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container spacing={4}>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                                <Skeleton animation='wave' variant='text' height={80} />
-                            </Grid>
-                        </Grid>
-                        <Divider />
-                        <Grid container>
-                            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                                <Skeleton animation='wave' variant='text' height={120} />
-                            </Grid>
-                        </Grid>
-                    </Box>
-                </>
-                : error
-                    ? <>
-                        <Card mb={6}>
-                            <CardContent>
-                                <Typography variant='h1' color='error'>
-                                    Erreur !
-                                </Typography>
-                                <Typography variant='h5'>
-                                    Impossible de trouver le contact
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </>
-                    : <>
-                        <Box p={7} sx={{ maxWidth: 1000, margin: '0 auto', backgroundColor: 'background.paper', borderRadius: 10 }}>
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <PersonIcon color="primary" />
-                                        <TypoTitle variant='h4'>Nom</TypoTitle>
-                                    </Stack>
-                                    {contact?.nom
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact.nom}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
-                                    }
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <PersonIcon color="primary" />
-                                        <TypoTitle variant='h4'>Prénom</TypoTitle>
-                                    </Stack>
-                                    {contact?.prenom
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact.prenom}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
-                                    }
-                                </Grid>
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <CalendarIcon color="primary" />
-                                        <TypoTitle variant='h4'>Date de naissance</TypoTitle>
-                                    </Stack>
-                                    {contact?.date_naissance
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{parseDate(contact?.date_naissance)}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
-                                    }
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <EmailIcon color="primary" />
-                                        <TypoTitle variant='h4'>Email</TypoTitle>
-                                    </Stack>
-                                    {contact?.email
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.email}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
-                                    }
-                                </Grid>
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <LocationIcon color="primary" />
-                                        <TypoTitle variant='h4'>Adresse</TypoTitle>
-                                    </Stack>
-                                    {contact?.adresse
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.adresse}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
-                                    }
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <LocationIcon color="primary" />
-                                        <TypoTitle variant='h4'>Complément d'adresse</TypoTitle>
-                                    </Stack>
-                                    {contact?.complement_adresse
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.complement_adresse}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
-                                    }
-                                </Grid>
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <MobileIcon color="primary" />
-                                        <TypoTitle variant='h4'>Téléphone portable</TypoTitle>
-                                    </Stack>
-                                    {contact?.telephone1
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.telephone1}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
-                                    }
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <FixeIcon color="primary" />
-                                        <TypoTitle variant='h4'>Téléphone fixe</TypoTitle>
-                                    </Stack>
-                                    {contact?.telephone2
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.telephone2}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseigné</Typography>
-                                    }
-                                </Grid>
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <InventoryIcon color="primary" />
-                                        <TypoTitle variant='h4'>Archive</TypoTitle>
-                                    </Stack>
-                                    <Typography>{contact?.archive === 0 ? 'Non' : 'Oui'}</Typography>
-                                </Grid>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <AddIcon color="primary" />
-                                        <TypoTitle variant='h4'>Date de création</TypoTitle>
-                                    </Stack>
-                                    {contact?.created_at
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{parseDateTime(contact?.created_at)}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Non renseignée</Typography>
-                                    }
-                                </Grid>
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <AccountIcon color="primary" />
-                                        <TypoTitle variant='h4'>Utilisateur</TypoTitle>
-                                    </Stack>
-                                    <Typography>{contact.user === null ? 'Non' : 'Oui'}</Typography>
-                                </Grid>
-                                {contact.user !== null &&
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                        <Grid container direction='column'>
-                                            <Grid item pb={1}>
-                                                <Typography>{contact?.user?.archive === 0 ? 'Actif' : 'Archivé'}</Typography>
-                                            </Grid>
-                                            <Grid item pt={1}>
-                                                {contact?.created_at
-                                                    ? <Typography style={{ wordWrap: 'break-word' }}> Créé le {parseDateTime(contact?.user?.created_at)}</Typography>
-                                                    : <Typography style={{ wordWrap: 'break-word' }} sx={{ color: 'text.secondary' }}>Date de création non renseignée</Typography>
-                                                }
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                }
-                            </Grid>
-                            <Divider />
-                            <Grid container>
-                                <Grid item xs={12} sm={12} md={12} lg={12} xl={12} p={2}>
-                                    <Stack direction='row' alignItems='center' spacing={2} pb={4}>
-                                        <NotesIcon color="primary" />
-                                        <TypoTitle variant='h4'>Notes</TypoTitle>
-                                    </Stack>
-                                    {contact?.notes
-                                        ? <Typography style={{ wordWrap: 'break-word' }}>{contact?.notes}</Typography>
-                                        : <Typography sx={{ color: 'text.secondary' }}>Pas de notes</Typography>
-                                    }
-                                </Grid>
-                            </Grid>
-                        </Box>
-                    </>
-            }
-        </>
+
+            <Grid container spacing={6} component={Paper} >
+                <Grid item xs={12} >
+                    <Grid container spacing={3}  >
+                        <Grid item xs={12} > <Details contact={contact} /></Grid>
+                        <Grid item xs={12} sm={6} lg={6} ><About contact={contact} /></Grid>
+                        <Grid item xs={12} sm={6} lg={6} ><Elsewhere contact={contact} /></Grid>
+                    </Grid>
+
+
+
+                </Grid>
+                <Grid item xs={12} lg={8} xl={9}>
+                    {/* <Permissions auth={auth} /> */}
+                </Grid>
+            </Grid>
+        </React.Fragment>
     );
 }
 

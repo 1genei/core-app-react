@@ -67,8 +67,8 @@ function ContactForm({ contactTab, errorStatus }) {
             setOptionsPaysIndicatifs(data);
         })
 
-
     }, []);
+
 
     useEffect(() => {
 
@@ -255,7 +255,7 @@ function ContactForm({ contactTab, errorStatus }) {
                                             name="pays"
                                             id="pays"
                                             value={contact.pays ?? "France"}
-                                            label="Age"
+                                            label="Pays"
                                             onChange={handleChangePays}
                                             renderValue={(value) => ` ${value}`}
                                             fullWidth
@@ -552,8 +552,8 @@ function EditContact() {
         try {
             let id = params.id;
             id = decrypt(id);
-            const cont = await getContact(id);
-            setContact(cont);
+            const res = await getContact(id);
+            setContact(res.contact);
         } catch (err) {
             setError(true);
             console.log(err);

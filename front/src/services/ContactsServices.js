@@ -76,8 +76,13 @@ export const getContact = async (contact_id) => {
 
     return axios.get(`contact/${contact_id}`)
         .then((res) => {
-            return res.data.contact;
-        });
+
+            return res.data;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });;
 }
 
 
