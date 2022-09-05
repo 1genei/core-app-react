@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Typescontact extends Model
+class Typeorganisme extends Model
 {
     use HasFactory;
         /**

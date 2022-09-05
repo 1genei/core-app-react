@@ -7,7 +7,7 @@ use App\Models\Contact;
 use App\Models\User;
 use App\Models\Codepostalville;
 use App\Models\Paysindicatif;
-use App\Models\Typescontact;
+use App\Models\Typecontact;
 
 use Illuminate\Support\Facades\Validator;
 
@@ -91,6 +91,7 @@ class ContactController extends Controller
     
         $contact = Contact::where('id','=',$contact_id)->first();
         $contact->user;
+        $contact->typecontacts;
         return Response()->json([
             'contact' => $contact,
             'status' => 200
@@ -106,8 +107,10 @@ class ContactController extends Controller
         $validator = Validator::make($request->all(),[
             'nom' => 'required|string',
             'prenom' => 'required|string',
+            'types' => 'required',
             'email' => 'required|unique:contacts|email',
         ]);
+        
         
         if ($validator->fails()) {
             return Response()->json([
@@ -116,6 +119,7 @@ class ContactController extends Controller
             ], 200);
         }
         
+        // return $request->all();
        
        try {
             $contact = Contact::create([
@@ -136,6 +140,18 @@ class ContactController extends Controller
                 'region' => $request->input('region'),
                 'etat' => $request->input('etat'),
             ]);
+            
+            foreach ($request->types as $type) {
+                $typeContact = Typecontact::where('type', $type)->first();
+                
+                $contact->typecontacts()->attach($typeContact->id);
+                // ContactTypecontact::create([
+                //     'contact_id' => $contact->id,
+                //     'typecontact_id' => $typeContact->id,
+                // ]);
+            }
+            
+            
        } catch (\Throwable $th) {
         
         return $th;
@@ -258,7 +274,7 @@ class ContactController extends Controller
     */
     public function getTypeContacts() {
         
-        $typeContacts = Typescontact::where('archive', false)->get();
+        $typeContacts = Typecontact::where('archive', false)->get();
         return Response()->json([
             'typeContacts' => $typeContacts,
             'status' => 200,
@@ -271,7 +287,8 @@ class ContactController extends Controller
     public function storeTypeContact(Request $request) {
     
         $validator = Validator::make($request->all(),[
-            'type' => 'required|unique:typescontacts|string',
+            'type' => 'required|unique:typecontacts|string',
+            'categorie' => 'required|string',
         ]);
         
         if ($validator->fails()) {
@@ -283,8 +300,9 @@ class ContactController extends Controller
         
        
        try {
-            $contact = Typescontact::create([
+            $contact = Typecontact::create([
                 'type' => $request->input('type'),
+                'categorie' => $request->input('categorie'),
                 'details' => $request->input('details'),
             ]);
        } catch (\Throwable $th) {
@@ -310,7 +328,7 @@ class ContactController extends Controller
     */
     public function deleteTypeContact($typecontact_id) {
     
-        Typescontact::where('id','=',$typecontact_id)->delete();
+        Typecontact::where('id','=',$typecontact_id)->delete();
         return Response()->json([
             'message' => 'Contact supprimé'
         ], 200);
@@ -322,20 +340,23 @@ class ContactController extends Controller
     */
     public function updateTypeContact(Request $request, $typecontact_id) {
     
-        $typeContact = Typescontact::where('id', '=', $typecontact_id)->first();
+        $typeContact = Typecontact::where('id', '=', $typecontact_id)->first();
     
    
         if($typeContact->type == $request->type){
         
             $validator = Validator::make($request->all(),[
                 'type' => 'required|string',
+                'categorie' => 'required|string',
             ]);
         
        
         }
         else{
             $validator = Validator::make($request->all(),[
-                'type' => 'required|unique:typescontacts|string',
+                'type' => 'required|unique:typecontacts|string',
+                'categorie' => 'required|string',
+                
             ]);        
         }
         
@@ -347,6 +368,7 @@ class ContactController extends Controller
         }
         
         $typeContact->type = $request->type; 
+        $typeContact->categorie = $request->categorie; 
         $typeContact->details = $request->details; 
        
         $typeContact->update();
@@ -363,7 +385,7 @@ class ContactController extends Controller
     public function archiveTypeContact($typecontact_id) {
     
 
-        $typeContact = Typescontact::where('id',$typecontact_id)->first();
+        $typeContact = Typecontact::where('id',$typecontact_id)->first();
         
         $typeContact->archive = true;
         $typeContact->update();
@@ -380,7 +402,7 @@ class ContactController extends Controller
     */
     public function restoreTypeContact($typecontact_id) {
     
-        $typeContact = Typescontact::where('id','=',$typecontact_id)->first();
+        $typeContact = Typecontact::where('id','=',$typecontact_id)->first();
         $typeContact->archive = 0;
         $typeContact->update();
         return Response()->json([

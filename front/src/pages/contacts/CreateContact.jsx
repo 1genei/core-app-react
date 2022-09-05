@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import { addContact } from "../../services/ContactsServices";
+import { addContact, getActiveTypeContact } from "../../services/ContactsServices";
 import {
     Alert as MuiAlert,
     Autocomplete,
@@ -12,12 +12,17 @@ import {
     Button as MuiButton,
     Card as MuiCard,
     CardContent,
+    Checkbox,
+    Chip,
     CircularProgress,
     Divider as MuiDivider,
     Grid,
     InputAdornment,
+    InputLabel,
     Link,
+    ListItemText,
     MenuItem,
+    OutlinedInput,
     Select,
     TextField as MuiTextField,
     Typography,
@@ -50,7 +55,7 @@ function ContactForm() {
     const [optionsPaysIndicatifs, setOptionsPaysIndicatifs] = useState([]);
     const [pays, setPays] = useState("France");
     const [otherCountry, setOtherCountry] = useState(false);
-
+    const [allTypes, setAllTypes] = useState([]);
 
     let optionsCodePostauxFilter = [];
 
@@ -62,6 +67,13 @@ function ContactForm() {
         })
 
 
+        getActiveTypeContact().then(data => {
+
+            if (data.status == 200) {
+                setAllTypes(data.typeContacts);
+                console.log(data);
+            }
+        })
 
 
     }, []);
@@ -155,6 +167,25 @@ function ContactForm() {
 
 
     };
+    const [types, setTypes] = useState([]);
+
+    const handleChangeType = (e) => {
+
+        const { name, value } = e.target;
+        setContact({ ...contact, [name]: value });
+        setTypes(value);
+
+    };
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 0;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 200,
+            },
+        },
+    };
 
 
 
@@ -183,6 +214,36 @@ function ContactForm() {
                 ) : (
                     <form onSubmit={handleSubmit}>
                         <Grid container>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} >
+                                <InputLabel id="demo-multiple-checkbox-label">Type</InputLabel>
+                                <Select
+                                    labelId="demo-multiple-checkbox-label"
+                                    id="demo-multiple-checkbox"
+                                    name="types"
+                                    multiple
+
+                                    value={types}
+                                    fullWidth
+                                    onChange={handleChangeType}
+                                    input={<OutlinedInput label="Tag" />}
+                                    renderValue={(selected) => (
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                            {selected.map((value) => (
+                                                <Chip key={value} label={value} />
+                                            ))}
+                                        </Box>
+                                    )}
+                                    MenuProps={MenuProps}
+                                >
+                                    {allTypes.map((data) => (
+                                        <MenuItem key={data.id} value={data.type}>
+                                            <Checkbox checked={types.indexOf(data.type) > -1} />
+                                            <ListItemText primary={data.type} />
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} ></Grid>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                 <TextField
                                     name="prenom"
@@ -224,6 +285,7 @@ function ContactForm() {
                                 />
                             </Grid>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+
                                 <TextField
                                     name="date_naissance"
                                     value={contact?.date_naissance ?? ''}

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { Helmet } from "react-helmet-async";
 
-import { Paper } from "@mui/material";
+import { Paper, Typography } from "@mui/material";
 
 import { ReactComponent as Logo } from "../../vendor/logo.svg";
 import SignInComponent from "../../components/auth/SignIn";
@@ -25,16 +25,18 @@ const Wrapper = styled(Paper)`
 
 
 function SignIn() {
-  return (
-    <React.Fragment>
-      <Brand />
-      <Wrapper>
-        <Helmet title="Connexion" />
+    return (
+        <React.Fragment>
 
-        <SignInComponent />
-      </Wrapper>
-    </React.Fragment>
-  );
+            <Brand />
+            <Typography variant="h2" display="flex" mb={10} component="h2">Connexion</Typography>
+            <Wrapper>
+                <Helmet title="Connexion" />
+
+                <SignInComponent />
+            </Wrapper>
+        </React.Fragment>
+    );
 }
 
 export default SignIn;

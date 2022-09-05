@@ -35,10 +35,22 @@ class Contact extends Model
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+    * Retourne l'utlisateur lié à ce contact
+    */
     public function user() {
         return $this->hasOne(User::class);
     }
     
+    /**
+     * Retourne tous les types d'un contact
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function typecontacts()
+    {
+        return $this->belongsToMany(Typecontact::class);
+    }
 
 
 }

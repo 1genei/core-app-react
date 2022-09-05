@@ -76,7 +76,7 @@ export const getContact = async (contact_id) => {
 
     return axios.get(`contact/${contact_id}`)
         .then((res) => {
-
+            console.log(res.data);
             return res.data;
         })
         .catch((error) => {
@@ -161,8 +161,9 @@ export const getActiveTypeContact = async () => {
 
     return axios.get(`contact/type/all`)
         .then((res) => {
+            console.log(res.data);
 
-            return res.data.typeContacts;
+            return res.data;
         })
         .catch((error) => {
             console.log(`erreur: ${error}`);

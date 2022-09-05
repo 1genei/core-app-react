@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organisme;
-use App\Models\Typesorganisme;
+use App\Models\Typeorganisme;
 use Illuminate\Support\Facades\Validator;
 
 class OrganismeController extends Controller
@@ -159,7 +159,7 @@ class OrganismeController extends Controller
     */
     public function getTypeOrganismes() {
         
-        $typeOrganismes = Typesorganisme::where('archive', false)->get();
+        $typeOrganismes = Typeorganisme::where('archive', false)->get();
         return Response()->json([
             'typeOrganismes' => $typeOrganismes,
             'status' => 200,
@@ -172,7 +172,7 @@ class OrganismeController extends Controller
     public function storeTypeOrganisme(Request $request) {
     
         $validator = Validator::make($request->all(),[
-            'type' => 'required|unique:typesorganismes|string',
+            'type' => 'required|unique:typeorganismes|string',
         ]);
         
         if ($validator->fails()) {
@@ -184,7 +184,7 @@ class OrganismeController extends Controller
         
        
        try {
-            Typesorganisme::create([
+            Typeorganisme::create([
                 'type' => $request->input('type'),
                 'details' => $request->input('details'),
             ]);
@@ -211,7 +211,7 @@ class OrganismeController extends Controller
     */
     public function deleteTypeOrganisme($typeorganisme_id) {
     
-        Typesorganisme::where('id','=',$typeorganisme_id)->delete();
+        Typeorganisme::where('id','=',$typeorganisme_id)->delete();
         return Response()->json([
             'message' => 'Type organisme supprimé'
         ], 200);
@@ -223,7 +223,7 @@ class OrganismeController extends Controller
     */
     public function updateTypeOrganisme(Request $request, $typeorganisme_id) {
     
-        $typeOrganisme = Typesorganisme::where('id', '=', $typeorganisme_id)->first();
+        $typeOrganisme = Typeorganisme::where('id', '=', $typeorganisme_id)->first();
     
    
         if($typeOrganisme->type == $request->type){
@@ -236,7 +236,7 @@ class OrganismeController extends Controller
         }
         else{
             $validator = Validator::make($request->all(),[
-                'type' => 'required|unique:typesorganismes|string',
+                'type' => 'required|unique:typeorganismes|string',
             ]);        
         }
         
@@ -264,7 +264,7 @@ class OrganismeController extends Controller
     public function archiveTypeOrganisme($typeorganisme_id) {
     
 
-        $typeOrganisme = Typesorganisme::where('id',$typeorganisme_id)->first();
+        $typeOrganisme = Typeorganisme::where('id',$typeorganisme_id)->first();
         
         $typeOrganisme->archive = true;
         $typeOrganisme->update();
@@ -281,7 +281,7 @@ class OrganismeController extends Controller
     */
     public function restoreTypeOrganisme($typeorganisme_id) {
     
-        $typeOrganisme = Typesorganisme::where('id','=',$typeorganisme_id)->first();
+        $typeOrganisme = Typeorganisme::where('id','=',$typeorganisme_id)->first();
         $typeOrganisme->archive = 0;
         $typeOrganisme->update();
         return Response()->json([
