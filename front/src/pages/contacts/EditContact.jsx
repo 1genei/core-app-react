@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import { getContact, updateContact } from "../../services/ContactsServices";
+import { getActiveTypeContact, getContact, updateContact } from "../../services/ContactsServices";
 import {
     Alert as MuiAlert,
     Box,
@@ -21,7 +21,12 @@ import {
     InputAdornment,
     MenuItem,
     Select,
-    Autocomplete
+    Autocomplete,
+    ListItemText,
+    Checkbox,
+    OutlinedInput,
+    Chip,
+    InputLabel
 } from "@mui/material";
 
 import { spacing } from "@mui/system";
@@ -56,6 +61,8 @@ function ContactForm({ contactTab, errorStatus }) {
     const [contact, setContact] = useState(contactTab);
     const error = errorStatus;
     const navigate = useNavigate();
+    const [types, setTypes] = useState([]);
+    const [allTypes, setAllTypes] = useState([]);
 
 
     let optionsCodePostauxFilter = [];
@@ -66,9 +73,20 @@ function ContactForm({ contactTab, errorStatus }) {
         PaysIndicatifs().then(data => {
             setOptionsPaysIndicatifs(data);
         })
+        console.log(contact.typecontacts);
+        setTypes(['client1', 'hab']);
+
+        getActiveTypeContact().then(data => {
+
+            if (data.status == 200) {
+                setAllTypes(data.typeContacts);
+
+            }
+        })
 
 
     }, []);
+
 
     useEffect(() => {
 
@@ -153,6 +171,24 @@ function ContactForm({ contactTab, errorStatus }) {
 
     }
 
+    const handleChangeType = (e) => {
+
+        const { name, value } = e.target;
+        setContact({ ...contact, [name]: value });
+        setTypes(value);
+
+    };
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 0;
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+                width: 200,
+            },
+        },
+    };
+
 
     return (
         <>
@@ -192,6 +228,35 @@ function ContactForm({ contactTab, errorStatus }) {
                         ) : (
                             <form onSubmit={handleSubmit}>
                                 <Grid container>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} >
+                                        <InputLabel id="demo-multiple-checkbox-label">Type</InputLabel>
+                                        <Select
+                                            labelId="demo-multiple-checkbox-label"
+                                            id="demo-multiple-checkbox"
+                                            name="types"
+                                            multiple
+                                            value={types}
+                                            fullWidth
+                                            onChange={handleChangeType}
+                                            input={<OutlinedInput label="Tag" />}
+                                            renderValue={(selected) => (
+                                                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                                                    {selected.map((value) => (
+                                                        <Chip key={value} label={value} />
+                                                    ))}
+                                                </Box>
+                                            )}
+                                            MenuProps={MenuProps}
+                                        >
+                                            {allTypes.map((data) => (
+                                                <MenuItem key={data.id} value={data.type}>
+                                                    <Checkbox checked={types.indexOf(data.type) > -1} />
+                                                    <ListItemText primary={data.type} />
+                                                </MenuItem>
+                                            ))}
+                                        </Select>
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} ></Grid>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                         <TextField
                                             name="prenom"
@@ -255,7 +320,7 @@ function ContactForm({ contactTab, errorStatus }) {
                                             name="pays"
                                             id="pays"
                                             value={contact.pays ?? "France"}
-                                            label="Age"
+                                            label="Pays"
                                             onChange={handleChangePays}
                                             renderValue={(value) => ` ${value}`}
                                             fullWidth
@@ -552,8 +617,8 @@ function EditContact() {
         try {
             let id = params.id;
             id = decrypt(id);
-            const cont = await getContact(id);
-            setContact(cont);
+            const res = await getContact(id);
+            setContact(res.contact);
         } catch (err) {
             setError(true);
             console.log(err);

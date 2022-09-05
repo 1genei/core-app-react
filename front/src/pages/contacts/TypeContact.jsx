@@ -21,7 +21,10 @@ import {
     Button,
     TextField,
     Alert,
-    Snackbar
+    Snackbar,
+    MenuItem,
+    Select,
+    InputLabel
 } from "@mui/material";
 
 
@@ -148,6 +151,7 @@ function TypeContact() {
         setTypeContact({
             id: cell.row.id,
             type: cell.row.type,
+            categorie: cell.row.categorie,
             details: cell.row.details,
         })
 
@@ -173,6 +177,12 @@ function TypeContact() {
         {
             field: "type",
             headerName: "Type",
+            width: 200,
+            editable: false,
+        },
+        {
+            field: "categorie",
+            headerName: "Catégorie",
             width: 200,
             editable: false,
         },
@@ -226,6 +236,15 @@ function TypeContact() {
             }
         },
         {
+            field: "Catégorie",
+            width: 200,
+            renderCell: () => {
+                return (
+                    <Skeleton animation='wave' variant='text' width={170} />
+                );
+            }
+        },
+        {
             field: "Type",
             width: 200,
             renderCell: () => {
@@ -259,8 +278,8 @@ function TypeContact() {
     useEffect(async () => {
 
         try {
-            const listTypeContacts = await getActiveTypeContact();
-            setTypeContacts(listTypeContacts);
+            const data = await getActiveTypeContact();
+            setTypeContacts(data.typeContacts);
         } catch (e) { }
         setLoading(false)
 
@@ -317,7 +336,7 @@ function TypeContact() {
         })
     }
 
-
+    console.log(typeContact.categorie === undefined);
     return (
         <React.Fragment>
             <Helmet title="Types de Contacts" />
@@ -369,7 +388,7 @@ function TypeContact() {
 
                         <Divider>
                             <Typography id="modal-modal-title" variant="h5" color="secondary" my={5} component="h5">
-                                {edit ? "Modifier le type" : "Ajouter un type de contact"}
+                                {edit ? "Modifier le type de contact" : "Ajouter un type de contact "}
 
                             </Typography>
                         </Divider>
@@ -381,6 +400,8 @@ function TypeContact() {
                         <form onSubmit={handleSubmit}>
                             <Grid container pt={5} >
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={6} p={2}>
+                                    <InputLabel id="">&nbsp;</InputLabel>
+
                                     <TextField
                                         name="type"
                                         label="Type"
@@ -393,6 +414,24 @@ function TypeContact() {
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={12} lg={12} xl={6} p={2}>
+                                    <InputLabel id="demo-simple-select-label">Catégorie *</InputLabel>
+                                    <Select
+                                        id="categorie"
+                                        name="categorie"
+                                        value={typeContact?.categorie ?? ''}
+                                        label="Catégorie"
+                                        fullWidth
+                                        required
+                                        onChange={handleChange}
+                                    >
+                                        <MenuItem value={typeContact?.categorie}>{typeContact?.categorie}</MenuItem>
+
+                                        {typeContact.categorie !== undefined ? (typeContact?.categorie == "contact") ? <MenuItem value="organisme">Organisme</MenuItem> : <MenuItem value="contact">Contact</MenuItem> : ""}
+                                        {typeContact.categorie === undefined ? <MenuItem value="organisme">Organisme</MenuItem> : ""}
+                                        {typeContact.categorie === undefined ? <MenuItem value="contact">Contact</MenuItem> : ""}
+                                    </Select>
+                                </Grid>
+                                <Grid item xs={12} p={2}>
                                     <TextField
                                         name="details"
                                         label="Détails"

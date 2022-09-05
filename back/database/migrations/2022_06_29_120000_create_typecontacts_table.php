@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTypesorganismesTable extends Migration
+class CreateTypecontactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateTypesorganismesTable extends Migration
      */
     public function up()
     {
-        Schema::create('typesorganismes', function (Blueprint $table) {
+        Schema::create('typecontacts', function (Blueprint $table) {
             $table->id();
             $table->string('type')->nullable();
             $table->string('details')->nullable();
+            $table->string('categorie')->nullable();
             $table->boolean('archive')->default(false);
             $table->timestamps();
         });
@@ -29,6 +30,6 @@ class CreateTypesorganismesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('typesorganismes');
+        Schema::dropIfExists('typecontacts');
     }
 }
