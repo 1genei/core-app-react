@@ -3,9 +3,11 @@ import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import { addOrganisme } from "../../services/OrganismesServices";
+import { addIndividu } from "../../services/IndividusServices";
+import { getActiveTypeContact } from "../../services/ContactsServices";
 import {
     Alert as MuiAlert,
+    Autocomplete,
     Box,
     Breadcrumbs as MuiBreadcrumbs,
     Button as MuiButton,
@@ -28,9 +30,8 @@ import {
 } from "@mui/material";
 import { spacing } from "@mui/system";
 import { validatorErrors } from "../../utils/errors";
-import PaysIndicatifs from "../../utils/paysIndicatifs";
-import { getActiveTypeContact } from "../../services/ContactsServices";
 import CodepostalVille from "../../utils/codepostalVille";
+import PaysIndicatifs from "../../utils/paysIndicatifs";
 
 const Divider = styled(MuiDivider)(spacing);
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -41,22 +42,21 @@ const Button = styled(MuiButton)(spacing);
 
 
 
-
-function OrganismeForm() {
+function IndividuForm() {
 
     const [messageSuccess, setMessageSuccess] = useState('');
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [organisme, setOrganisme] = useState({});
-    const [allTypes, setAllTypes] = useState([]);
+    const [individu, setIndividu] = useState({});
     const [codePostal, setCodePostal] = useState('');
     const [allCodepostalVilles, setAllCodepostalVilles] = useState([]);
     const [optionsCodePostaux, setOptionsCodePostaux] = useState([]);
     const [optionsPaysIndicatifs, setOptionsPaysIndicatifs] = useState([]);
     const [pays, setPays] = useState("France");
     const [otherCountry, setOtherCountry] = useState(false);
+    const [allTypes, setAllTypes] = useState([]);
 
     let optionsCodePostauxFilter = [];
 
@@ -72,6 +72,7 @@ function OrganismeForm() {
 
             if (data.status == 200) {
                 setAllTypes(data.typeContacts);
+
             }
         })
 
@@ -98,23 +99,26 @@ function OrganismeForm() {
 
 
 
+
     const handleChange = (e) => {
 
         const { name, value } = e.target;
-        setOrganisme({ ...organisme, [name]: value });
+        setIndividu({ ...individu, [name]: value });
+
+
     }
 
     const handleChangeCodePostal = (e,) => {
 
         const { name, value } = e.target;
-        setOrganisme({ ...organisme, [name]: value });
+        setIndividu({ ...individu, [name]: value });
 
         setCodePostal(e.target.value);
 
     }
 
     const handleChangeVille = (e, value) => {
-        setOrganisme({ ...organisme, ville: value?.ville });
+        setIndividu({ ...individu, ville: value?.ville });
     }
 
     const handleChangePays = (e) => {
@@ -124,24 +128,23 @@ function OrganismeForm() {
 
         e.target.value != "France" ? setOtherCountry(true) : setOtherCountry(false);
 
-        setOrganisme({ ...organisme, pays: e.target.value, indicatif2: list[0].indicatif, indicatif1: list[0].indicatif });
+        setIndividu({ ...individu, pays: e.target.value, indicatif2: list[0].indicatif, indicatif1: list[0].indicatif });
 
     }
+
 
 
     const handleSubmit = async (e) => {
 
         e.preventDefault();
-
         setIsSubmitting(true);
-        setOrganisme({ ...organisme, pays: e.target.pays.value, indicatif2: e.target.indicatif2.value, indicatif1: e.target.indicatif1.value });
+        setIndividu({ ...individu, pays: e.target.pays.value, indicatif2: e.target.indicatif2.value, indicatif1: e.target.indicatif1.value });
 
-        // try {
         setAlertError(false);
         setAlertSuccess(false);
 
 
-        const result = await addOrganisme(organisme);
+        const result = await addIndividu(individu);
 
         if (result?.status === 200) {
 
@@ -149,7 +152,7 @@ function OrganismeForm() {
 
             setMessageSuccess(result?.message);
             setAlertSuccess(true);
-            setOrganisme({});
+            setIndividu({});
 
 
         } else {
@@ -162,14 +165,15 @@ function OrganismeForm() {
             setMessageErrors(errors);
 
         }
-    };
 
+
+    };
     const [types, setTypes] = useState([]);
 
     const handleChangeType = (e) => {
 
         const { name, value } = e.target;
-        setOrganisme({ ...organisme, [name]: value });
+        setIndividu({ ...individu, [name]: value });
         setTypes(value);
 
     };
@@ -184,9 +188,11 @@ function OrganismeForm() {
         },
     };
 
+
+
     return (
 
-        <Card mb={6}>
+        <Card mb={4}>
             <CardContent>
 
                 {alertSuccess && (
@@ -239,12 +245,11 @@ function OrganismeForm() {
                                 </Select>
                             </Grid>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} ></Grid>
-
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                 <TextField
-                                    name="nom"
-                                    label="Nom"
-                                    value={organisme?.nom ?? ''}
+                                    name="prenom"
+                                    label="Prénom"
+                                    value={individu?.prenom ?? ''}
                                     fullWidth
                                     onChange={handleChange}
                                     required
@@ -254,49 +259,43 @@ function OrganismeForm() {
                             </Grid>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                 <TextField
-                                    name="site"
-                                    label="Site Web"
-                                    value={organisme?.site ?? ''}
+                                    name="nom"
+                                    label="Nom"
+                                    value={individu?.nom ?? ''}
                                     fullWidth
+                                    required
                                     onChange={handleChange}
                                     variant="outlined"
                                     my={2}
                                 />
                             </Grid>
                         </Grid>
+
                         <Grid container>
                             <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                <InputLabel >Forme Juridique</InputLabel>
-
-                                <Select
-                                    name="forme_jurique"
-                                    id="forme_jurique"
-                                    value={organisme.forme_jurique ?? ""}
-                                    // label="Forme juridique"
-                                    onChange={handleChange}
-                                    renderValue={(value) => ` ${value}`}
-                                    fullWidth
-                                    my={2}
-                                    required
-
-                                >
-                                    <MenuItem value="SARL">SARL</MenuItem>
-                                    <MenuItem value="SA">SA</MenuItem>
-                                    <MenuItem value="EURL">EURL</MenuItem>
-                                </Select>
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                <InputLabel >&nbsp;</InputLabel>
-
                                 <TextField
                                     name="email"
                                     label="Email"
-                                    value={organisme?.email ?? ''}
+                                    value={individu?.email ?? ''}
                                     fullWidth
+                                    required
+                                    onChange={handleChange}
                                     type="email"
+                                    variant="outlined"
+                                    my={2}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+
+                                <TextField
+                                    name="date_naissance"
+                                    value={individu?.date_naissance ?? ''}
+                                    fullWidth
+                                    type='date'
                                     onChange={handleChange}
                                     variant="outlined"
-                                // my={2}
+                                    my={2}
+                                    helperText="Date de naissance"
                                 />
                             </Grid>
                         </Grid>
@@ -308,8 +307,8 @@ function OrganismeForm() {
 
                                     name="pays"
                                     id="pays"
-                                    value={organisme.pays ?? "France"}
-                                    label="Pays"
+                                    value={individu.pays ?? "France"}
+                                    label="Age"
                                     onChange={handleChangePays}
                                     renderValue={(value) => ` ${value}`}
                                     fullWidth
@@ -325,7 +324,7 @@ function OrganismeForm() {
                                 <TextField
                                     name="indicatif1"
                                     label="Indicatif"
-                                    value={organisme.indicatif1 ?? '33'}
+                                    value={individu.indicatif1 ?? '33'}
                                     fullWidth
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start">+</InputAdornment>,
@@ -340,7 +339,7 @@ function OrganismeForm() {
                                 <TextField
                                     name="telephone1"
                                     label="Téléphone mobile"
-                                    value={organisme?.telephone1 ?? ''}
+                                    value={individu?.telephone1 ?? ''}
                                     fullWidth
 
                                     onChange={handleChange}
@@ -352,7 +351,7 @@ function OrganismeForm() {
                                 <TextField
                                     name="indicatif2"
                                     label="Indicatif"
-                                    value={organisme.indicatif2 ?? '33'}
+                                    value={individu.indicatif2 ?? '33'}
                                     fullWidth
                                     InputProps={{
                                         startAdornment: <InputAdornment position="start">+</InputAdornment>,
@@ -367,7 +366,7 @@ function OrganismeForm() {
                                 <TextField
                                     name="telephone2"
                                     label="Téléphone fixe"
-                                    value={organisme?.telephone2 ?? ''}
+                                    value={individu?.telephone2 ?? ''}
                                     fullWidth
 
                                     onChange={handleChange}
@@ -382,7 +381,7 @@ function OrganismeForm() {
                                 <TextField
                                     name="adresse"
                                     label="Adresse"
-                                    value={organisme?.adresse ?? ''}
+                                    value={individu?.adresse ?? ''}
                                     fullWidth
                                     onChange={handleChange}
                                     variant="outlined"
@@ -393,7 +392,7 @@ function OrganismeForm() {
                                 <TextField
                                     name="complement_adresse"
                                     label="Complément d'adresse"
-                                    value={organisme?.complement_adresse ?? ''}
+                                    value={individu?.complement_adresse ?? ''}
                                     fullWidth
                                     onChange={handleChange}
                                     variant="outlined"
@@ -401,6 +400,57 @@ function OrganismeForm() {
                                 />
                             </Grid>
                         </Grid>
+
+
+
+                        <Grid container>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+
+                                <TextField
+                                    name="code_postal"
+                                    label="Code postal"
+                                    value={individu?.code_postal ?? ''}
+                                    fullWidth
+                                    onChange={handleChangeCodePostal}
+                                    variant="outlined"
+                                // my={2}
+                                />
+
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                                {
+                                    pays == "France" ?
+                                        <Autocomplete
+
+                                            options={optionsCodePostaux}
+
+                                            renderInput={(params) => <TextField required {...params} label="Ville" />}
+                                            name="ville"
+                                            isOptionEqualToValue={(option, value) => option.id === value.id}
+
+                                            fullWidth
+                                            value={individu.ville ?? ''}
+                                            onChange={(e, value) => pays == "France" ? handleChangeVille(e, value) : handleChange}
+                                            variant="outlined"
+                                            my={2}
+                                        />
+                                        :
+                                        <TextField
+                                            name="ville"
+                                            label="Ville"
+                                            value={individu?.ville ?? ''}
+                                            fullWidth
+                                            onChange={handleChange}
+                                            variant="outlined"
+
+                                        />
+                                }
+
+                            </Grid>
+
+
+                        </Grid>
+
                         {
                             otherCountry == true ?
 
@@ -410,7 +460,7 @@ function OrganismeForm() {
                                         <TextField
                                             name="region"
                                             label="Région"
-                                            value={organisme?.region ?? ''}
+                                            value={individu?.region ?? ''}
                                             fullWidth
 
                                             onChange={handleChange}
@@ -423,7 +473,7 @@ function OrganismeForm() {
                                         <TextField
                                             name="provence"
                                             label="Provence"
-                                            value={organisme?.provence ?? ''}
+                                            value={individu?.provence ?? ''}
                                             fullWidth
 
                                             onChange={handleChange}
@@ -436,7 +486,7 @@ function OrganismeForm() {
                                         <TextField
                                             name="etat"
                                             label="Etat"
-                                            value={organisme?.etat ?? ''}
+                                            value={individu?.etat ?? ''}
                                             fullWidth
 
                                             onChange={handleChange}
@@ -451,60 +501,11 @@ function OrganismeForm() {
                         }
 
                         <Grid container>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                <TextField
-                                    name="numero_siret"
-                                    label="Numéro Siret"
-                                    value={organisme?.numero_siret ?? ''}
-                                    fullWidth
-                                    onChange={handleChange}
-                                    variant="outlined"
-                                    my={2}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                <TextField
-                                    name="numero_tva"
-                                    label="Numéro TVA"
-                                    value={organisme?.numero_tva ?? ''}
-                                    fullWidth
-                                    onChange={handleChange}
-                                    variant="outlined"
-                                    my={2}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid container>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                <TextField
-                                    name="iban"
-                                    label="IBAN"
-                                    value={organisme?.iban ?? ''}
-                                    fullWidth
-                                    onChange={handleChange}
-                                    variant="outlined"
-                                    my={2}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                <TextField
-                                    name="bic"
-                                    label="BIC"
-                                    value={organisme?.bic ?? ''}
-                                    fullWidth
-                                    onChange={handleChange}
-                                    variant="outlined"
-                                    my={2}
-                                />
-                            </Grid>
-                        </Grid>
-
-                        <Grid container>
                             <Grid item xs={12} sm={12} md={12} lg={12} xl={12} p={2}>
                                 <TextField
                                     name="notes"
                                     label="Notes"
-                                    value={organisme?.notes ?? ''}
+                                    value={individu?.notes ?? ''}
                                     fullWidth
                                     multiline
                                     minRows={4}
@@ -519,6 +520,7 @@ function OrganismeForm() {
                         <Button
                             type="submit"
                             variant="contained"
+                            color="primary"
                             mt={3}
                             size="large"
                         >
@@ -527,31 +529,30 @@ function OrganismeForm() {
                     </form>
                 )}
             </CardContent>
-        </Card>
+        </Card >
 
     );
 }
 
-function CreateOrganisme() {
+function CreateIndividu() {
     return (
         <React.Fragment>
-            <Helmet title="Organismes" />
+            <Helmet title="Individus" />
             <Typography variant="h3" gutterBottom display="inline">
-                Ajouter un organisme
+                Ajouter un individu
             </Typography>
 
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                <Link component={NavLink} to="/organismes">
-                    Organismes
+                <Link component={NavLink} to="/individus">
+                    Individus
                 </Link>
                 <Typography>Ajout</Typography>
             </Breadcrumbs>
 
             <Divider my={6} />
-
-            <OrganismeForm />
+            <IndividuForm />
         </React.Fragment>
     );
 }
 
-export default CreateOrganisme;
+export default CreateIndividu;

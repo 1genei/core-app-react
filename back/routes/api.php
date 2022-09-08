@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ProprietaireController;
 use App\Http\Controllers\CodepostalVilleController;
 use App\Http\Controllers\PaysindicatifController;
+use App\Http\Controllers\IndividuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +44,29 @@ Route::group(['prefix' => 'contact'], function () {
     Route::put('type/restore/{id}', [ContactController::class, 'restoreTypeContact'])->where('id', '[0-9]+');
     Route::put('type/update/{id}', [ContactController::class, 'updateTypeContact'])->where('id', '[0-9]+');
     
-    
 });
+
+
+//Routes individus
+Route::group(['prefix' => 'individu'], function () {
+    Route::get('all', [IndividuController::class, 'getIndividus']);
+    Route::get('{id}', [IndividuController::class, 'getIndividu'])->where('id', '[0-9]+');
+    Route::get('active', [IndividuController::class, 'getActiveIndividus']);
+    Route::get('archived', [IndividuController::class, 'getArchivedIndividus']);
+    Route::get('no-user', [IndividuController::class, 'getNoUsers']);
+    Route::post('store', [IndividuController::class, 'store']);
+    Route::put('archive/{id}', [IndividuController::class, 'archive'])->where('id', '[0-9]+');
+    Route::put('restore/{id}', [IndividuController::class, 'restore'])->where('id', '[0-9]+');
+    Route::put('update/{id}', [IndividuController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('delete/{id}', [IndividuController::class, 'delete'])->where('id', '[0-9]+');
+    Route::get('type/all', [IndividuController::class, 'getTypeIndividus']);
+    Route::post('type/store', [IndividuController::class, 'storeTypeIndividu']);
+    Route::put('type/archive/{id}', [IndividuController::class, 'archiveTypeIndividu'])->where('id', '[0-9]+');
+    Route::put('type/restore/{id}', [IndividuController::class, 'restoreTypeIndividu'])->where('id', '[0-9]+');
+    Route::put('type/update/{id}', [IndividuController::class, 'updateTypeIndividu'])->where('id', '[0-9]+');
+});
+
+
 
 //Routes utilisateurs
 Route::group(['prefix' => 'utilisateur'], function () {

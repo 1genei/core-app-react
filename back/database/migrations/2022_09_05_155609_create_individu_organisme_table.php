@@ -3,8 +3,10 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Individu;
+use App\Models\Organisme;
 
-class CreateTypeorganismesTable extends Migration
+class CreateIndividuOrganismeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +15,11 @@ class CreateTypeorganismesTable extends Migration
      */
     public function up()
     {
-        Schema::create('typeorganismes', function (Blueprint $table) {
-            $table->id();
-            $table->string('type')->nullable();
-            $table->string('details')->nullable();
+        Schema::create('individu_organisme', function (Blueprint $table) {
+            $table->primary(['individu_id', 'organisme_id']);
+            $table->foreignIdFor(Individu::class);
+            $table->foreignIdFor(Organisme::class);
+            $table->string('poste')->nullable();
             $table->boolean('archive')->default(false);
             $table->timestamps();
         });
@@ -29,6 +32,6 @@ class CreateTypeorganismesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('typeorganismes');
+        Schema::dropIfExists('individu_organisme');
     }
 }

@@ -58,7 +58,7 @@ export const getOrganisme = async (organisme_id) => {
 
     return axios.get(`organisme/${organisme_id}`)
         .then((res) => {
-            return res.data.organisme;
+            return res.data;
         });
 }
 

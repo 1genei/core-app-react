@@ -83,6 +83,30 @@ class UserController extends Controller
             ], 401);
         }
         
+        // ***************************
+          // Get username
+            $user = Auth::user();
+          
+          $names = DB::table('individus')->select('nom', 'prenom')->where('id',$user->contact_id)->first();
+        // return  $names;
+          
+          $token = $user->createToken('token')->plainTextToken;
+          $cookie = cookie('jwt', $token, 60*24); // One day
+
+          // Return user infos
+          return Response()->json([   
+              'message' => 'Login successful',
+              'user' => $user,
+              'name' => $names,
+              'permissionsName' => $user->permissionsName()
+          ], 200)->withCookie($cookie);
+        
+        
+        
+        // ***************************
+        
+        
+        
         // Authenticate user
         $user = Auth::user();
         $user->contact;

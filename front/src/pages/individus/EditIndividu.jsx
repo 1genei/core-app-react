@@ -3,7 +3,8 @@ import styled from "@emotion/styled";
 import { NavLink, useParams, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 
-import { getOrganisme, updateOrganisme } from "../../services/OrganismesServices";
+import { getIndividu, updateIndividu } from "../../services/IndividusServices";
+import { getActiveTypeContact } from "../../services/ContactsServices";
 import {
     Alert as MuiAlert,
     Box,
@@ -18,23 +19,23 @@ import {
     TextField as MuiTextField,
     Typography,
     Skeleton,
+    InputAdornment,
+    MenuItem,
+    Select,
+    Autocomplete,
     ListItemText,
     Checkbox,
-    Chip,
     OutlinedInput,
-    InputLabel,
-    Select,
-    MenuItem,
-    InputAdornment,
-    Autocomplete
+    Chip,
+    InputLabel
 } from "@mui/material";
+
 import { spacing } from "@mui/system";
 import { validatorErrors } from "../../utils/errors";
 import { useEffect } from "react";
 import { decrypt } from "../../utils/crypt";
-import { getActiveTypeContact } from "../../services/ContactsServices";
-import PaysIndicatifs from "../../utils/paysIndicatifs";
 import CodepostalVille from "../../utils/codepostalVille";
+import PaysIndicatifs from "../../utils/paysIndicatifs";
 
 const Divider = styled(MuiDivider)(spacing);
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -45,21 +46,20 @@ const Button = styled(MuiButton)(spacing);
 
 
 
-function OrganismeForm({ organismeTab, errorStatus }) {
+function IndividuForm({ individuTab, errorStatus }) {
 
     const [messageSuccess, setMessageSuccess] = useState('');
     const [messageErrors, setMessageErrors] = useState('');
     const [alertSuccess, setAlertSuccess] = useState(false);
     const [alertError, setAlertError] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const [codePostal, setCodePostal] = useState(organismeTab.code_postal);
+    const [codePostal, setCodePostal] = useState(individuTab.code_postal);
     const [allCodepostalVilles, setAllCodepostalVilles] = useState([]);
     const [optionsCodePostaux, setOptionsCodePostaux] = useState([]);
     const [optionsPaysIndicatifs, setOptionsPaysIndicatifs] = useState([]);
-    const [pays, setPays] = useState(organismeTab.pays);
+    const [pays, setPays] = useState(individuTab.pays);
     const [otherCountry, setOtherCountry] = useState(false);
-    const [organisme, setOrganisme] = useState(organismeTab);
+    const [individu, setIndividu] = useState(individuTab);
     const error = errorStatus;
     const navigate = useNavigate();
     const [types, setTypes] = useState([]);
@@ -106,8 +106,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
 
 
 
-    }, [codePostal]);
-
+    }, [codePostal])
 
 
     const handleSubmit = async (e) => {
@@ -119,7 +118,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
         setAlertSuccess(false);
 
 
-        const result = await updateOrganisme(organisme, organisme.id);
+        const result = await updateIndividu(individu, individu.id);
 
 
         if (result?.status === 200) {
@@ -144,22 +143,22 @@ function OrganismeForm({ organismeTab, errorStatus }) {
     function handleChange(e) {
 
         const { name, value } = e.target;
-        setOrganisme({ ...organisme, [name]: value });
-        console.log(organisme);
+        setIndividu({ ...individu, [name]: value });
+
     }
 
 
     const handleChangeCodePostal = (e,) => {
 
         const { name, value } = e.target;
-        setOrganisme({ ...organisme, [name]: value });
+        setIndividu({ ...individu, [name]: value });
 
         setCodePostal(e.target.value);
 
     }
 
     const handleChangeVille = (e, value) => {
-        setOrganisme({ ...organisme, ville: value?.ville });
+        setIndividu({ ...individu, ville: value?.ville });
     }
 
     const handleChangePays = (e) => {
@@ -169,14 +168,14 @@ function OrganismeForm({ organismeTab, errorStatus }) {
 
         e.target.value != "France" ? setOtherCountry(true) : setOtherCountry(false);
 
-        setOrganisme({ ...organisme, pays: e.target.value, indicatif2: list[0].indicatif, indicatif1: list[0].indicatif });
+        setIndividu({ ...individu, pays: e.target.value, indicatif2: list[0].indicatif, indicatif1: list[0].indicatif });
 
     }
 
     const handleChangeType = (e) => {
 
         const { name, value } = e.target;
-        setOrganisme({ ...organisme, [name]: value });
+        setIndividu({ ...individu, [name]: value });
         setTypes(value);
 
     };
@@ -191,6 +190,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
         },
     };
 
+
     return (
         <>
             {error
@@ -201,7 +201,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                             Erreur !
                         </Typography>
                         <Typography variant='h3'>
-                            Impossible de trouver l'organisme
+                            Impossible de trouver le individu
                         </Typography>
                     </CardContent>
                 </Card>
@@ -260,9 +260,9 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} ></Grid>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                         <TextField
-                                            name="nom"
-                                            label="Nom"
-                                            value={organisme?.nom ?? ''}
+                                            name="prenom"
+                                            label="Prénom"
+                                            value={individu?.prenom ?? ''}
                                             fullWidth
                                             onChange={handleChange}
                                             required
@@ -272,52 +272,47 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                     </Grid>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                         <TextField
-                                            name="site"
-                                            label="Site"
-                                            value={organisme?.site ?? ''}
+                                            name="nom"
+                                            label="Nom"
+                                            value={individu?.nom ?? ''}
                                             fullWidth
+                                            required
                                             onChange={handleChange}
                                             variant="outlined"
                                             my={2}
                                         />
                                     </Grid>
                                 </Grid>
+
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                        <InputLabel >Forme Juridique</InputLabel>
-
-                                        <Select
-                                            name="forme_juridique"
-                                            id="forme_juridique"
-                                            value={organisme?.forme_juridique ?? ""}
-                                            // label="Forme juridique"
-                                            onChange={handleChange}
-                                            renderValue={(value) => ` ${value}`}
-                                            fullWidth
-                                            my={2}
-                                            required
-                                        >
-                                            <MenuItem value={organisme?.forme_juridique}>{organisme?.forme_juridique}</MenuItem>
-                                            <MenuItem value="SARL">SARL</MenuItem>
-                                            <MenuItem value="SA">SA</MenuItem>
-                                            <MenuItem value="EURL">EURL</MenuItem>
-                                        </Select>
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                        <InputLabel >&nbsp;</InputLabel>
-
                                         <TextField
                                             name="email"
                                             label="Email"
-                                            value={organisme?.email ?? ''}
+                                            value={individu?.email ?? ''}
                                             fullWidth
+                                            required
+                                            onChange={handleChange}
                                             type="email"
+                                            variant="outlined"
+                                            my={2}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
+                                        <TextField
+                                            name="date_naissance"
+                                            value={individu?.date_naissance ?? ''}
+                                            fullWidth
+                                            type='date'
                                             onChange={handleChange}
                                             variant="outlined"
-                                        // my={2}
+                                            my={2}
+                                            helperText="Date de naissance"
                                         />
                                     </Grid>
                                 </Grid>
+
+
                                 <Grid container alignItems="center">
                                     <Grid item xs={12} sm={12} md={4} lg={4} xl={4} p={2}>
 
@@ -325,7 +320,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
 
                                             name="pays"
                                             id="pays"
-                                            value={organisme.pays ?? "France"}
+                                            value={individu.pays ?? "France"}
                                             label="Pays"
                                             onChange={handleChangePays}
                                             renderValue={(value) => ` ${value}`}
@@ -342,7 +337,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                         <TextField
                                             name="indicatif1"
                                             label="Indicatif"
-                                            value={organisme.indicatif1 ?? '33'}
+                                            value={individu.indicatif1 ?? '33'}
                                             fullWidth
                                             InputProps={{
                                                 startAdornment: <InputAdornment position="start">+</InputAdornment>,
@@ -357,7 +352,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                         <TextField
                                             name="telephone1"
                                             label="Téléphone mobile"
-                                            value={organisme?.telephone1 ?? ''}
+                                            value={individu?.telephone1 ?? ''}
                                             fullWidth
 
                                             onChange={handleChange}
@@ -369,7 +364,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                         <TextField
                                             name="indicatif2"
                                             label="Indicatif"
-                                            value={organisme.indicatif2 ?? '33'}
+                                            value={individu.indicatif2 ?? '33'}
                                             fullWidth
                                             InputProps={{
                                                 startAdornment: <InputAdornment position="start">+</InputAdornment>,
@@ -384,7 +379,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                         <TextField
                                             name="telephone2"
                                             label="Téléphone fixe"
-                                            value={organisme?.telephone2 ?? ''}
+                                            value={individu?.telephone2 ?? ''}
                                             fullWidth
 
                                             onChange={handleChange}
@@ -399,7 +394,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                         <TextField
                                             name="adresse"
                                             label="Adresse"
-                                            value={organisme?.adresse ?? ''}
+                                            value={individu?.adresse ?? ''}
                                             fullWidth
                                             onChange={handleChange}
                                             variant="outlined"
@@ -410,7 +405,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                         <TextField
                                             name="complement_adresse"
                                             label="Complément d'adresse"
-                                            value={organisme?.complement_adresse ?? ''}
+                                            value={individu?.complement_adresse ?? ''}
                                             fullWidth
                                             onChange={handleChange}
                                             variant="outlined"
@@ -418,13 +413,13 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                         />
                                     </Grid>
                                 </Grid>
+
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-
                                         <TextField
                                             name="code_postal"
                                             label="Code postal"
-                                            value={organisme?.code_postal ?? ''}
+                                            value={individu?.code_postal ?? ''}
                                             fullWidth
                                             onChange={handleChangeCodePostal}
                                             variant="outlined"
@@ -444,7 +439,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                                     isOptionEqualToValue={(option, value) => option.id === value.id}
 
                                                     fullWidth
-                                                    value={organisme.ville ?? ''}
+                                                    value={individu.ville ?? ''}
                                                     onChange={(e, value) => pays == "France" ? handleChangeVille(e, value) : handleChange}
                                                     variant="outlined"
                                                     my={2}
@@ -453,7 +448,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                                 <TextField
                                                     name="ville"
                                                     label="Ville"
-                                                    value={organisme?.ville ?? ''}
+                                                    value={individu?.ville ?? ''}
                                                     fullWidth
                                                     onChange={handleChange}
                                                     variant="outlined"
@@ -465,6 +460,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
 
 
                                 </Grid>
+
                                 {
                                     otherCountry == true ?
 
@@ -474,7 +470,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                                 <TextField
                                                     name="region"
                                                     label="Région"
-                                                    value={organisme?.region ?? ''}
+                                                    value={individu?.region ?? ''}
                                                     fullWidth
 
                                                     onChange={handleChange}
@@ -487,7 +483,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                                 <TextField
                                                     name="provence"
                                                     label="Provence"
-                                                    value={organisme?.provence ?? ''}
+                                                    value={individu?.provence ?? ''}
                                                     fullWidth
 
                                                     onChange={handleChange}
@@ -500,7 +496,7 @@ function OrganismeForm({ organismeTab, errorStatus }) {
                                                 <TextField
                                                     name="etat"
                                                     label="Etat"
-                                                    value={organisme?.etat ?? ''}
+                                                    value={individu?.etat ?? ''}
                                                     fullWidth
 
                                                     onChange={handleChange}
@@ -513,63 +509,12 @@ function OrganismeForm({ organismeTab, errorStatus }) {
 
                                         ""
                                 }
-
-                                <Grid container>
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                        <TextField
-                                            name="numero_siret"
-                                            label="Numéro Siret"
-                                            value={organisme?.numero_siret ?? ''}
-                                            fullWidth
-                                            onChange={handleChange}
-                                            variant="outlined"
-                                            my={2}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                        <TextField
-                                            name="numero_tva"
-                                            label="Numéro TVA"
-                                            value={organisme?.numero_tva ?? ''}
-                                            fullWidth
-                                            onChange={handleChange}
-                                            variant="outlined"
-                                            my={2}
-                                        />
-                                    </Grid>
-                                </Grid>
-                                <Grid container>
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                        <TextField
-                                            name="iban"
-                                            label="IBAN"
-                                            value={organisme?.iban ?? ''}
-                                            fullWidth
-                                            onChange={handleChange}
-                                            variant="outlined"
-                                            my={2}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
-                                        <TextField
-                                            name="bic"
-                                            label="BIC"
-                                            value={organisme?.bic ?? ''}
-                                            fullWidth
-                                            onChange={handleChange}
-                                            variant="outlined"
-                                            my={2}
-                                        />
-                                    </Grid>
-                                </Grid>
-
-
                                 <Grid container>
                                     <Grid item xs={12} sm={12} md={12} lg={12} xl={12} p={2}>
                                         <TextField
                                             name="notes"
                                             label="Notes"
-                                            value={organisme?.notes ?? ''}
+                                            value={individu?.notes ?? ''}
                                             fullWidth
                                             multiline
                                             minRows={4}
@@ -609,7 +554,6 @@ function OrganismeForm({ organismeTab, errorStatus }) {
     );
 }
 
-
 function Waiting() {
     return (
         <Card mb={6}>
@@ -623,7 +567,16 @@ function Waiting() {
                     </Grid>
                 </Grid>
 
-                <Grid container>
+                <Grid container pb={1}>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={3}>
+                        <Skeleton animation='wave' variant='rounded' height={60} sx={{ borderRadius: 3 }} />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={3}>
+                        <Skeleton animation='wave' variant='rounded' height={60} sx={{ borderRadius: 3 }} />
+                    </Grid>
+                </Grid>
+
+                <Grid container pt={1}>
                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={3}>
                         <Skeleton animation='wave' variant='rounded' height={60} sx={{ borderRadius: 3 }} />
                     </Grid>
@@ -651,8 +604,9 @@ function Waiting() {
     );
 }
 
-function EditOrganisme() {
-    const [organisme, setOrganisme] = useState([]);
+
+function EditIndividu() {
+    const [individu, setIndividu] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const params = useParams();
@@ -663,9 +617,8 @@ function EditOrganisme() {
         try {
             let id = params.id;
             id = decrypt(id);
-            const data = await getOrganisme(id);
-
-            setOrganisme(data.organisme);
+            const res = await getIndividu(id);
+            setIndividu(res.individu);
         } catch (err) {
             setError(true);
             console.log(err);
@@ -676,23 +629,23 @@ function EditOrganisme() {
 
     return (
         <React.Fragment>
-            <Helmet title="Organismes" />
+            <Helmet title="Individus" />
             <Typography variant="h3" gutterBottom display="inline">
-                Modifier l'organisme
+                Modifier le individu
             </Typography>
 
             <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-                <Link component={NavLink} to="/organismes">
-                    Organismes
+                <Link component={NavLink} to="/individus">
+                    Individus
                 </Link>
                 <Typography>Modifier</Typography>
             </Breadcrumbs>
 
             <Divider my={6} />
 
-            {loading ? <Waiting /> : <OrganismeForm organismeTab={organisme} errorStatus={error} />}
+            {loading ? <Waiting /> : <IndividuForm individuTab={individu} errorStatus={error} />}
         </React.Fragment>
     );
 }
 
-export default EditOrganisme;
+export default EditIndividu;

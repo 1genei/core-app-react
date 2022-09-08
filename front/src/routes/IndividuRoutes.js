@@ -1,16 +1,15 @@
 import { Outlet } from "react-router-dom";
 import DashboardLayout from "../layouts/Dashboard";
+import Individus from "../pages/individus/Index";
+import ArchiveIndividu from '../pages/individus/ArchiveIndividu';
+import CreateIndividu from "../pages/individus/CreateIndividu"
+import EditIndividu from "../pages/individus/EditIndividu";
+import InfoIndividu from "../pages/individus/InfoIndividu";
 import RequirePermission from './middlewares/RequirePermission';
 import RequireAuth from "./middlewares/RequireAuth";
-import Organismes from "../pages/organismes/Index";
-import ArchiveOrganisme from '../pages/organismes/ArchiveOrganisme';
-import CreateOrganisme from "../pages/organismes/CreateOrganisme";
-import EditOrganisme from "../pages/organismes/EditOrganisme";
-import InfoOrganisme from "../pages/organismes/InfoOrganisme";
-import TypeOrganisme from "../pages/organismes/TypeOrganisme";
+import TypeIndividu from "../pages/individus/TypeIndividu";
 
-
-const OrganismeRoutes = {
+const IndividuRoutes = {
     path: '/',
     element: <RequireAuth />,
     children: [
@@ -18,61 +17,61 @@ const OrganismeRoutes = {
             element: <DashboardLayout />,
             children: [
                 {
-                    element: <RequirePermission permission={'View-Organismes'} />,
+                    element: <RequirePermission permission={'View-Individu'} />,
                     children: [
                         {
-                            path: "organismes",
+                            path: "individus",
                             element: <Outlet />,
                             children: [
                                 {
                                     path: '',
-                                    element: <Organismes />
+                                    element: <Individus />
                                 },
                                 {
                                     path: 'archives',
-                                    element: <ArchiveOrganisme />
+                                    element: <ArchiveIndividu />
                                 },
                                 {
                                     path: 'types',
-                                    element: <TypeOrganisme />,
+                                    element: <TypeIndividu />,
 
-                                },
+                                }
 
                             ]
                         }
                     ]
                 },
                 {
-                    path: 'organisme',
+                    path: 'individu',
                     element: <Outlet />,
                     children: [
                         {
                             path: "info/:id",
-                            element: <RequirePermission permission={'View-Organismes'} />,
+                            element: <RequirePermission permission={'View-Individu'} />,
                             children: [
                                 {
                                     path: '',
-                                    element: <InfoOrganisme />,
+                                    element: <InfoIndividu />,
                                 }
                             ]
                         },
                         {
                             path: "ajouter",
-                            element: <RequirePermission permission={'Add-Organisme'} />,
+                            element: <RequirePermission permission={'Add-Individu'} />,
                             children: [
                                 {
                                     path: '',
-                                    element: <CreateOrganisme />,
+                                    element: <CreateIndividu />,
                                 }
                             ]
                         },
                         {
                             path: "modifier/:id",
-                            element: <RequirePermission permission={'Edit-Organisme'} />,
+                            element: <RequirePermission permission={'Edit-Individu'} />,
                             children: [
                                 {
                                     path: '',
-                                    element: <EditOrganisme />,
+                                    element: <EditIndividu />,
                                 }
                             ]
                         },
@@ -83,4 +82,4 @@ const OrganismeRoutes = {
     ]
 };
 
-export default OrganismeRoutes;
+export default IndividuRoutes;

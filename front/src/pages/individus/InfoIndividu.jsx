@@ -37,7 +37,7 @@ import {
 
 import { spacing } from "@mui/system";
 import { decrypt, encrypt } from "../../utils/crypt";
-import { getOrganisme } from "../../services/OrganismesServices";
+import { getIndividu } from "../../services/IndividusServices";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
@@ -81,7 +81,7 @@ const AboutIcon = styled.span`
 
 function Details(props) {
 
-    const { organisme } = props;
+    const { individu } = props;
 
     return (
         <Card mb={6}>
@@ -92,11 +92,11 @@ function Details(props) {
                 <Centered>
                     <Avatar alt="Lucy Lavender" src="/static/img/avatars/avatar-1.jpg" />
                     <Typography variant="body2" component="div" gutterBottom>
-                        <Box fontWeight="fontWeightMedium">{organisme?.nom} {organisme?.prenom}</Box>
+                        <Box fontWeight="fontWeightMedium">{individu?.nom} {individu?.prenom}</Box>
 
                     </Typography>
 
-                    <Link to={`/organisme/modifier/${encrypt(organisme?.id)}`} component={NavLink}>
+                    <Link to={`/individu/modifier/${encrypt(individu?.id)}`} component={NavLink}>
                         <Button mr={4} variant="contained" color="success" size="small"  >
                             Modifier
                         </Button>
@@ -111,7 +111,7 @@ function Details(props) {
 
 function About(props) {
 
-    const { organisme } = props;
+    const { individu } = props;
 
     const [error, setError] = useState(false);
     const TypoTitle = MuiStyled(Typography)(() => ({
@@ -135,7 +135,7 @@ function About(props) {
                             </AboutIcon>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h6">Email :  {organisme?.email ? organisme?.email : "..."} </Typography>
+                            <Typography variant="h6">Email :  {individu?.email ? individu?.email : "..."} </Typography>
                         </Grid>
                     </Grid>
 
@@ -146,7 +146,7 @@ function About(props) {
                             </AboutIcon>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h6">Adresse :  {organisme?.adresse} {organisme?.complement_adresse} {organisme?.code_postal} </Typography>
+                            <Typography variant="h6">Adresse :  {individu?.adresse} {individu?.complement_adresse} {individu?.code_postal} </Typography>
                         </Grid>
                     </Grid>
 
@@ -157,7 +157,7 @@ function About(props) {
                             </AboutIcon>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h6">Ville: {organisme?.ville ? organisme?.ville : "..."}</Typography>
+                            <Typography variant="h6">Ville: {individu?.ville ? individu?.ville : "..."}</Typography>
                         </Grid>
                     </Grid>
                     <Grid container direction="row" alignItems="center" mb={4}>
@@ -167,7 +167,7 @@ function About(props) {
                             </AboutIcon>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h6">Code postal: {organisme?.code_postal ? organisme?.code_postal : "..."}</Typography>
+                            <Typography variant="h6">Code postal: {individu?.code_postal ? individu?.code_postal : "..."}</Typography>
                         </Grid>
                     </Grid>
 
@@ -178,12 +178,12 @@ function About(props) {
                             </AboutIcon>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h6">Pays: {organisme?.pays ? organisme?.pays : "..."}</Typography>
+                            <Typography variant="h6">Pays: {individu?.pays ? individu?.pays : "..."}</Typography>
                         </Grid>
                     </Grid>
 
                     {
-                        organisme?.pays != "France" ?
+                        individu?.pays != "France" ?
                             <>
                                 <Grid container direction="row" alignItems="center" mb={4}>
                                     <Grid item>
@@ -192,7 +192,7 @@ function About(props) {
                                         </AboutIcon>
                                     </Grid>
                                     <Grid item>
-                                        <Typography variant="h6">Région: {organisme?.region ? organisme?.region : "..."}</Typography>
+                                        <Typography variant="h6">Région: {individu?.region ? individu?.region : "..."}</Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid container direction="row" alignItems="center" mb={4}>
@@ -202,7 +202,7 @@ function About(props) {
                                         </AboutIcon>
                                     </Grid>
                                     <Grid item>
-                                        <Typography variant="h6">Etat: {organisme?.etat ? organisme?.etat : "..."}</Typography>
+                                        <Typography variant="h6">Etat: {individu?.etat ? individu?.etat : "..."}</Typography>
                                     </Grid>
                                 </Grid>
                                 <Grid container direction="row" alignItems="center" mb={4}>
@@ -212,7 +212,7 @@ function About(props) {
                                         </AboutIcon>
                                     </Grid>
                                     <Grid item>
-                                        <Typography variant="h6">Province: {organisme?.province ? organisme?.province : "..."}</Typography>
+                                        <Typography variant="h6">Province: {individu?.province ? individu?.province : "..."}</Typography>
                                     </Grid>
                                 </Grid>
                             </>
@@ -228,7 +228,7 @@ function About(props) {
                             </AboutIcon>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h6"> Mobile:{organisme?.telephone1 ? organisme?.indicatif1 + ' ' + organisme?.telephone1 : "..."}</Typography>
+                            <Typography variant="h6"> Mobile:{individu?.telephone1 ? individu?.indicatif1 + ' ' + individu?.telephone1 : "..."}</Typography>
                         </Grid>
                     </Grid>
 
@@ -240,7 +240,7 @@ function About(props) {
                             </AboutIcon>
                         </Grid>
                         <Grid item>
-                            <Typography variant="h6"> Fixe: {organisme?.telephone2 ? organisme?.indicatif2 + ' ' + organisme?.telephone2 : "..."}</Typography>
+                            <Typography variant="h6"> Fixe: {individu?.telephone2 ? individu?.indicatif2 + ' ' + individu?.telephone2 : "..."}</Typography>
                         </Grid>
                     </Grid>
 
@@ -256,7 +256,7 @@ function About(props) {
 
 function Elsewhere(props) {
 
-    const { organisme } = props;
+    const { individu } = props;
 
 
     return (
@@ -275,7 +275,7 @@ function Elsewhere(props) {
                         </AboutIcon>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">Notes: {organisme?.notes ? organisme?.notes : "..."}</Typography>
+                        <Typography variant="h6">Notes: {individu?.notes ? individu?.notes : "..."}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container direction="row" alignItems="center" mb={4}>
@@ -285,7 +285,7 @@ function Elsewhere(props) {
                         </AboutIcon>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">Date de création: {organisme?.created_at ? parseDateTime(organisme?.created_at) : "..."}</Typography>
+                        <Typography variant="h6">Date de création: {individu?.created_at ? parseDateTime(individu?.created_at) : "..."}</Typography>
                     </Grid>
                 </Grid>
                 <Grid container direction="row" alignItems="center" mb={4}>
@@ -295,7 +295,7 @@ function Elsewhere(props) {
                         </AboutIcon>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">Est un utilisateur: {organisme?.user != null ? <Chip label="Oui" color="primary" variant="outlined" /> : <Chip label="Non" color="error" variant="outlined" />}  </Typography>
+                        <Typography variant="h6">Est un utilisateur: {individu?.user != null ? <Chip label="Oui" color="primary" variant="outlined" /> : <Chip label="Non" color="error" variant="outlined" />}  </Typography>
                     </Grid>
                 </Grid>
                 <Grid container direction="row" alignItems="center" mb={4}>
@@ -305,7 +305,7 @@ function Elsewhere(props) {
                         </AboutIcon>
                     </Grid>
                     <Grid item>
-                        <Typography variant="h6">Archivé: {organisme?.archive === true ? <Chip label="Oui" color="primary" variant="outlined" /> : <Chip label="Non" color="error" variant="outlined" />}  </Typography>
+                        <Typography variant="h6">Archivé: {individu?.archive === true ? <Chip label="Oui" color="primary" variant="outlined" /> : <Chip label="Non" color="error" variant="outlined" />}  </Typography>
                     </Grid>
                 </Grid>
 
@@ -315,23 +315,23 @@ function Elsewhere(props) {
 }
 
 
-function InfoOrganisme() {
+function InfoIndividu() {
 
 
     const auth = useSelector((state) => state.auth);
 
-    const [organisme, setOrganisme] = useState({});
+    const [individu, setIndividu] = useState({});
     const param = useParams();
-    const organisme_id = decrypt(param.id);
+    const individu_id = decrypt(param.id);
 
     useEffect(() => {
 
 
-        getOrganisme(organisme_id)
+        getIndividu(individu_id)
             .then(res => {
 
                 if (res.status == 200) {
-                    setOrganisme(res.organisme);
+                    setIndividu(res.individu);
                 }
 
             })
@@ -343,12 +343,12 @@ function InfoOrganisme() {
             <Helmet title="Profile" />
 
             <Typography variant="h3" gutterBottom display="inline">
-                Organisme
+                Individu
             </Typography>
 
             <Breadcrumbs aria-label="Breadcrumb" mt={4}>
-                <Link component={NavLink} to="/organismes">
-                    Organismes
+                <Link component={NavLink} to="/individus">
+                    Individus
                 </Link>
 
                 <Typography>Détail</Typography>
@@ -359,9 +359,9 @@ function InfoOrganisme() {
             <Grid container spacing={6} component={Paper} >
                 <Grid item xs={12} >
                     <Grid container spacing={3}  >
-                        <Grid item xs={12} > <Details organisme={organisme} /></Grid>
-                        <Grid item xs={12} sm={6} lg={6} ><About organisme={organisme} /></Grid>
-                        <Grid item xs={12} sm={6} lg={6} ><Elsewhere organisme={organisme} /></Grid>
+                        <Grid item xs={12} > <Details individu={individu} /></Grid>
+                        <Grid item xs={12} sm={6} lg={6} ><About individu={individu} /></Grid>
+                        <Grid item xs={12} sm={6} lg={6} ><Elsewhere individu={individu} /></Grid>
                     </Grid>
 
 
@@ -375,4 +375,4 @@ function InfoOrganisme() {
     );
 }
 
-export default InfoOrganisme;
+export default InfoIndividu;

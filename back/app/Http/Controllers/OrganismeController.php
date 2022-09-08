@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organisme;
-use App\Models\Typeorganisme;
 use Illuminate\Support\Facades\Validator;
 
 class OrganismeController extends Controller
@@ -50,29 +49,48 @@ class OrganismeController extends Controller
     public function getOrganisme($organisme_id) {
         $organisme = Organisme::where('id','=',$organisme_id)->first();
         return Response()->json([
-            'organisme' => $organisme
+            'organisme' => $organisme,
+            'status' => 200,
         ], 200);
     }
 
     //Crée un organisme selon les paramètres passés dans $request
     public function store(Request $request) {
+    
         $validator = Validator::make($request->all(),[
             'nom' => 'required|string',
         ]);
+        
         if ($validator->fails()) {
             return Response()->json([
                 'erreurs' => $validator->errors(),
                 'status' => 400,
             ], 200);
         }
+        
+        $request->all();
         $organisme = Organisme::create([
             'nom' => $request->nom,
             'adresse' => $request->adresse,
             'complement_adresse' => $request->complement_adresse,
             'email' => $request->email,
-            'telephone' => $request->telephone,
             'site' => $request->site,
-            'notes' => $request->notes
+            'forme_juridique' => $request->forme_juridique,
+            'numero_tva' => $request->numero_tva,
+            'numero_siret' => $request->numero_siret,
+            'iban' => $request->iban,
+            'bic' => $request->bic,
+            'notes' => $request->notes,         
+            'telephone1' => $request->telephone1,
+            'telephone2' => $request->telephone2,
+            'code_postal' => $request->code_postal,
+            'ville' => $request->ville,
+            'pays' => $request->pays,
+            'indicatif1' => $request->indicatif1,
+            'indicatif2' => $request->indicatif2,
+            'provence' => $request->provence,
+            'region' => $request->region,
+            'etat' => $request->etat,
         ]);
         return Response()->json([
             'message' => 'Organisme créé',
@@ -142,8 +160,22 @@ class OrganismeController extends Controller
         $organisme->complement_adresse = $request->complement_adresse; 
         $organisme->email = $request->email; 
         $organisme->site = $request->site; 
-        $organisme->telephone = $request->telephone; 
+        $organisme->forme_juridique = $request->forme_juridique; 
+        $organisme->numero_tva = $request->numero_tva; 
+        $organisme->numero_siret = $request->numero_siret; 
+        $organisme->bic = $request->bic; 
+        $organisme->iban = $request->iban; 
         $organisme->notes = $request->notes; 
+        $organisme->telephone1 = $request->telephone1;
+        $organisme->telephone2 = $request->telephone2;
+        $organisme->code_postal = $request->code_postal;
+        $organisme->ville = $request->ville;
+        $organisme->pays = $request->pays;
+        $organisme->indicatif1 = $request->indicatif1;
+        $organisme->indicatif2 = $request->indicatif2;
+        $organisme->provence = $request->provence;
+        $organisme->region = $request->region;
+        $organisme->etat = $request->etat;
         $organisme->update();
 
         return Response()->json([
@@ -153,142 +185,5 @@ class OrganismeController extends Controller
     }
     
     
-    
-    /**
-    *   Renvoie tous les types d'organismes actifs 
-    */
-    public function getTypeOrganismes() {
-        
-        $typeOrganismes = Typeorganisme::where('archive', false)->get();
-        return Response()->json([
-            'typeOrganismes' => $typeOrganismes,
-            'status' => 200,
-        ], 200);
-    }
-    
-    /**
-    *   Création de type organisme 
-    */
-    public function storeTypeOrganisme(Request $request) {
-    
-        $validator = Validator::make($request->all(),[
-            'type' => 'required|unique:typeorganismes|string',
-        ]);
-        
-        if ($validator->fails()) {
-            return Response()->json([
-                'errors' => $validator->errors(),
-                'status' => 400,
-            ], 200);
-        }
-        
-       
-       try {
-            Typeorganisme::create([
-                'type' => $request->input('type'),
-                'details' => $request->input('details'),
-            ]);
-       } catch (\Throwable $th) {
-        
-        return $th;
-       }
-        
-       
-        
-        return Response()->json([
-            'message' => "Type d'organisme  créé",
-            'status' => 200,
-            
-        ], 200);
-        
-    }
-    
-    
 
- 
-    /**
-    * Supprime le type organisme d'id $typeorganisme_id
-    */
-    public function deleteTypeOrganisme($typeorganisme_id) {
-    
-        Typeorganisme::where('id','=',$typeorganisme_id)->delete();
-        return Response()->json([
-            'message' => 'Type organisme supprimé'
-        ], 200);
-    }
-    
-
-    /**
-    *   Modifie l'organisme d'id $typeorganisme_id avec les paramètres passés dans $request
-    */
-    public function updateTypeOrganisme(Request $request, $typeorganisme_id) {
-    
-        $typeOrganisme = Typeorganisme::where('id', '=', $typeorganisme_id)->first();
-    
-   
-        if($typeOrganisme->type == $request->type){
-        
-            $validator = Validator::make($request->all(),[
-                'type' => 'required|string',
-            ]);
-        
-       
-        }
-        else{
-            $validator = Validator::make($request->all(),[
-                'type' => 'required|unique:typeorganismes|string',
-            ]);        
-        }
-        
-        if ($validator->fails()) {
-            return Response()->json([
-                'errors' => $validator->errors(),
-                'status' => 400,
-            ], 200);
-        }
-        
-        $typeOrganisme->type = $request->type; 
-        $typeOrganisme->details = $request->details; 
-       
-        $typeOrganisme->update();
-
-        return Response()->json([
-            'message' => "Type d'organisme modifié",
-            'status' => 200,
-        ], 200);
-    }
-    
-     /**
-    * Archive l'organisme d'id $typeorganisme_id
-    */
-    public function archiveTypeOrganisme($typeorganisme_id) {
-    
-
-        $typeOrganisme = Typeorganisme::where('id',$typeorganisme_id)->first();
-        
-        $typeOrganisme->archive = true;
-        $typeOrganisme->update();
-        
-  
-        return Response()->json([
-            'message' => "Type d'organisme archivé",
-            'status' =>200
-        ], 200);
-    }
-
-    /**
-    * Restaure l'organisme d'id $typeorganisme_id
-    */
-    public function restoreTypeOrganisme($typeorganisme_id) {
-    
-        $typeOrganisme = Typeorganisme::where('id','=',$typeorganisme_id)->first();
-        $typeOrganisme->archive = 0;
-        $typeOrganisme->update();
-        return Response()->json([
-            'message' => "Type d'organisme restauré",
-            'status' =>200
-            
-        ], 200);
-    }
-    
 }

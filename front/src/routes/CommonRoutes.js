@@ -1,13 +1,11 @@
 import async from "../components/Async";
 
 import DashboardLayout from "../layouts/Dashboard";
-import Blank from "../pages/pages/Blank";
 import Profile from "../pages/profile";
 import Parametres from "../pages/settings";
 import RequireAuth from './middlewares/RequireAuth';
 
 const Analytics = async(() => import("../pages/dashboards/Analytics"));
-const DataGrid = async(() => import("../pages/tables/DataGrid"));
 
 
 const CommonRoutes = {
@@ -21,16 +19,9 @@ const CommonRoutes = {
                     path: '',
                     element: <Analytics />
                 },
+
                 {
-                    path: 'blank',
-                    element: <Blank />
-                },
-                {
-                    path: 'liste',
-                    element: <DataGrid />
-                },
-                {
-                    path: 'profile',
+                    path: 'profil',
                     children: [
                         {
                             path: '',

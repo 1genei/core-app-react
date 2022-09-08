@@ -18,12 +18,12 @@ const pagesSection = [
         title: "Contacts",
         children: [
             {
-                href: "/contacts/actifs",
-                title: "Actifs",
+                href: "/individus",
+                title: "Individus",
             },
             {
-                href: "/contacts/archives",
-                title: "Archives",
+                href: "/organismes",
+                title: "Organismes",
             },
             {
                 href: "/contacts/types",
@@ -32,25 +32,25 @@ const pagesSection = [
 
         ],
     },
-    {
-        href: "/",
-        icon: Store,
-        title: "Organismes",
-        children: [
-            {
-                href: "/organismes/actifs",
-                title: "Actifs",
-            },
-            {
-                href: "/organismes/archives",
-                title: "Archives",
-            },
-            {
-                href: "/organismes/types",
-                title: "Types",
-            },
-        ],
-    },
+    // {
+    //     href: "/",
+    //     icon: Store,
+    //     title: "Organismes",
+    //     children: [
+    //         {
+    //             href: "/organismes/actifs",
+    //             title: "Actifs",
+    //         },
+    //         {
+    //             href: "/organismes/archives",
+    //             title: "Archives",
+    //         },
+    //         {
+    //             href: "/organismes/types",
+    //             title: "Types",
+    //         },
+    //     ],
+    // },
     {
         href: "/",
         icon: Group,

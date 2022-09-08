@@ -15,24 +15,9 @@ class CreateContactsTable extends Migration
     {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('nom');
-            $table->string('prenom');
-            $table->string('email');
-            $table->date('date_naissance')->nullable();
-            $table->string('adresse')->nullable();
-            $table->string('complement_adresse')->nullable();
-            $table->string('code_postal')->nullable();
-            $table->string('ville')->nullable();
-            $table->string('pays')->nullable();
-            $table->string('indicatif1')->nullable();
-            $table->string('telephone1')->nullable();
-            $table->string('indicatif2')->nullable();
-            $table->string('telephone2')->nullable();
-            $table->string('provence')->nullable();
-            $table->string('region')->nullable();
-            $table->string('etat')->nullable();
-            $table->string('notes')->nullable();
-            $table->boolean('archive')->default(false);
+            $table->string('categorie')->nullable();
+            $table->integer('individu_id')->nullable();
+            $table->integer('organisme_id')->nullable();
             $table->timestamps();
         });
     }
