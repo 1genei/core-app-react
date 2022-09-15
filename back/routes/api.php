@@ -10,6 +10,7 @@ use App\Http\Controllers\ProprietaireController;
 use App\Http\Controllers\CodepostalVilleController;
 use App\Http\Controllers\PaysindicatifController;
 use App\Http\Controllers\IndividuController;
+use App\Http\Controllers\PosteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::group(['prefix' => 'individu'], function () {
     Route::get('active', [IndividuController::class, 'getActiveIndividus']);
     Route::get('archived', [IndividuController::class, 'getArchivedIndividus']);
     Route::get('no-user', [IndividuController::class, 'getNoUsers']);
+    Route::get('no-organisme/{organisme_id}', [IndividuController::class, 'getNoOrganisme']);
     Route::post('store', [IndividuController::class, 'store']);
     Route::put('archive/{id}', [IndividuController::class, 'archive'])->where('id', '[0-9]+');
     Route::put('restore/{id}', [IndividuController::class, 'restore'])->where('id', '[0-9]+');
@@ -66,6 +68,11 @@ Route::group(['prefix' => 'individu'], function () {
     Route::put('type/update/{id}', [IndividuController::class, 'updateTypeIndividu'])->where('id', '[0-9]+');
 });
 
+//Routes individus
+Route::group(['prefix' => 'poste'], function () {
+    Route::get('all', [PosteController::class, 'getPostes']);
+
+});
 
 
 //Routes utilisateurs
@@ -96,6 +103,9 @@ Route::group(['prefix' => 'organisme'], function () {
     Route::put('type/archive/{id}', [OrganismeController::class, 'archiveTypeOrganisme'])->where('id', '[0-9]+');
     Route::put('type/restore/{id}', [OrganismeController::class, 'restoreTypeOrganisme'])->where('id', '[0-9]+');
     Route::put('type/update/{id}', [OrganismeController::class, 'updateTypeOrganisme'])->where('id', '[0-9]+');
+    Route::post('add-individu/{id}', [OrganismeController::class, 'addIndividus'])->where('id', '[0-9]+');
+    Route::delete('remove-individu/{organisme_id}/{individu_id}', [OrganismeController::class, 'removeIndividus'])->where('id', '[0-9]+');
+    
     
 });
 

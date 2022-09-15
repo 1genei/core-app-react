@@ -22,7 +22,7 @@ import { spacing } from "@mui/system";
 
 import {
     Unarchive as UnArchiveIcon,
-    AccountBox as AccountBoxIcon,
+    Visibility as VisibilityIcon,
 } from '@mui/icons-material';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
@@ -117,7 +117,7 @@ function Organismes() {
                 return (
                     <>
                         <IconButton color="info" title="Informations" onClick={() => navigate(`/organisme/info/${encrypt(cellValues.id)}`)}>
-                            <AccountBoxIcon />
+                            <VisibilityIcon />
                         </IconButton>
 
                         {user.permissions.includes('Edit-Organisme') &&

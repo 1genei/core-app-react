@@ -45,6 +45,9 @@ class User extends Authenticatable
     public function contact() {
         return $this->belongsTo(Contact::class);
     }
+    public function individu() {
+        return $this->belongsTo(Individu::class);
+    }
     
     public function role() {
         return $this->belongsTo(Role::class);

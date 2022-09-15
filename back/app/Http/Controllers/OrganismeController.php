@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Organisme;
+use App\Models\Poste;
 use Illuminate\Support\Facades\Validator;
 
 class OrganismeController extends Controller
 {
-    //Renvoie tous les organismes de la table
+    
+    /**
+    * Renvoie tous les organismes de la table
+    */
     public function getOrganismes() {
         $organismes = organisme::all();
         return Response()->json([
@@ -45,16 +49,28 @@ class OrganismeController extends Controller
         }
         
 
-    //Renvoie le organisme d'id $organisme_id
+    /**
+    *Renvoie l'organisme d'id $organisme_id
+    */
     public function getOrganisme($organisme_id) {
         $organisme = Organisme::where('id','=',$organisme_id)->first();
+        $postes = Poste::select('id','nom')->get();
+        $organisme->individus;
+        $postesArray;
+        foreach ($postes as $poste) {
+            $postesArray[$poste->id] = $poste->nom;
+        }
         return Response()->json([
             'organisme' => $organisme,
+            'postes' => $postesArray,
             'status' => 200,
         ], 200);
     }
 
-    //Crée un organisme selon les paramètres passés dans $request
+    
+    /**
+    * Crée un organisme selon les paramètres passés dans $request
+    */
     public function store(Request $request) {
     
         $validator = Validator::make($request->all(),[
@@ -185,5 +201,54 @@ class OrganismeController extends Controller
     }
     
     
+    /**
+    * Ajouter des individus à l'organisme
+    */
+    
+    public function addIndividus(Request $request, $organisme_id){
+        
+        $organisme = Organisme::where('id', '=', $organisme_id)->first();
+    
+        $poste = Poste::where('nom', $request->poste)->first();
+        
+        if($poste != null){
+            $posteId = $poste->id; 
+        }else{
+        
+            $newPoste = Poste::create([
+            'nom'=> $request->poste
+            ]);
+            
+            $posteId = $newPoste->id;
+            
+        }
+        
+        $organisme->individus()->attach($request->individuId, ['poste_id' => $posteId ]);
 
+       
+        
+        return Response()->json([
+            'message' => 'Individu Ajoutés',
+            'status' => 200,
+        ], 200);
+    }
+
+    /**
+    * Supprimer des individus de l'organisme
+    */
+    
+    public function removeIndividus($organisme_id, $individu_id){
+        
+        
+        $organisme = Organisme::where('id', '=', $organisme_id)->first();
+        
+        // return $organisme;
+        $organisme->individus()->detach($individu_id);
+        return Response()->json([
+            'message' => 'Individu Retiré',
+            'status' => 200,
+        ], 200);
+    }
+
+    
 }

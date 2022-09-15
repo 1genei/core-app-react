@@ -193,18 +193,18 @@ function InfoUtilisateur() {
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Stack direction='row' alignItems='center' spacing={2} pb={4}>
                                         <PersonIcon color="primary" />
-                                        <TypoTitle variant='h4'>Contact</TypoTitle>
+                                        <TypoTitle variant='h4'>Individu</TypoTitle>
                                     </Stack>
-                                    <Typography>{utilisateur?.contact?.nom + ' ' + utilisateur?.contact?.prenom}</Typography>
+                                    <Typography>{utilisateur?.individu?.nom + ' ' + utilisateur?.individu?.prenom}</Typography>
                                 </Grid>
                                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={2}>
                                     <Grid container direction='column'>
                                         <Grid item pb={1}>
-                                            <Typography>{utilisateur?.contact?.archive === 0 ? 'Actif' : 'Archivé'}</Typography>
+                                            <Typography>{utilisateur?.individu?.archive === 0 ? 'Actif' : 'Archivé'}</Typography>
                                         </Grid>
                                         <Grid item pt={1}>
                                             {utilisateur?.created_at
-                                                ? <Typography style={{ wordWrap: 'break-word' }}> Créé le {parseDateTime(utilisateur?.contact?.created_at)}</Typography>
+                                                ? <Typography style={{ wordWrap: 'break-word' }}> Créé le {parseDateTime(utilisateur?.created_at)} </Typography>
                                                 : <Typography style={{ wordWrap: 'break-word' }} sx={{ color: 'text.secondary' }}>Date de création non renseignée</Typography>
                                             }
                                         </Grid>

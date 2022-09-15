@@ -25,7 +25,7 @@ import { spacing } from "@mui/system";
 import {
     Archive as ArchiveIcon,
     Edit as EditIcon,
-    AccountBox as AccountBoxIcon,
+    Visibility as VisibilityIcon,
     Add
 } from '@mui/icons-material';
 import { archiveOrganisme, getActiveOrganismes } from "../../services/OrganismesServices";
@@ -118,7 +118,7 @@ function Organismes() {
                 return (
                     <>
                         <IconButton color="info" title="Informations" onClick={() => navigate(`/organisme/info/${encrypt(cellValues.id)}`)}>
-                            <AccountBoxIcon />
+                            <VisibilityIcon />
                         </IconButton>
 
                         {user.permissions.includes('Edit-Organisme') &&

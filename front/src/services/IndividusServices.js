@@ -65,6 +65,23 @@ export const getIndividusNoUser = async () => {
         });
 }
 
+/**
+ * 
+ * @returns la liste des individus qui qui ne font pas partir de l'organisme passé en paramètre
+ */
+export const getIndividusNoOrganisme = async (organisme_id) => {
+
+
+    return axios.get(`individu/no-organisme/${organisme_id}`)
+        .then((res) => {
+
+            return res.data.individus;
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
 
 /**
  * 
@@ -74,7 +91,6 @@ export const getIndividu = async (individu_id) => {
 
     return axios.get(`individu/${individu_id}`)
         .then((res) => {
-            console.log(res.data);
             return res.data;
         })
         .catch((error) => {
@@ -91,8 +107,6 @@ export const addIndividu = async (individu) => {
 
     return axios.post('individu/store', individu)
         .then((res) => {
-
-            console.log(res.data);
             return res.data;
         })
         .catch((error) => {

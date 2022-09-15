@@ -26,7 +26,7 @@ class UserController extends Controller
             // Verify if fields are ok
             $validator = Validator::make($request->all(),[
                 'role_id' => 'required|integer',
-                'contact_id' => 'required|unique:users|integer',
+                'individu_id' => 'required|unique:users|integer',
             ]);
             // If not return an error
             if($validator->fails()){
@@ -36,14 +36,14 @@ class UserController extends Controller
                 ], 200);
             }
             
-            $email = DB::table('contacts')->select('email')->where('id',$request->contact_id)->first()->email;
+            $email = DB::table('individus')->select('email')->where('id',$request->individu_id)->first()->email;
             $password = 'admin123'; // A modifier : générer le password par défaut selon nom et prénom
             
             
             $user = User::create([
                 'email' => $email,
                 'password' => Hash::make($password),
-                'contact_id' => $request->contact_id,
+                'individu_id' => $request->individu_id,
                 'role_id' => $request->role_id
             ]);
     
@@ -66,7 +66,8 @@ class UserController extends Controller
         
         } catch (\Throwable $th) {
         
-            return json_encode( end($th->errorInfo));
+            return json_encode( $th);
+            // return json_encode( end($th->errorInfo));
         }
     }
     
@@ -87,7 +88,7 @@ class UserController extends Controller
           // Get username
             $user = Auth::user();
           
-          $names = DB::table('individus')->select('nom', 'prenom')->where('id',$user->contact_id)->first();
+          $names = DB::table('individus')->select('nom', 'prenom')->where('id',$user->individu_id)->first();
         // return  $names;
           
           $token = $user->createToken('token')->plainTextToken;
@@ -109,7 +110,7 @@ class UserController extends Controller
         
         // Authenticate user
         $user = Auth::user();
-        $user->contact;
+        $user->individu;
         // Create personal access token
         $token = $user->createToken('token')->plainTextToken;
 
@@ -122,7 +123,7 @@ class UserController extends Controller
         }
 
         // Get username
-        $names = DB::table('contacts')->select('nom', 'prenom')->where('id',$user->contact_id)->first();
+        $names = DB::table('individus')->select('nom', 'prenom')->where('id',$user->individu_id)->first();
 
         // Return user infos
         return Response()->json([   
@@ -133,7 +134,10 @@ class UserController extends Controller
         ], 200)->withCookie($cookie);
     }
 
-    // LOGOUT
+    
+    /**
+    * Déconnexion
+    */
     public function logout() {
 
         // Remove cookie
@@ -196,9 +200,9 @@ class UserController extends Controller
                 $user = User::where('id', $accessToken->tokenable_id)->first();
                 $user->role;
                 // $user = DB::table('users')->select('email','created_at')->where('id', $accessToken->tokenable_id)->first();
-                // $contact_id = DB::table('users')->select('contact_id')->where('id', $accessToken->tokenable_id)->first()->contact_id;
-                // $names = DB::table('contacts')->select('nom', 'prenom')->where('id',$user->contact->id)->first();
-                $names = $user->contact->nom . " ".$user->contact->prenom;
+                // $individu_id = DB::table('users')->select('individu_id')->where('id', $accessToken->tokenable_id)->first()-individu_id;
+                // $names = DB::table('individus')->select('nom', 'prenom')->where('id',$user->individu->id)->first();
+                $names = $user->individu->nom . " ".$user->individu->prenom;
                 
                 $ternary = DB::table('permission_user')->where('user_id', $accessToken->tokenable_id)->get();
                 $permissions = array();
@@ -241,7 +245,7 @@ class UserController extends Controller
         $users = User::where('archive', 0)->get();
         foreach ($users as $user) {
             $user->role;
-            $user->contact;
+            $user->individu;
         }
         return Response()->json([
             'utilisateurs' => $users
@@ -256,7 +260,7 @@ class UserController extends Controller
         $users = User::where('archive', 1)->get();
         foreach ($users as $user) {
             $user->role;
-            $user->contact;
+            $user->individu;
         }
         return Response()->json([
             'utilisateurs' => $users,
@@ -272,7 +276,7 @@ class UserController extends Controller
     
         $user = User::where('id','=',$user_id)->first();
         
-        $user->contact;
+        $user->individu;
         $user->role;
         
         return Response()->json([

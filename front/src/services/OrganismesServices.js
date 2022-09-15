@@ -101,7 +101,7 @@ export const updateOrganisme = async (organisme, organisme_id) => {
 export const archiveOrganisme = async (id) => {
     return axios.put(`organisme/archive/${id}`)
         .then((res) => {
-            console.log(res.data);
+
             return res.data
         })
         .catch((error) => {
@@ -117,7 +117,7 @@ export const archiveOrganisme = async (id) => {
 export const restoreOrganisme = async (id) => {
     return axios.put(`organisme/restore/${id}`)
         .then((res) => {
-            console.log(res.data);
+
             return res.data
         })
         .catch((error) => {
@@ -197,6 +197,40 @@ export const archiveTypeOrganisme = async (id) => {
 export const restoreTypeOrganisme = async (id) => {
     return axios.put(`organisme/type/restore/${id}`)
         .then((res) => {
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Ajouter un individu à l'organisme
+*/
+export const addIndividus = async (data, id) => {
+
+    return axios.post(`organisme/add-individu/${id}`, data)
+        .then((res) => {
+            console.log(res.data);
+            return res.data
+        })
+        .catch((error) => {
+            console.log(`erreur: ${error}`);
+            return error;
+        });
+}
+
+
+/**
+ * Retirer un individu de l'organisme
+*/
+export const removeIndividus = async (organisme_id, individu_id) => {
+
+    return axios.delete(`organisme/remove-individu/${organisme_id}/${individu_id}`)
+        .then((res) => {
+            console.log(res.data);
             return res.data
         })
         .catch((error) => {

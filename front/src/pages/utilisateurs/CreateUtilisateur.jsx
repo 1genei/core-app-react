@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 
 import { addUtilisateur, getRoles } from "../../services/UtilisateursServices";
 import { validatorErrors } from "../../utils/errors";
-import { getContactsNoUser } from "../../services/ContactsServices";
+import { getIndividusNoUser } from "../../services/IndividusServices";
 
 import {
     Alert as MuiAlert,
@@ -44,25 +44,25 @@ function UtilisateurForm() {
     const [alertError, setAlertError] = useState(false);
     const [roles, setRoles] = useState([]);
     const [roleId, setRoleId] = useState('');
-    const [contacts, setContacts] = useState([]);
-    const [contactId, setContactId] = useState('');
+    const [individus, setIndividus] = useState([]);
+    const [individuId, setIndividuId] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
 
-    // On récupère les roles et les contacts qui n'ont pas de compte utilisateur
+    // On récupère les roles et les individus qui n'ont pas de compte utilisateur
 
     useEffect(async () => {
 
         const allRoles = await getRoles();
         setRoles(allRoles.roles);
 
-        const allContacts = await getContactsNoUser();
-        setContacts(allContacts);
+        const allIndividus = await getIndividusNoUser();
+        setIndividus(allIndividus);
     }, []);
 
-    // console.log(contacts);
+    // console.log(individus);
 
-    const optionsContacts = contacts?.map((option, key) => ({ id: option.id, label: (key + 1) + " - " + option.nom })) ?? [];
+    const optionsIndividus = individus?.map((option, key) => ({ id: option.id, label: (key + 1) + " - " + option.nom })) ?? [];
     const optionsRoles = roles.map(option => ({ id: option.id, label: option.nom }));
 
 
@@ -72,19 +72,19 @@ function UtilisateurForm() {
         setAlertError(false);
         setAlertSuccess(false);
 
-        const result = await addUtilisateur({ contact_id: contactId, role_id: roleId });
+        const result = await addUtilisateur({ individu_id: individuId, role_id: roleId });
 
         if (result?.status === 200) {
 
             setMessageSuccess(result.message);
             setAlertSuccess(true);
 
-            // Réactualisation de la liste des contacts
-            var newContacts = contacts.filter(contact => contact.id != contactId);
+            // Réactualisation de la liste des individus
+            var newIndividus = individus.filter(individu => individu.id != individuId);
 
-            setContacts(newContacts);
+            setIndividus(newIndividus);
 
-            console.log(newContacts);
+            console.log(newIndividus);
 
         } else {
 
@@ -130,21 +130,21 @@ function UtilisateurForm() {
 
                             <Grid item md={6}>
                                 <Autocomplete
-                                    options={optionsContacts}
-                                    renderInput={(params) => <TextField required {...params} label="Contact" />}
-                                    name="contact"
+                                    options={optionsIndividus}
+                                    renderInput={(params) => <TextField required {...params} label="Individu" />}
+                                    name="individu"
                                     fullWidth
 
                                     onChange={(e, value) => {
-                                        setContactId(value.id)
-                                        console.log(contactId);
+                                        setIndividuId(value.id)
+                                        console.log(individuId);
                                     }}
 
                                     variant="outlined"
                                     my={2}
                                 />
                             </Grid>
-                            {/* contacts.map((option) => option.nom+" "+ option.prenom) */}
+                            {/* individus.map((option) => option.nom+" "+ option.prenom) */}
 
                             <Grid item md={6}>
                                 <Autocomplete

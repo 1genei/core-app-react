@@ -333,11 +333,7 @@ function InfoContact() {
 
                 if (res.status == 200) {
                     setContact(res.contact);
-                } else {
-
-                    console.log("xxx");
                 }
-
             })
 
     }, [])

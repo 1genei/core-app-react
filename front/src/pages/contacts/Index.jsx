@@ -25,7 +25,7 @@ import { spacing } from "@mui/system";
 import {
     Archive as ArchiveIcon,
     Edit as EditIcon,
-    AccountBox as AccountBoxIcon,
+    Visibility as VisibilityIcon,
     Add
 } from '@mui/icons-material';
 import { archiveContact, getActiveContacts } from "../../services/ContactsServices";
@@ -123,7 +123,7 @@ function Contacts() {
                 return (
                     <>
                         <IconButton color="info" title="Informations" onClick={() => navigate(`/contact/info/${encrypt(cellValues.id)}`)}>
-                            <AccountBoxIcon />
+                            <VisibilityIcon />
                         </IconButton>
 
                         {user.permissions.includes('Edit-Contact') &&

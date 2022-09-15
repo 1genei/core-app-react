@@ -10,6 +10,7 @@ use App\Models\Paysindicatif;
 use App\Models\TypeContact;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Contact;
+use App\Models\Organisme;
 
 
 
@@ -74,6 +75,26 @@ class IndividuController extends Controller
 
         foreach ($ids as $id) {
             $individu_ids[] = $id['individu_id']; 
+        }        
+
+        $individus = Individu::whereNotIn('id', $individu_ids)->get();
+        return Response()->json([
+            'individus' => $individus,
+            'status' => 200,
+        ], 200);
+    }
+    
+      /**
+    *   Renvoie tous les individus qui ne sont pas membre de l'organisme passé en paramètre
+    */
+    public function getNoOrganisme($organisme_id) {
+        
+        
+        $organisme = Organisme::where('id', $organisme_id)->first();
+        $individu_ids = [];
+
+        foreach ($organisme->individus as $individu) {
+            $individu_ids[] = $individu->id; 
         }        
 
         $individus = Individu::whereNotIn('id', $individu_ids)->get();

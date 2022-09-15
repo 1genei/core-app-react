@@ -25,7 +25,7 @@ import { spacing } from "@mui/system";
 import {
     Archive as ArchiveIcon,
     Edit as EditIcon,
-    AccountBox as AccountBoxIcon,
+    Visibility as VisibilityIcon,
     Add
 } from '@mui/icons-material';
 import { archiveUser, getActiveUsers } from "../../services/UtilisateursServices";
@@ -41,7 +41,7 @@ const Divider = styled(MuiDivider)(spacing);
 const Paper = styled(MuiPaper)(spacing);
 
 function getFullName(params) {
-    return `${params?.row?.contact?.prenom || ''} ${params?.row?.contact?.nom || ''}`;
+    return `${params?.row?.individu?.prenom || ''} ${params?.row?.individu?.nom || ''}`;
 }
 
 function getRoleName(params) {
@@ -88,6 +88,7 @@ function Utilisateurs() {
         try {
             const listUtilisateurs = await getActiveUsers();
             setUtilisateurs(listUtilisateurs);
+
         } catch (e) { }
         setLoading(false)
     }, []);
@@ -95,8 +96,8 @@ function Utilisateurs() {
     const columns = [
         //   { field: "id", headerName: "ID", width: 150 },
         {
-            field: "contact",
-            headerName: "Contact",
+            field: "nom",
+            headerName: "Nom",
             width: 200,
             editable: false,
             valueGetter: getFullName
@@ -121,7 +122,7 @@ function Utilisateurs() {
                 return (
                     <>
                         <IconButton color="info" title="Informations" onClick={() => navigate(`/utilisateur/info/${encrypt(cellValues.id)}`)}>
-                            <AccountBoxIcon />
+                            <VisibilityIcon />
                         </IconButton>
 
                         {user.permissions.includes('Edit-User') &&
@@ -148,7 +149,7 @@ function Utilisateurs() {
 
     const loadingC = [
         {
-            field: "Contact",
+            field: "nom",
             width: 200,
             renderCell: () => {
                 return (
@@ -194,6 +195,7 @@ function Utilisateurs() {
         }
     ];
 
+    const rows = [];
 
     function handleClickArchive(event, cellValues) {
 

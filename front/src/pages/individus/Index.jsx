@@ -25,7 +25,7 @@ import { spacing } from "@mui/system";
 import {
     Archive as ArchiveIcon,
     Edit as EditIcon,
-    AccountBox as AccountBoxIcon,
+    Visibility as VisibilityIcon,
     Add
 } from '@mui/icons-material';
 import { archiveIndividu, getActiveIndividus } from "../../services/IndividusServices";
@@ -123,7 +123,7 @@ function Individus() {
                 return (
                     <>
                         <IconButton color="info" title="Informations" onClick={() => navigate(`/individu/info/${encrypt(cellValues.id)}`)}>
-                            <AccountBoxIcon />
+                            <VisibilityIcon />
                         </IconButton>
 
                         {user.permissions.includes('Edit-Individu') &&

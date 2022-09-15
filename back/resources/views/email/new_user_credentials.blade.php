@@ -1,5 +1,5 @@
 @component('mail::message')
-# Bonjour {{$user->contact->prenom}} {{$user->contact->nom}}
+# Bonjour {{$user->individu->prenom}} {{$user->individu->nom}}
 
 Félicitation vous pouvez maintenant vous connecter sur CORE APP : <a href="{{config('app.url')}}">Cliquez ici</a> pour vous connecter<br>
 <br>

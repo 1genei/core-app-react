@@ -143,11 +143,11 @@ function UtilisateurForm() {
                                     <Grid item xs={12} sm={12} md={6} lg={6} xl={6} p={3}>
                                         <Autocomplete
                                             options={{}}
-                                            renderInput={(params) => <TextField required {...params} label="Contact" />}
-                                            name="contact"
+                                            renderInput={(params) => <TextField required {...params} label="Individu" />}
+                                            name="individu"
                                             fullWidth
                                             disabled
-                                            value={utilisateur?.contact?.prenom + " " + utilisateur?.contact?.nom ?? ''}
+                                            value={utilisateur?.individu?.prenom + " " + utilisateur?.individu?.nom ?? ''}
 
                                             variant="outlined"
                                             my={2}

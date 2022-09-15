@@ -19,7 +19,7 @@ class CreateIndividuOrganismeTable extends Migration
             $table->primary(['individu_id', 'organisme_id']);
             $table->foreignIdFor(Individu::class);
             $table->foreignIdFor(Organisme::class);
-            $table->string('poste')->nullable();
+            $table->integer('poste_id')->nullable();
             $table->boolean('archive')->default(false);
             $table->timestamps();
         });

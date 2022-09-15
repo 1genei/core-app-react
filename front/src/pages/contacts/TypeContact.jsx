@@ -336,7 +336,6 @@ function TypeContact() {
         })
     }
 
-    console.log(typeContact.categorie === undefined);
     return (
         <React.Fragment>
             <Helmet title="Types de Contacts" />
